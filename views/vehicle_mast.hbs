@@ -1,0 +1,285 @@
+{{> header}}
+{{> nav}}
+
+<!-- <script>
+$(function () {
+  $("#example").DataTable();
+});
+</script> -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="row">
+    <div class="col-md-5">
+      <section class="content-header">
+         
+         
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title" id="add">Vehicle Master</h3>
+      <h3 class="box-title" id="edit" style="display: none">Update Vehicle Master</h3>
+          {{#if err}}
+          <div class="alert alert-danger">
+          <strong>{{err}}</strong>
+          </div>
+          {{/if}}
+          {{#if errors}}
+          <div class="alert alert-danger">
+          <strong>{{errors}}</strong>
+          </div>
+          {{/if}}
+      <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          </div>
+    </div>
+       <form action="/vehicle_mast/add" class="form-horizontal"  method="post" id="vehicle_add">
+          <h4 style="color: red;text-align: center;"></h4>
+        <div class="box-body">
+          <div class="form-group">
+            <label class="col-md-4">Vehicle No</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="vehicle_no" id="vehicle_no" placeholder="Vehicle No">
+            </div>
+            <label class="col-md-4">Company Maker </label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="vehicle_cmpnymakr" id="vehicle_cmpnymakr" placeholder="Company Maker">
+            </div>
+            <label class="col-md-4">Model No </label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="vehicle_mdlno" id="vehicle_mdlno" placeholder="Model No">
+            </div>
+            <label class="col-md-4">Our/Atteched</label>
+            <div class="col-md-8"> 
+                <select class="form-control vehicle_orarrchd" name="vehicle_orarrchd" id="vehicle_orarrchd">
+                 <option value="">Select Our/Atteched</option>
+                  <option value="Our">Our</option>
+                   <option value="Atteched">Atteched</option>
+              </select>
+            </div>
+            <label class="col-md-4">No. Of Axels</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="vehicle_nofaxels" id="vehicle_nofaxels" placeholder="No. Of Axels">
+            </div>
+            <label class="col-md-4">R.T.O Passing</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="vehicle_rtopssing" id="vehicle_rtopssing" placeholder="R.T.O Passing">
+            </div>
+            <label class="col-md-4">Chasis No</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="vehicle_chisno" id="vehicle_chisno" placeholder="Chasis No">
+            </div>
+            <label class="col-md-4">Engine No</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="vehicle_engno" id="vehicle_engno" placeholder="Engine No">
+            </div>
+            <label class="col-md-4">Active</label>
+            <div class="col-md-8"> 
+                <select class="form-control vehicle_active" name="vehicle_active" id="vehicle_active">
+                 <option value="">Select Active</option>
+                  <option value="Y">Y</option>
+                   <option value="N">N</option>
+              </select>
+            </div>
+            <label class="col-md-4">Expen. Win </label>
+            <div class="col-md-8"> 
+                <select class="form-control vehicle_expwin" name="vehicle_expwin" id="vehicle_expwin">
+                 <option value="">Select Expen. Win</option>
+                  <option value="Y">Y</option>
+                   <option value="N">N</option>
+              </select>
+            </div>
+            <label class="col-md-4">Lock Dt</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control"  value="{{dateformat Date.now 'DD/MM/YYYY'}}" name="vehicle_lockdt" id="filterstartdate">
+            </div>
+            <label class="col-md-4">Mfg Dt</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" value="{{dateformat Date.now 'DD/MM/YYYY'}}" name="vehicle_mfgdt" id="filterenddate">
+            </div>
+            <label class="col-md-4">Other Info</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="vehicle_othrinfo" id="vehicle_othrinfo" placeholder="Other Info">
+            </div>
+            <label class="col-md-4">Owner Name</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="vehicle_onwrnm" id="vehicle_onwrnm" placeholder="Owner Name">
+            </div>
+            <label class="col-md-4">Pay Load</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="vehicle_pylod" id="vehicle_pylod" placeholder="Pay Load">
+            </div>
+        </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+           <input type="reset" class="btn btn-default" value="Clear Form">
+              <input type="submit" class="btn btn-info pull-right" value="submit" id="submit">
+              <input type="submit" class="btn btn-success pull-right"  value="update" id="update" style="display:none;">
+        </div>
+        </form>
+         <form action="" class="form-horizontal"  method="post" id="edit_vehicle" style="display:none">
+          <h4 style="color: red;text-align: center;"></h4>
+        <div class="box-body">
+          <div class="form-group">
+            <label class="col-md-4">Vehicle No</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control vehicle_no" name="vehicle_no" id="vehicle_no" placeholder="Vehicle No">
+            </div>
+            <label class="col-md-4">Company Maker </label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control vehicle_cmpnymakr" name="vehicle_cmpnymakr" id="vehicle_cmpnymakr" placeholder="Company Maker">
+            </div>
+            <label class="col-md-4">Model No </label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control vehicle_mdlno" name="vehicle_mdlno" id="vehicle_mdlno" placeholder="Model No">
+            </div>
+            <label class="col-md-4">Our/Atteched</label>
+            <div class="col-md-8"> 
+                <select class="form-control vehicle_orarrchd" name="vehicle_orarrchd" id="vehicle_orarrchd">
+                 <option value="">Select Our/Atteched</option>
+                  <option value="Our">Our</option>
+                   <option value="Atteched">Atteched</option>
+              </select>
+            </div>
+            <label class="col-md-4">No. Of Axels</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control vehicle_nofaxels" name="vehicle_nofaxels" id="vehicle_nofaxels" placeholder="No. Of Axels">
+            </div>
+            <label class="col-md-4">R.T.O Passing</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control vehicle_rtopssing" name="vehicle_rtopssing" id="vehicle_rtopssing" placeholder="R.T.O Passing">
+            </div>
+            <label class="col-md-4">Chasis No</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control vehicle_chisno" name="vehicle_chisno" id="vehicle_chisno" placeholder="Chasis No">
+            </div>
+            <label class="col-md-4">Engine No</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control vehicle_engno" name="vehicle_engno" id="vehicle_engno" placeholder="Engine No">
+            </div>
+            <label class="col-md-4">Active</label>
+            <div class="col-md-8"> 
+                <select class="form-control vehicle_active" name="vehicle_active" id="vehicle_active">
+                 <option value="">Select Active</option>
+                  <option value="Y">Y</option>
+                   <option value="N">N</option>
+              </select>
+            </div>
+            <label class="col-md-4">Expen. Win </label>
+            <div class="col-md-8"> 
+                <select class="form-control vehicle_expwin" name="vehicle_expwin" id="vehicle_expwin">
+                 <option value="">Select Expen. Win</option>
+                  <option value="Y">Y</option>
+                   <option value="N">N</option>
+              </select>
+            </div>
+            <label class="col-md-4">Lock Dt</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control vehicle_lockdt"  name="vehicle_lockdt" id="filterstartdateup">
+            </div>
+            <label class="col-md-4">Mfg Dt</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control vehicle_lockdt"  name="vehicle_mfgdt" id="filterenddateup">
+            </div>
+            <label class="col-md-4">Other Info</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control vehicle_othrinfo" name="vehicle_othrinfo" id="vehicle_othrinfo" placeholder="Other Info">
+            </div>
+            <label class="col-md-4">Owner Name</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control vehicle_onwrnm" name="vehicle_onwrnm" id="vehicle_onwrnm" placeholder="Owner Name">
+            </div>
+            <label class="col-md-4">Pay Load</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control vehicle_pylod" name="vehicle_pylod" id="vehicle_pylod" placeholder="Pay Load">
+            </div>
+        </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+           <input type="reset" class="btn btn-default" value="Clear Form">
+              <input type="submit" class="btn btn-success pull-right"  value="update" id="update">
+        </div>
+        </form>
+  </div>
+      </section>
+    </div>
+    <div class="col-md-7">
+      <section class="content-header">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">View Vehicle Master </h3>
+                  <p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>
+          </div>
+            <div class="box-body">
+              <div class="table-responsive">
+                <table id="example" class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Vehicle No</th>
+                        <th>Company Maker</th>
+                        <th>Model No</th>
+                        <th>Our/Atteched</th>
+                        <th>No. Of Axels</th>
+                        <th>R.T.O Passing</th>
+                        <th>Chasis No</th>
+                        <th>Engine No</th>
+                        <th>Active</th>
+                        <th>Expen. Win</th>
+                        <th>Lock Dt</th>
+                        <th>Mfg Dt</th>
+                        <th>Other Info</th>
+                        <th>Owner Name</th>
+                        <th>Pay Load</th>
+                        <th width="10%">Update</th>
+                        <th width="10%">Delete</th>
+                      </tr>
+                  </thead>
+                 <tbody>
+                   {{#each vehicle as |value key|}}
+                      <tr>
+                          <td>{{sum @index 1}}</td>
+                          <td>{{this.vehicle_no}}</td>
+                          <td>{{this.vehicle_cmpnymakr}}</td>
+                          <td>{{this.vehicle_mdlno}}</td>
+                          <td>{{this.vehicle_orarrchd}}</td>
+                          <td>{{this.vehicle_nofaxels}}</td>
+                          <td>{{this.vehicle_rtopssing}}</td>
+                          <td>{{this.vehicle_chisno}}</td>
+                          <td>{{this.vehicle_engno}}</td>
+                          <td>{{this.vehicle_expwin}}</td>
+                          <td>{{this.vehicle_active}}</td>
+                          <td>{{this.vehicle_lockdt}}</td>
+                          <td>{{this.vehicle_mfgdt}}</td>
+                          <td>{{this.vehicle_othrinfo}}</td>
+                          <td>{{this.vehicle_onwrnm}}</td>
+                          <td>{{this.vehicle_pylod}}</td>
+                          <td><a href="javascript:void(0);"  class="edit_vehicle" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
+                          <td><a href="javascript:void(0);" class="delete_vehicle" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                      </tr>
+                     {{/each}}  
+                   </tbody>
+                </table>
+      </div>
+    </div>
+  </div>
+      </section>
+    </div>
+    
+  </div>
+</div>
+ {{> footer}}
+<style>
+ .button-clear {
+
+          background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+
+        }
+       </style>
+       

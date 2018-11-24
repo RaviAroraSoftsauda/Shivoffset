@@ -1,0 +1,213 @@
+{{> header}}
+{{> nav}}
+
+<!-- <script>
+$(function () {
+  $("#example").DataTable();
+});
+</script> -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="row">
+    <div class="col-md-5">
+      <section class="content-header">
+         
+         
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title" id="add">Employee Master</h3>
+      <h3 class="box-title" id="edit" style="display: none">Update Employee Master</h3>
+          {{#if err}}
+          <div class="alert alert-danger">
+          <strong>{{err}}</strong>
+          </div>
+          {{/if}}
+          {{#if errors}}
+          <div class="alert alert-danger">
+          <strong>{{errors}}</strong>
+          </div>
+          {{/if}}
+      <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          </div>
+    </div>
+       <form action="/employee_mast/add" class="form-horizontal" enctype="multipart/form-data"  method="post" id="employee_add">
+          <h4 style="color: red;text-align: center;"></h4>
+        <div class="box-body">
+          <div class="form-group">
+            <label class="col-md-4">Employee  Name</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="employee_name" id="employee_name" placeholder="Employee  Name" required="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Department</label>
+            <div class="col-md-8"> 
+                 <select class="form-control employee_deprt" name="employee_deprt" id="employee_deprt">
+                 <option value="">----Select Department----</option>
+                {{#each departmnt}}
+                <option value="{{this._id}}" data-departmnt="{{this._id}}">{{this.departmnt_name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">Designation</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="employee_desigaton" id="employee_desigaton" placeholder="Designation" required="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Active</label>
+            <div class="col-md-8"> 
+                <input type="checkbox"  name="employee_active" value="Y">
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">Training Certificate</label>
+            <div class="col-md-8"> 
+                <input type="file"  name="training_crtifcte" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Sop</label>
+            <div class="col-md-8"> 
+                 <select class="form-control employee_sop" name="employee_sop" id="employee_sop">
+                 <option value="">----Select Sop----</option>
+                {{#each sop}}
+                <option value="{{this._id}}" data-sop="{{this._id}}">{{this.sop_desp}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+           <input type="reset" class="btn btn-default" value="Clear Form">
+              <input type="submit" class="btn btn-info pull-right" value="submit" id="submit">
+              <input type="submit" class="btn btn-success pull-right"  value="update" id="update" style="display:none;">
+        </div>
+        </form>
+         <form action="" class="form-horizontal" enctype="multipart/form-data"  method="post" id="edit_employee" style="display:none">
+          <h4 style="color: red;text-align: center;"></h4>
+        <div class="box-body">
+          <div class="form-group">
+            <label class="col-md-4">Employee  Name</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control employee_name" name="employee_name" id="employee_name" placeholder="Employee  Name" required="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Department</label>
+            <div class="col-md-8"> 
+                 <select class="form-control employee_deprt" name="employee_deprt" id="employee_deprt">
+                 <option value="">----Select Department----</option>
+                {{#each departmnt}}
+                <option value="{{this._id}}" data-departmnt="{{this._id}}">{{this.departmnt_name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">Designation</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control employee_desigaton" name="employee_desigaton" id="employee_desigaton" placeholder="Designation" required="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Active</label>
+            <div class="col-md-8"> 
+                <input type="checkbox" class="employee_active"  name="employee_active" value="Y">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Image</label>
+            <div class="col-md-5"> 
+              <input type="file" class="form-control" name="training_crtifcte">
+               <input type="hidden" name="previousfilename" value="" class="edit_filename"/>
+            </div>
+             <div class="col-md-3">
+            <img src="" class="edit_employee_img"  height="50px" width="50px">
+            </div>
+        </div>
+          <div class="form-group">
+            <label class="col-md-4">Sop</label>
+            <div class="col-md-8"> 
+                 <select class="form-control employee_sop" name="employee_sop" id="employee_sop">
+                 <option value="">----Select Sop----</option>
+                {{#each sop}}
+                <option value="{{this._id}}" data-sop="{{this._id}}">{{this.sop_desp}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+           <input type="reset" class="btn btn-default" value="Clear Form">
+              <input type="submit" class="btn btn-success pull-right"  value="update" id="update">
+        </div>
+        </form>
+  </div>
+      </section>
+    </div>
+    <div class="col-md-7">
+      <section class="content-header">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">View Employee Master </h3>
+                  <p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>
+          </div>
+            <div class="box-body">
+              <div class="table-responsive">
+                <table id="example" class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Employee Name</th>
+                        <th>Department</th>
+                        <th>Designation</th>
+                        <th>Training Certificate</th>
+                        <th>Sop</th>
+                        <th width="10%">Update</th>
+                        <th width="10%">Delete</th>
+                      </tr>
+                  </thead>
+                 <tbody>
+                   {{#each employee as |value key|}}
+                      <tr>
+                          <td>{{sum @index 1}}</td>
+                          <td>{{this.employee_name}}</td>
+                          <td>{{this.employee_deprt.departmnt_name}}</td>
+                          <td>{{this.employee_desigaton}}</td>
+                          <td><a href="{{this.filepath}}" target='_blank' alt="pdf Not Found"><img src="{{this.filepath}}" target="_blank" height="50" width="50"/></a></td>
+                          <td>{{this.employee_sop.sop_desp}}</td>
+                          <td><a href="javascript:void(0);"  class="edit_employee" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
+                          <td><a href="javascript:void(0);" class="delete_employee" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                      </tr>
+                     {{/each}}  
+                   </tbody>
+                </table>
+      </div>
+    </div>
+  </div>
+      </section>
+    </div>
+    
+  </div>
+</div>
+ {{> footer}}
+<style>
+ .button-clear {
+
+          background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+
+        }
+       </style>
+       

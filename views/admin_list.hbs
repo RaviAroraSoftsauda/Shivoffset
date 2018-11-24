@@ -1,0 +1,79 @@
+{{> header}}
+{{> nav}}
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="row">
+    <div class="col-md-5">
+      <section class="content-header">
+          {{#if err}}
+          <div class="alert alert-danger">
+          <strong>{{err}}</strong>
+          </div>
+          {{/if}}
+          {{#if errors}}
+          <div class="alert alert-danger">
+          <strong>{{errors}}</strong>
+          </div>
+          {{/if}}
+      </section>
+    </div>
+    <div class="col-md-12">
+      <section class="content-header">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+               <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          </div>
+            <h3 class="box-title">Admin List </h3>
+                  <p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>
+          </div>
+            <div class="box-body">
+              <div class="table-responsive">
+                <table id="example" class="table table-bordered table-striped">
+                  <thead>
+                     <tr>
+                        <th>SNO</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>User Name</th>
+                        <th>Email Id</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                      </tr>  
+                  </thead>
+                 <tbody>
+                   {{#each userright as |value key|}}
+                    <tr>
+                        <td>{{sum @index 1}}</td>
+                        <td>{{this.first_name}}</td>
+                        <td>{{this.last_name}}</td>
+                        <td>{{this.usrnm}}</td>
+                        <td>{{this.emailid}}</td>
+                        <td><a href="/userright/admin_list_update/{{value._id}}"><i class="fa fa-pencil"></i></a></td>
+                        <td><a href="/userright/delete_admin/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
+                    </tr>
+                    {{/each}} 
+                   </tbody>
+                </table>
+      </div>
+    </div>
+  </div>
+      </section>
+    </div>
+    
+  </div>
+</div>
+ {{> footer}}
+<style>
+ .button-clear {
+
+          background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+
+        }
+       </style>
+       

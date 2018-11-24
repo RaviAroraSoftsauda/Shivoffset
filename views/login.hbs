@@ -1,0 +1,77 @@
+
+
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="../plugins/iCheck/flat/blue.css">
+    <!-- Morris chart -->
+    <link rel="stylesheet" href="../plugins/morris/morris.css">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="../plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="../plugins/datepicker/datepicker3.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker-bs3.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+ <style type="text/css">
+    .form-box{
+      max-width: 500px;
+      position: relative;
+      margin: 5% auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper" style="background-color: #ecf0f5;">
+    <div class="container">
+      <div class="row">
+            <div class="login-box">
+                <div class="login-logo"><a href=""><b>Shivoffset</b></a></div><!-- /.login-logo -->
+                <div class="login-box-body">
+                    <p class="login-box-msg">Login Here</p>
+                    <form method="POST" action="/userright/login" class="login_form_submit" id="loginform">
+                        <div class="form-group has-feedback">
+                            <input type="text" class="form-control" name="usrnm" placeholder="Username">
+                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <input type="password" class="form-control" placeholder="Password" name="usrpwd" required="">
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        </div>
+                        <div class="row">
+                            <center><span style="color:#ff0000;"></span></center>
+                            <div class="col-xs-12">
+                                <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+                            </div><!-- /.col -->
+                            </div>
+                            <div class="row">
+                          {{#if error}}
+                           
+                           <div class="col-xs-12">
+                                <button class="btn btn-danger btn-block btn-flat">{{error}}</button>
+                            </div>
+                          {{/if}}
+                          </div>
+                        
+                    </form>
+                </div><!-- /.login-box-body -->
+            </div><!-- /.login-box -->
+        </div>
+    </div>
+  </div>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

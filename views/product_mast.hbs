@@ -1,0 +1,418 @@
+{{> header}}
+{{> nav}}
+
+<!-- <script>
+$(function () {
+  $("#example").DataTable();
+});
+</script> -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="row">
+    <div class="col-md-7">
+      <section class="content-header">
+         
+         
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title" id="add">Product Master</h3>
+      <h3 class="box-title" id="edit" style="display: none">Update Product Master</h3>
+          {{#if err}}
+          <div class="alert alert-danger">
+          <strong>{{err}}</strong>
+          </div>
+          {{/if}}
+          {{#if errors}}
+          <div class="alert alert-danger">
+          <strong>{{errors}}</strong>
+          </div>
+          {{/if}}
+      <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          </div>
+    </div>
+       <form action="/product_mast/add" class="form-horizontal" enctype="multipart/form-data"  method="post" id="prdt_mast_add">
+          <h4 style="color: red;text-align: center;"></h4>
+        <div class="box-body">
+          <div class="form-group">
+            <label class="col-md-4">Item Code</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_itemcode" id="prdt_itemcode" placeholder="Item Code">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Supressed Code</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_subresscode" id="prdt_subresscode" placeholder="Supressed Code">
+            </div>
+          </div>
+             <div class="form-group">
+            <label class="col-md-4">Artwork Rec Dt</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_artwkdt" id="filterstartdate" value="{{dateformat Date.now 'DD/MM/YYYY'}}">
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">Party Name</label>
+            <div class="col-md-8">
+              <select class="form-control" name="prdt_prtyname" id="prdt_prtyname" required="">
+                 <option value="">----Select Party----</option>
+                {{#each party}}
+                <option value="{{this._id}}" data-party="{{this._id}}">{{this.party_name}}</option>
+                {{/each}}
+              </select> 
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Location</label>
+            <div class="col-md-8"> 
+               <select class="form-control" name="location_group[0][prdt_location]" id="prdt_location" required="">
+                 <option value="">----Select Location----</option>
+                {{#each city}}
+                <option value="{{this._id}}" data-country="{{this._id}}">{{this.city_name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+           <div id="insert_location">
+              <center><a id="add" class="addLocation" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 92px;"></i></a></center>                  
+            </div>
+           <div class="form-group">
+            <label class="col-md-4">Product Name</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_pname" id="prdt_pname" placeholder="Product Name">
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">Board Quality</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_brdqlty" id="prdt_brdqlty" placeholder="Board Quality">
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">GSM (M/B)</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_gsmmb" id="prdt_gsmmb" placeholder="GSM (M/B)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Actual Size</label>
+           <div class="col-md-3"> 
+                <input type="text" class="form-control" name="actul_l" id="actul_l" placeholder="L" required="">
+            </div>
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="actul_w" id="actul_w" placeholder="W" style="margin-left: -8px;">
+            </div>
+            <div class="col-md-2"> 
+                <input type="text" class="form-control" name="actul_h" id="actul_h" placeholder="H" style="margin-left: -28px; width: 92px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">GSM (Top/Middle/Bottom)</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_gsmtp" id="prdt_gsmtp" placeholder="Code" required="">
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">Pad Size</label>
+           <div class="col-md-3"> 
+                <input type="text" class="form-control" name="pad_l" id="pad_l" placeholder="L" required="">
+            </div>
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="pad_w" id="pad_w" placeholder="W" style="margin-left: -8px;">
+            </div>
+            <div class="col-md-2"> 
+                <input type="text" class="form-control" name="pad_h" id="pad_h" placeholder="H" style="margin-left: -28px; width: 92px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Leaf Color</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_lfcolor" id="prdt_lfcolor" placeholder="Leaf Color">
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">Folding/Flat</label>
+            <div class="col-md-8"> 
+                <select class="form-control" name="prdt_fldingflat" id="prdt_fldingflat" required="">
+                 <option>----Select Folding/Flat----</option>
+                {{#each inserttyp}}
+                <option value="{{this._id}}" data-country="{{this._id}}">{{this.indsrttyp_dscrpton}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Folding  Pattern</label>
+            <div class="col-md-8"> 
+                 <select class="form-control" name="prdt_fldingpttrn" id="prdt_fldingpttrn" required="">
+                  <option>----Select Folding Pattern----</option>
+                  {{#each floading}}
+                  <option value="{{this._id}}" data-country="{{this._id}}">{{this.floading_desp}}</option>
+                  {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Folding  Size</label>
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="foldng_l" id="foldng_l" placeholder="L" required="">
+            </div>
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="foldng_w" id="foldng_w" placeholder="W" style="margin-left: -8px;">
+            </div>
+            <div class="col-md-2"> 
+                <input type="text" class="form-control" name="foldng_h" id="foldng_h" placeholder="H" style="margin-left: -28px; width: 92px;">
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">Vertical/Horizontal</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" name="prdt_vrtclhorzntlone" id="prdt_vrtclhorzntlone" placeholder="Vertical/Horizontal"> 
+            </div>
+             <div class="col-md-4">
+              <input type="text" class="form-control" name="prdt_vrtclhorzntltwo" id="prdt_vrtclhorzntltwo" placeholder="Vertical/Horizontal"> 
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">Image</label>
+            <div class="col-md-8"> 
+                 <input type="file" name="prdt_image" id="prdt_image">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Tucking size MM</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_tkingszmm" id="prdt_tkingszmm" placeholder="Tucking size MM">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Ear Flap</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_erflp" id="prdt_erflp" placeholder="Ear Flap">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Design Style</label>
+            <div class="col-md-8"> 
+                <select class="form-control prdt_dsignstyl" name="prdt_dsignstyl" id="prdt_dsignstyl">
+                 <option value="">----Select Design----</option>
+                {{#each design}}
+                <option value="{{this._id}}" data-country="{{this._id}}">{{this.design_style}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Country</label>
+            <div class="col-md-8"> 
+                <select class="form-control prdt_country" name="prdt_country" id="prdt_country" required="">
+                 <option value="">----Select Country----</option>
+                {{#each country}}
+                <option value="{{this._id}}" data-country="{{this._id}}">{{this.country_name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Board Paper Manufacturer</label>
+            <div class="col-md-8"> 
+                <select class="form-control prdt_brdmnfctur" name="prdt_brdmnfctur" id="prdt_brdmnfctur" required="">
+                 <option value="">----Select Board Paper Manufacturer----</option>
+                {{#each manufactur}}
+                <option value="{{this._id}}" data-country="{{this._id}}">{{this.manufactur_name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">Construction</label>
+            <div class="col-md-8"> 
+                 <select class="form-control prdt_cnstrcton" name="prdt_cnstrcton" id="prdt_cnstrcton" required="">
+                 <option value="">----Select Construction----</option>
+                {{#each construction}}
+                <option value="{{this._id}}" data-country="{{this._id}}">{{this.construction_name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">Emboss Rack No</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_embssrckno" id="prdt_embssrckno" placeholder="Emboss Rack No" required="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Lamination</label>
+            <div class="col-md-8"> 
+                 <select class="form-control" name="prdt_lamination" id="prdt_lamination">
+                  <option value="">----Select Lamination----</option>
+                  <option value="outside">outside</option>
+                  <option value="inside/NA">inside/NA</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Lamination Type</label>
+            <div class="col-md-8"> 
+                 <select class="form-control" name="prdt_laminationtyp" id="prdt_laminationtyp">
+                  <option value="">----Select Lamination Type----</option>
+                  <option value="Glossy">Glossy</option>
+                  <option value="Matt">Matt</option>
+              </select>
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">UV</label>
+            <div class="col-md-8"> 
+                <select class="form-control" name="prdt_uv" id="prdt_uv">
+                  <option value="">----Select UV----</option>
+                  <option value="Gloss">Gloss </option>
+                  <option value="Matt">Matt</option>
+                  <option value="Textured">Textured</option>
+              </select>
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">Varnish</label>
+            <div class="col-md-8"> 
+                <select class="form-control" name="prdt_vernish" id="prdt_vernish">
+                  <option value="">----Select Varnish----</option>
+                  {{#each vernish}}
+                  <option value="{{this._id}}" data-vernish="{{this._id}}">{{this.vernish_name}}</option>
+                  {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Remarks</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="remark_group[0][remark_name]" id="remark_name" placeholder="Remarks">
+            </div>
+          </div>
+          <div id="insert_remark">
+              <center><a id="add" class="addRemark" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 92px;"></i></a></center>                
+            </div>
+           <div class="form-group">
+            <label class="col-md-4">Applicable Departments</label>
+            <div class="col-md-8"> 
+               {{#each departmnt}}
+                   <input type="checkbox" name="prdt_deprtmnt" value="{{this._id}}">{{this.departmnt_name}}
+                {{/each}}
+               
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+           <input type="submit" class="btn btn-info" value="submit" id="submit">
+           <input type="reset" class="btn btn-default pull-right" value="Clear Form">  
+        </div>
+        </form>
+  </div>
+      </section>
+    </div>
+    {{!-- <div class="col-md-7">
+      <section class="content-header">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">View Product Master</h3>
+                  <p style="text-align: center;color:#ff0000;margin-top: -20px;"><?php echo @$_SESSION['carat_name']; @$_SESSION['carat_name'] = ''; ?></p>
+          </div>
+            <div class="box-body">
+              <div class="table-responsive">
+                <table id="example" class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Item Code</th>
+                        <th>Supressed Code</th>
+                        <th>Artwork Rec Dt</th>
+                        <th>Party Name</th>
+                        <th>Product Name</th>
+                        <th>Board Quality</th>
+                        <th>GSM (M/B)</th>
+                        <th>Actual Size</th>
+                        <th>GSM (Top/Middle/Bottom)</th>
+                        <th>Pad Size</th>
+                        <th>Leaf Color</th>
+                        <th>Folding/Flat</th>
+                        <th>Folding Pattern</th>
+                        <th>Folding Size</th>
+                        <th>Vertical/Horizontal</th>
+                        <th>Tucking size MM</th>
+                        <th>Ear Flap</th>
+                        <th>Design Style</th>
+                        <th>Country</th>
+                        <th>Board Paper Manufacturer</th>
+                        <th>Construction</th>
+                        <th>Emboss Rack No</th>
+                        <th>Lamination</th>
+                        <th>Lamination Type</th>
+                        <th>UV</th>
+                        <th>Varnish</th>
+                        <th>Add Desgin Department</th>
+                        <th width="10%">Update</th>
+                        <th width="10%">Delete</th>
+                      </tr>
+                  </thead>
+                 <tbody>
+                   {{#each product as |value key|}}
+                      <tr>
+                          <td>{{sum @index 1}}</td>
+                          <td>{{this.prdt_itemcode}}</td>
+                          <td>{{this.prdt_subresscode}}</td>
+                          <td>{{this.prdt_artwkdt}}</td>
+                          <td>{{this.prdt_prtyname}}</td>
+                          <td>{{this.prdt_pname}}</td>
+                          <td>{{this.prdt_brdqlty}}</td>
+                          <td>{{this.prdt_gsmmb}}</td>
+                          <td>{{this.actul_l}},{{this.actul_w}},{{this.actul_h}}</td>
+                          <td>{{this.prdt_gsmtp}}</td>
+                          <td>{{this.pad_l}},{{this.pad_w}},{{this.pad_h}}</td>
+                          <td>{{this.prdt_lfcolor}}</td>
+                          <td>{{this.prdt_fldingflat.indsrttyp_dscrpton}}</td>
+                          <td>{{this.prdt_fldingpttrn.floading_desp}}</td>
+                          <td>{{this.foldng_l}},{{this.foldng_w}},{{this.foldng_h}}</td>
+                          <td>{{this.prdt_vrtclhorzntl}}</td>
+                          <td>{{this.prdt_tkingszmm}}</td>
+                          <td>{{this.prdt_erflp}}</td>
+                          <td>{{this.prdt_dsignstyl.design_style}}</td>
+                          <td>{{this.prdt_country.country_name}}</td>
+                          <td>{{this.prdt_brdmnfctur.manufactur_name}}</td>
+                          <td>{{this.prdt_cnstrcton.construction_name}}</td>
+                          <td>{{this.prdt_embssrckno}}</td>
+                          <td>{{this.prdt_lamination}}</td>
+                          <td>{{this.prdt_laminationtyp}}</td>
+                          <td>{{this.prdt_uv}}</td>
+                          <td>{{this.prdt_vernish.vernish_name}}</td>
+                          <td><a href="/add_design_depart/add_design_depart/{{value._id}}">Add Design Department</a></td>
+                          <td><a href="javascript:void(0);"  class="edit_prodtmast" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
+                          <td><a href="javascript:void(0);" class="delete_prodtmast" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                      </tr>
+                     {{/each}}  
+                   </tbody>
+                </table>
+      </div>
+    </div>
+  </div>
+      </section>
+    </div> --}}
+    
+  </div>
+</div>
+ {{> footer}}
+<style>
+ .button-clear {
+
+          background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+
+        }
+       </style>
+       

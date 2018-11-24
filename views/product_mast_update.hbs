@@ -1,0 +1,505 @@
+{{> header}}
+{{> nav}}
+
+<!-- <script>
+$(function () {
+  $("#example").DataTable();
+});
+</script> -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="row">
+    <div class="col-md-6">
+      <section class="content-header">
+         
+         
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title" id="add">Product Master</h3>
+      <h3 class="box-title" id="edit" style="display: none">Update Product Master</h3>
+          {{#if err}}
+          <div class="alert alert-danger">
+          <strong>{{err}}</strong>
+          </div>
+          {{/if}}
+          {{#if errors}}
+          <div class="alert alert-danger">
+          <strong>{{errors}}</strong>
+          </div>
+          {{/if}}
+      <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          </div>
+    </div>
+       <form action="/product_mast/update/{{product.id}}" class="form-horizontal" enctype="multipart/form-data"  method="post" id="prdt_mast_add">
+          <h4 style="color: red;text-align: center;"></h4>
+        <div class="box-body">
+          <div class="form-group">
+            <label class="col-md-4">Item Code</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_itemcode" id="prdt_itemcode" placeholder="NA" value="{{product.prdt_itemcode}}">
+            </div>
+            <label class="col-md-4">Supressed Code</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_subresscode" id="prdt_subresscode" value="{{product.prdt_subresscode}}" placeholder="NA">
+            </div>
+           <label class="col-md-4">Artwork Rec Dt</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_artwkdt" id="filterstartdate" value="{{product.prdt_artwkdt}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">Party Name</label>
+            <div class="col-md-8">
+                 {{#listrt party product.prdt_prtyname  'prdt_prtyname'}}
+                            {{this.party_name}}
+                  {{/listrt}} 
+                {{!-- <select class="form-control" name="prdt_prtyname" id="prdt_prtyname" required="">
+                 <option value="">----Select Party----</option>
+                {{#each party}}
+                <option value="{{this._id}}" data-party="{{this._id}}">{{this.party_name}}</option>
+                {{/each}}
+              </select>  --}}
+            </div>
+          </div>
+          {{#each product.location_group as |value key|}}
+          <div class="location_variation_row" id="location_variation_row-{{@index}}">
+          <div class="form-group">
+            <label class="col-md-4">Location</label>
+            <div class="col-md-7">
+              <input type="hidden" name="cont{{@index}}" value="{{@index}}" id="cont{{@index}}" class="form-control" style="width: 102px;"> 
+               <select class="form-control" name="location_group[{{@index}}][prdt_location]" id="prdt_location" required="">
+                 <option value="">----Select Location----</option>
+                {{#each ../city}}
+                <option value="{{this._id}}" data-country="{{this._id}}" {{#equal ../prdt_location this._id}}selected=""{{/equal}}>{{this.city_name}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="col-md-1">
+              {{#notequal @index 0}}
+                      <a  data-repeater-delete="{{@index}}" class='locationview-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;margin-left: -18px;margin-top: 7px;'></i></a>
+              {{/notequal}}
+            </div>
+          </div>
+          </div>
+           {{/each}}
+          <div id="insert_updatelocation">
+              <center><a id="add" class="updateLocation" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 92px;"></i></a></center>                  
+            </div>
+           <div class="form-group">
+            <label class="col-md-4">Product Name</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_pname" id="prdt_pname" value="{{product.prdt_pname}}" placeholder="NA">
+            </div>
+      
+            <label class="col-md-4">Board Quality</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_brdqlty" id="prdt_brdqlty" value="{{product.prdt_brdqlty}}" placeholder="NA">
+            </div>
+         
+            <label class="col-md-4">GSM (M/B)</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_gsmmb" id="prdt_gsmmb" value="{{product.prdt_gsmmb}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">Actual Size</label>
+           <div class="col-md-3"> 
+                <input type="text" class="form-control" name="actul_l" id="actul_l" value="{{product.actul_l}}" placeholder="NA">
+            </div>
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="actul_w" id="actul_w" value="{{product.actul_w}}" style="margin-left: -8px;" placeholder="NA">
+            </div>
+            <div class="col-md-2"> 
+                <input type="text" class="form-control" name="actul_h" id="actul_h" value="{{product.actul_h}}" style="margin-left: -28px; width: 77px;" placeholder="NA">
+            </div>
+            <label class="col-md-4">GSM</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_gsmtp" id="prdt_gsmtp" value="{{product.prdt_gsmtp}}" required="" placeholder="NA">
+            </div>
+            <label class="col-md-4">Pad Size</label>
+           <div class="col-md-3"> 
+                <input type="text" class="form-control" name="pad_l" id="pad_l" value="{{product.pad_l}}" required="" placeholder="NA">
+            </div>
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="pad_w" id="pad_w" value="{{product.pad_w}}" style="margin-left: -8px;" placeholder="NA">
+            </div>
+            <div class="col-md-2"> 
+                <input type="text" class="form-control" name="pad_h" id="pad_h" value="{{product.pad_h}}" style="margin-left: -28px; width: 77px;" placeholder="NA">
+            </div>
+            <label class="col-md-4">Leaf Color</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_lfcolor" id="prdt_lfcolor" value="{{product.prdt_lfcolor}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">Folding/Flat</label>
+            <div class="col-md-8"> 
+              {{#listrt inserttyp product.prdt_fldingflat  'prdt_fldingflat'}}
+                            {{this.indsrttyp_dscrpton}}
+                  {{/listrt}}
+            </div>
+            <label class="col-md-4">Folding  Pattern</label>
+            <div class="col-md-8"> 
+              {{#listrt floading product.prdt_fldingpttrn  'prdt_fldingpttrn'}}
+                            {{this.floading_desp}}
+                  {{/listrt}}
+            </div>
+            <label class="col-md-4">Folding  Size</label>
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="foldng_l" id="foldng_l" value="{{product.foldng_l}}" placeholder="NA">
+            </div>
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="foldng_w" id="foldng_w" value="{{product.foldng_w}}" style="margin-left: -8px;" placeholder="NA">
+            </div>
+            <div class="col-md-2"> 
+                <input type="text" class="form-control" name="foldng_h" id="foldng_h" value="{{product.foldng_h}}" style="margin-left: -28px; width: 77px;" placeholder="NA">
+            </div>
+            <label class="col-md-4">Vertical/Horizontal</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" name="prdt_vrtclhorzntlone" id="prdt_vrtclhorzntlone"  value="{{product.prdt_vrtclhorzntlone}}" placeholder="NA"> 
+            </div>
+             <div class="col-md-4">
+              <input type="text" class="form-control" name="prdt_vrtclhorzntltwo" id="prdt_vrtclhorzntltwo" value="{{product.prdt_vrtclhorzntltwo}}" placeholder="NA"> 
+            </div>
+            <label class="col-md-4">Image</label>
+            <div class="col-md-4"> 
+                <input type="file" name="prdt_image" id="prdt_image">
+                 <input type="hidden" name="previousfilename" value="{{product.filename}}"/>
+                 
+            </div>
+            <div class="col-md-4"> 
+                <img src="{{product.filepath}}" height="50px" width="50px"/>
+           </div>
+            <label class="col-md-4">Tucking size MM</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_tkingszmm" id="prdt_tkingszmm" value="{{product.prdt_tkingszmm}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">Ear Flap</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_erflp" id="prdt_erflp" value="{{product.prdt_erflp}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">Design Style</label>
+            <div class="col-md-8">
+               {{#listrt design product.prdt_dsignstyl  'prdt_dsignstyl'}}
+                            {{this.design_style}}
+                  {{/listrt}} 
+            </div>
+            <label class="col-md-4">Country</label>
+            <div class="col-md-8">
+              {{#listrt country product.prdt_country  'prdt_country'}}
+                            {{this.country_name}}
+                  {{/listrt}}  
+            </div>
+            <label class="col-md-4">Board Manufacturer</label>
+            <div class="col-md-8">
+               {{#listrt manufactur product.prdt_brdmnfctur  'prdt_brdmnfctur'}}
+                            {{this.manufactur_name}}
+                  {{/listrt}}
+            </div>
+            <label class="col-md-4">Construction</label>
+            <div class="col-md-8"> 
+               {{#listrt construction product.prdt_cnstrcton  'prdt_cnstrcton'}}
+                            {{this.construction_name}}
+                  {{/listrt}}
+            </div>
+            <label class="col-md-4">Emboss Rack No</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="prdt_embssrckno" id="prdt_embssrckno" value="{{product.prdt_embssrckno}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">Lamination</label>
+            <div class="col-md-8"> 
+                 <select class="form-control" name="prdt_lamination" id="prdt_lamination">
+                  <option value="">----Select Lamination----</option>
+                  <option value="outside" {{#equal product.prdt_lamination "outside"}}selected=""{{/equal}}>outside</option>
+                  <option value="inside/NA" {{#equal product.prdt_lamination "inside/NA"}}selected=""{{/equal}}>inside/NA</option>
+              </select>
+            </div>
+            <label class="col-md-4">Lamination Type</label>
+            <div class="col-md-8"> 
+                 <select class="form-control" name="prdt_laminationtyp" id="prdt_laminationtyp">
+                  <option value="">----Select Lamination Type----</option>
+                  <option value="Glossy" {{#equal product.prdt_laminationtyp "Glossy"}}selected=""{{/equal}}>Glossy</option>
+                  <option value="Matt" {{#equal product.prdt_laminationtyp "Matt"}}selected=""{{/equal}}>Matt</option>
+              </select>
+            </div>
+            <label class="col-md-4">UV</label>
+            <div class="col-md-8"> 
+                <select class="form-control" name="prdt_uv" id="prdt_uv">
+                  <option value="">----Select UV----</option>
+                  <option value="Gloss" {{#equal product.prdt_uv "Gloss"}}selected=""{{/equal}}>Gloss </option>
+                  <option value="Matt" {{#equal product.prdt_uv "Matt"}}selected=""{{/equal}}>Matt</option>
+                  <option value="Textured" {{#equal product.prdt_uv "Textured"}}selected=""{{/equal}}>Textured</option>
+              </select>
+            </div>
+            <label class="col-md-4">Varnish</label>
+            <div class="col-md-8">
+                {{#listrt vernish product.prdt_vernish  'prdt_vernish'}}
+                            {{this.vernish_name}}
+                  {{/listrt}}
+            </div>
+          </div>
+           {{#each product.remark_group as |value key|}}
+           <div class="remarkview_wrapper" id="remarkview_wrapper-{{@index}}">
+          <div class="form-group">
+            <label class="col-md-4">Remarks</label>
+            <div class="col-md-7">
+              <input type="hidden" name="cntrtol{{@index}}" value="{{@index}}" id="cntrtol{{@index}}"> 
+                <input type="text" class="form-control" name="remark_group[{{@index}}][remark_name]" id="remark_name" value="{{this.remark_name}}">
+            </div>
+            <div class="col-md-1">
+              {{#notequal @index 0}}
+                      <a data-repeater-delete="{{@index}}" class='remarkview-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;margin-left: -18px;margin-top: 7px;'></i></a>
+              {{/notequal}}
+          </div>
+          </div>
+           </div>
+          {{/each}}
+         <div id="insert_updateremark">
+              <center><a id="add" class="addupdateRemark" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 92px;"></i></a></center>                
+            </div>
+           <div class="form-group">
+            <label class="col-md-4">Applicable Departments</label>
+            <div class="col-md-8">
+               {{#each departmnt}}
+                   <input type="checkbox"  name="prdt_deprtmnt" value="{{this._id}}">{{this.departmnt_name}}
+                {{/each}}
+               
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <input type="submit" class="btn btn-success"  value="update" id="update">
+           <input type="reset" class="btn btn-default pull-right" value="Clear Form">  
+        </div>
+        </form>
+  </div>
+      </section>
+    </div>
+    <div class="col-md-6">
+      <section class="content-header">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+             <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          </div>
+            <h3 class="box-title">Desgin Department</h3>
+                  <p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>
+          </div>
+            <div class="box-body">
+              <form action="/product_mast/updatedesign/{{product.id}}" class="form-horizontal"  method="post" id="prdt_mast_add">
+          <h4 style="color: red;text-align: center;"></h4>
+        <div class="box-body">
+          <div class="form-group">
+            <label class="col-md-4">Pharma Code</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_phrmacd" id="dsign_phrmacd" placeholder="NA" value="{{product.dsign_phrmacd}}">
+            </div>
+            <label class="col-md-4">Bar Code</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_brcd" id="dsign_brcd" placeholder="NA" value="{{product.dsign_brcd}}">
+            </div>
+            <label class="col-md-4">Sheet / Paper Size</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_shetppsiz" id="dsign_shetppsiz" placeholder="NA" value="{{product.dsign_shetppsiz}}">
+            </div>
+            <label class="col-md-4">UV Blanket</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_uvblkt" id="dsign_uvblkt" placeholder="NA" value="{{product.dsign_uvblkt}}">
+            </div>
+            <label class="col-md-4">Cut Size</label>
+            <div class="col-md-4"> 
+                <input type="text" class="form-control" name="dsign_ctsizone" id="dsign_ctsiz" placeholder="NA" value="{{product.dsign_uvblkt}}">
+            </div>
+             <div class="col-md-4"> 
+                <input type="text" class="form-control" name="dsign_ctsiztwo" id="dsign_ctsiztwo" placeholder="NA" value="{{product.dsign_ctsiztwo}}">
+            </div>
+            <label class="col-md-4">Cut Size [inserts]</label>
+            <div class="col-md-4"> 
+                <input type="text" class="form-control" name="dsign_cutinsrtone" id="dsign_cutinsrtone" placeholder="Cut Size [inserts]" value="{{product.dsign_cutinsrtone}}">
+            </div>
+             <div class="col-md-4"> 
+                <input type="text" class="form-control" name="dsign_cutinsrttwo" id="dsign_cutinsrttwo" value="{{product.dsign_cutinsrttwo}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">Reel Size</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_relsiz" id="dsign_relsiz" value="{{product.dsign_relsiz}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">UPS</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_ups" id="dsign_ups" value="{{product.dsign_ups}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">Grain</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_grain" id="dsign_grain" value="{{product.dsign_grain}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">Die No.</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_dieno" id="dsign_dieno" value="{{product.dsign_dieno}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">Die Machine</label>
+            <div class="col-md-8">
+              {{#if product.design_michne}}
+               {{#listrt machine product.design_michne  'design_michne'}}
+                            {{this.machine_name}}
+                  {{/listrt}}
+               {{else}}
+               <select class="form-control" name="design_michne" id="design_michne">
+                  <option value="">----Select Machine----</option>
+                  {{#each machine}}
+                  <option value="{{this._id}}" data-vernish="{{this._id}}">{{this.machine_name}}</option>
+                  {{/each}}
+              </select>
+              {{/if}}
+            </div>
+            <label class="col-md-4">Braille Type</label>
+            <div class="col-md-8"> 
+                <select class="form-control" name="dsign_bralletyp" id="dsign_bralletyp">
+                  <option value="">----Select Braille Type----</option>
+                  <option value="Nylon" {{#equal product.dsign_bralletyp "Nylon"}}selected=""{{/equal}}>Nylon</option>
+                  <option value="Matt" {{#equal product.dsign_bralletyp "Matt"}}selected=""{{/equal}}>Accu Braille</option>
+              </select>
+            </div>
+            <label class="col-md-4">Braille Rack No.</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_brallerckno" id="dsign_brallerckno" value="{{product.dsign_brallerckno}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">Blanket No.</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_blnktno" id="dsign_blnktno" value="{{product.dsign_blnktno}}" placeholder="NA">
+            </div>
+            <label class="col-md-4">Gripper</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_grippr" id="dsign_grippr" value="{{product.dsign_grippr}}" placeholder="NA">
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <input type="submit" class="btn btn-success"  value="update" id="update">
+           <input type="reset" class="btn btn-default pull-right" value="Clear Form">  
+        </div>
+        </form>
+
+    </div>
+  </div>
+      </section>
+    </div>
+    <div class="col-md-6">
+      <section class="content-header">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+             <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          </div>
+            <h3 class="box-title">Blanket Information</h3>
+                  <p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>
+          </div>
+            <div class="box-body">
+            <form action="/product_mast/updateblanketinformartion/{{product.id}}" class="form-horizontal"  method="post" id="blanket_add">
+          <h4 style="color: red;text-align: center;"></h4>
+        <div class="box-body">
+            <div class="form-group">
+            <label class="col-md-4">Blanket Name</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control blanket_name" name="blanket_name" value="{{product.blanket_name}}" id="blanket_name" placeholder="NA">
+            </div>
+            <label class="col-md-4">Blanket Type /UPS</label>
+            <div class="col-md-8 state_name_div"> 
+                <input type="text" class="form-control blanketyp_ups" name="blanketyp_ups" value="{{product.blanketyp_ups}}" id="blanketyp_ups" placeholder="NA">
+            </div>
+            <label class="col-md-4">Size</label>
+            <div class="col-md-4"> 
+                <input type="text" class="form-control blanket_size" name="blanket_sizeone" value="{{product.blanket_sizeone}}" id="blanket_sizeone" placeholder="NA">
+            </div>
+            <div class="col-md-4"> 
+                <input type="text" class="form-control blanket_size" name="blanket_sizetwo" value="{{product.blanket_sizetwo}}" id="blanket_sizetwo" placeholder="NA">
+            </div>
+            <label class="col-md-4">Blanket IN</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control blanket_in" name="blanket_in" value="{{product.blanket_in}}" id="blanket_in" placeholder="NA">
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+           <input type="reset" class="btn btn-default pull-right" value="Clear Form">
+              <input type="submit" class="btn btn-success"  value="update" id="update">
+        </div>
+        </form>
+
+    </div>
+  </div>
+      </section>
+    </div>
+    <div class="col-md-6">
+      <section class="content-header">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+             <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          </div>
+            <h3 class="box-title">QC Department</h3>
+                  <p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>
+          </div>
+            <div class="box-body">
+            <form action="/product_mast/updateqcdepartment/{{product.id}}" class="form-horizontal"  method="post" id="blanket_add">
+          <h4 style="color: red;text-align: center;"></h4>
+        <div class="box-body">
+            <div class="form-group">
+            <label class="col-md-4">File No</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control qc_name" name="qc_fileno" value="{{product.qc_fileno}}" id="qc_fileno" placeholder="NA">
+            </div>
+            <label class="col-md-4">COA Description</label>
+            <div class="col-md-8 state_name_div"> 
+                <input type="text" class="form-control qc_ups" name="qc_cadesption" value="{{product.qc_cadesption}}" id="qc_cadesption" placeholder="NA">
+            </div>
+            <label class="col-md-4">COA Construction</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control qc_size" name="qc_coaconstrtion" value="{{product.qc_coaconstrtion}}" id="qc_coaconstrtion" placeholder="NA">
+            </div>
+            <label class="col-md-4">Pasting Dept</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control qc_in" name="qc_psting" value="{{product.qc_psting}}" id="qc_psting" placeholder="NA">
+            </div>
+             <label class="col-md-4">Corr Box  Size/Qty</label>
+           <div class="col-md-3"> 
+                <input type="text" class="form-control" name="qc_corbx" id="qc_corbx" value="{{product.qc_corbx}}">
+            </div>
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="qc_size" id="qc_size" value="{{product.qc_size}}" style="margin-left: -8px;">
+            </div>
+            <div class="col-md-2"> 
+                <input type="text" class="form-control" name="qc_qty" id="qc_qty" value="{{product.qc_qty}}" style="margin-left: -28px; width: 77px;">
+            </div>
+             <label class="col-md-4">UPS Line</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control qc_in" name="qc_ups" value="{{product.qc_ups}}" id="qc_ups" placeholder="NA">
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+           <input type="reset" class="btn btn-default pull-right" value="Clear Form">
+              <input type="submit" class="btn btn-success"  value="update" id="update">
+        </div>
+        </form>
+
+    </div>
+  </div>
+      </section>
+    </div>
+    
+  </div>
+</div>
+ {{> footer}}
+<style>
+ .button-clear {
+
+          background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+
+        }
+       </style>
+       

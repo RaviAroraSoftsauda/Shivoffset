@@ -1,0 +1,159 @@
+{{> header}}
+{{> nav}}
+
+<!-- <script>
+$(function () {
+  $("#example").DataTable();
+});
+</script> -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="row">
+    <div class="col-md-5">
+      <section class="content-header">
+         
+         
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title" id="add">Maitainance Agency Master</h3>
+      <h3 class="box-title" id="edit" style="display: none">Update Maitainance Agency Master</h3>
+          {{#if err}}
+          <div class="alert alert-danger">
+          <strong>{{err}}</strong>
+          </div>
+          {{/if}}
+          {{#if errors}}
+          <div class="alert alert-danger">
+          <strong>{{errors}}</strong>
+          </div>
+          {{/if}}
+      <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          </div>
+    </div>
+       <form action="/maintance_mast/add" class="form-horizontal"  method="post" id="maintance_add">
+          <h4 style="color: red;text-align: center;"></h4>
+        <div class="box-body">
+          <div class="form-group">
+            <label class="col-md-4">Name</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="maintance_name" id="maintance_name" placeholder="Name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Address</label>
+            <div class="col-md-8"> 
+                <textarea type="text" class="form-control" name="maintance_address" id="maintance_address" placeholder="Address"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Type</label>
+            <div class="col-md-8"> 
+                <select class="form-control maintance_typ" name="maintance_typ" id="maintance_typ">
+                 <option value="">----Select Type----</option>
+                 <option value="Callibration">Callibration</option>
+                 <option value="Repair">Repair</option>
+                 <option value="Fly Catcher"> Fly Catcher </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+           <input type="reset" class="btn btn-default" value="Clear Form">
+              <input type="submit" class="btn btn-info pull-right" value="submit" id="submit">
+              <input type="submit" class="btn btn-success pull-right"  value="update" id="update" style="display:none;">
+        </div>
+        </form>
+         <form action="" class="form-horizontal"  method="post" id="edit_maintance" style="display:none">
+          <h4 style="color: red;text-align: center;"></h4>
+      <div class="box-body">
+          <div class="form-group">
+            <label class="col-md-4">Name</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control maintance_name" name="maintance_name" id="maintance_name" placeholder="Name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Address</label>
+            <div class="col-md-8"> 
+                <textarea type="text" class="form-control maintance_address" name="maintance_address" id="maintance_address" placeholder="Address"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Type</label>
+            <div class="col-md-8"> 
+                <select class="form-control maintance_typ" name="maintance_typ" id="maintance_typ">
+                 <option value="">----Select Type----</option>
+                 <option value="Callibration">Callibration</option>
+                 <option value="Repair">Repair</option>
+                 <option value="Fly Catcher"> Fly Catcher </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+           <input type="reset" class="btn btn-default" value="Clear Form">
+              <input type="submit" class="btn btn-success pull-right"  value="update" id="update">
+        </div>
+        </form>
+  </div>
+      </section>
+    </div>
+    <div class="col-md-7">
+      <section class="content-header">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">View Maitainance Agency Master </h3>
+                  <p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>
+          </div>
+            <div class="box-body">
+              <div class="table-responsive">
+                <table id="example" class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Type</th>
+                        <th width="10%">Update</th>
+                        <th width="10%">Delete</th>
+                      </tr>
+                  </thead>
+                 <tbody>
+                   {{#each maintance as |value key|}}
+                      <tr>
+                          <td>{{sum @index 1}}</td>
+                          <td>{{this.maintance_name}}</td>
+                          <td>{{this.maintance_address}}</td>
+                          <td>{{this.maintance_typ}}</td>
+                          <td><a href="javascript:void(0);"  class="edit_maintance" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
+                          <td><a href="javascript:void(0);" class="delete_maintance" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                      </tr>
+                     {{/each}}  
+                   </tbody>
+                </table>
+      </div>
+    </div>
+  </div>
+      </section>
+    </div>
+    
+  </div>
+</div>
+ {{> footer}}
+<style>
+ .button-clear {
+
+          background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+
+        }
+       </style>
+       
