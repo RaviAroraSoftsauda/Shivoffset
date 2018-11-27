@@ -28,7 +28,7 @@ let accessoriesSchema = mongoose.Schema({
     },
     ////stock item
     stockpantone_rcpno: {
-        type: String,
+        type: Number,
     },
     stockpantone_board: {
         type: Schema.Types.ObjectId, ref: 'accessories_mast',
