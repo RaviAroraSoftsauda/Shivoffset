@@ -131,7 +131,7 @@ $(function () {
                           <td>{{this.maintance_address}}</td>
                           <td>{{this.maintance_typ}}</td>
                           <td><a href="javascript:void(0);"  class="edit_maintance" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_maintance" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                           <td><a href="/maintance_mast/delete_maintance/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>

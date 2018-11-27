@@ -220,7 +220,7 @@ $(function () {
                           <td>{{this.departmnt_dflt}}</td>
                           <td>{{this.departmnt_invreqrmnt}}</td>
                           <td><a href="javascript:void(0);"  class="edit_departmnt" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_departmnt" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                          <td><a href="/departmnt_mast/delete_departmnt/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>

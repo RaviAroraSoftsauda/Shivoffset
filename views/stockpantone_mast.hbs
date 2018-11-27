@@ -39,7 +39,7 @@ $(function () {
           <div class="form-group">
             <label class="col-md-2">Recipe No</label>
             <div class="col-md-4"> 
-             <input type="text" class="form-control" name="stockpantone_rcpno" id="stockpantone_rcpno" placeholder="Recipe No">
+             <input type="text" class="form-control" name="stockpantone_rcpno" id="stockpantone_rcpno" value="{{maxno stockpantone}}">
             </div>
              <label class="col-md-2">Board</label>
             <div class="col-md-4"> 
@@ -229,7 +229,7 @@ $(function () {
                           <td>{{this.stockpantone_pantonno.pantone_descrpton}}</td>
                           <td>{{this.stockpantone_barcode}}</td>
                           <td><a href="javascript:void(0);"  class="edit_stockpantone" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_stockpantone" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                          <td><a href="/stockpantone_mast/delete_stockpantone/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>

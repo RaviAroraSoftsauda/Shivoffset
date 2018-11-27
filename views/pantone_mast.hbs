@@ -153,7 +153,7 @@ $(function () {
                           <td>{{this.pantone_colorr}},{{this.pantone_colorb}},{{this.pantone_colorg}}</td>
                           <td>{{this.pantone_htmlcode}}</td>
                           <td><a href="javascript:void(0);"  class="edit_pantone" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_pantone" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                          <td><a href="/pantone_mast/delete_pantone/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>

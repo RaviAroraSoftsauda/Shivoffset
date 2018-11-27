@@ -107,8 +107,8 @@ $(function () {
                           <td>{{this.trnsportagncy_name}}</td>
                           <td>{{this.trnsportagncy_code}}</td>
                           <td><a href="javascript:void(0);"  class="edit_trnsportagncy" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_trnsportagncy" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
-                      </tr>
+                          <td><a href="/trnsportagncy_mast/delete_trnsportagncy/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td> 
+                    </tr>
                      {{/each}}  
                    </tbody>
                 </table>

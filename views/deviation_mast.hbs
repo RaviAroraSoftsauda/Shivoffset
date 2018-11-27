@@ -107,7 +107,7 @@ $(function () {
                           <td>{{this.deviation_name}}</td>
                           <td>{{this.deviation_code}}</td>
                           <td><a href="javascript:void(0);"  class="edit_deviation" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_deviation" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                           <td><a href="/deviation_mast/delete_deviation/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>

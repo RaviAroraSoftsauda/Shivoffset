@@ -121,7 +121,7 @@ $(function () {
                           <td>{{this.indsrttyp_qty}}</td>
                           <td>{{this.indsrttyp_code}}</td>
                           <td><a href="javascript:void(0);"  class="edit_indsrttyp" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_indsrttyp" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                          <td><a href="/inserttyp_mast/delete_indsrttyp/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>

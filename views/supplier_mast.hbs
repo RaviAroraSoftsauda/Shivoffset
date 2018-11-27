@@ -158,7 +158,7 @@ $(function () {
                           <td>{{this.supplier_city.city_name}}</td>
                           <td>{{this.supplier_mobno}}</td>
                           <td><a href="javascript:void(0);"  class="edit_supplier" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_supplier" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                          <td><a href="/supplier_mast/delete_supplier/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>

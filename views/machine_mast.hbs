@@ -246,7 +246,7 @@ $(function () {
                           <td>{{this.machine_deprt.departmnt_name}}</td>
                           <td>{{this.machine_loction}}</td>
                           <td><a href="javascript:void(0);"  class="edit_machine" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_machine" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                           <td><a href="/machine_mast/delete_machine/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>

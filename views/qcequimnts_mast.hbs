@@ -233,7 +233,7 @@ $(function () {
                           <td>{{this.qcequimnts_chklst.machinechk_dscrpton}}</td>
                           <td>{{this.qcequimnts_instrcton}}</td>
                           <td><a href="javascript:void(0);"  class="edit_qcequimnts" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_qcequimnts" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                          <td><a href="/qcequimnts_mast/delete_qcequimnts/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>

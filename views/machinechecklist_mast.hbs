@@ -121,7 +121,7 @@ $(function () {
                           <td>{{this.machinechk_code}}</td>
                           <td>{{this.machinechk_instrcton}}</td>
                           <td><a href="javascript:void(0);"  class="edit_machinechk" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_machinechk" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                           <td><a href="/machinechecklist_mast/delete_machinechk/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>

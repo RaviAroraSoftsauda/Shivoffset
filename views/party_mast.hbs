@@ -327,7 +327,7 @@ $(function () {
                           <td>{{this.party_fixsheet}}</td>
                           <td><a href="{{this.filepath}}" target='_blank' alt="pdf Not Found"><img src="{{this.filepath}}" target="_blank" height="50" width="50"/></a></td>
                           <td><a href="javascript:void(0);"  class="edit_party" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_party" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                           <td><a href="/party_mast/delete_party/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>

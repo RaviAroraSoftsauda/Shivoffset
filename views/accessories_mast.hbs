@@ -39,7 +39,7 @@ $(function () {
           <div class="form-group">
             <label class="col-md-4">Type</label>
             <div class="col-md-8"> 
-                 <select class="form-control accestyp_name" name="accestyp_name" id="accestyp_name" required="">
+                 <select class="form-control" name="accestyp_name" id="accestyp_name" required="">
                  <option>----Select Type----</option>
                 {{#each accessriestyp}}
                 <option value="{{this._id}}" data-accessriestyp="{{this._id}}">{{this.accessriestyp_name}}</option>
@@ -121,7 +121,7 @@ $(function () {
             </div>
           </div>
             <div class="form-group">
-            <label class="col-md-4">Sub Type </label>
+            <label class="col-md-4">Sub Type</label>
             <div class="col-md-8"> 
                  <select class="form-control accessubtyp_name" name="accessubtyp_name" id="accessubtyp_name" required="">
                  <option value="">----Select Sub Type----</option>
@@ -140,7 +140,7 @@ $(function () {
           <div class="form-group">
             <label class="col-md-4">Manuacturer</label>
             <div class="col-md-8"> 
-                <select class="form-control manufactur_name manufactur_name" name="manufactur_name" id="manufactur_name" required="">
+                <select class="form-control manufactur_name" name="manufactur_name" id="manufactur_name" required="">
                  <option>----Select Manuacturer----</option>
                 {{#each manufactur}}
                 <option value="{{this._id}}" data-manufactur="{{this._id}}">{{this.manufactur_name}}</option>
@@ -217,7 +217,7 @@ $(function () {
                           <td>{{this.accessoriesmin_stk}}</td>
                           <td>{{this.accessoriesqty_pen}}</td>
                           <td><a href="javascript:void(0);"  class="edit_accessories" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_accessories" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                          <td><a href="/accessories_mast/delete_accessories/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>

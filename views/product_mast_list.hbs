@@ -154,7 +154,7 @@
                           <td><a href="/product_mast/product_mast_update/{{value._id}}">Blanket Information</a></td>
                           <td><a href="/product_mast/product_mast_update/{{value._id}}">QC Department</a></td>
                           <td><a href="/product_mast/product_mast_update/{{value._id}}"  class="edit_prodtmast" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="javascript:void(0);" class="delete_prodtmast" data-id="{{this._id}}"><i class="fa fa-trash-o" style="color:red;"></a></td>
+                           <td><a href="/product_mast/delete_prodtmast/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>
                      {{/each}}  
                    </tbody>
