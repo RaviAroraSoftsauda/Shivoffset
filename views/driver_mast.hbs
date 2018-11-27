@@ -95,8 +95,7 @@ $(function () {
                       <tr>
                         <th>#</th>
                         <th>Driver Name</th>
-                        <th>Qty</th>
-                        <th>Code</th>
+                        <th>Salary</th>
                         <th width="10%">Update</th>
                         <th width="10%">Delete</th>
                       </tr>
@@ -107,7 +106,6 @@ $(function () {
                           <td>{{sum @index 1}}</td>
                           <td>{{this.driver_name}}</td>
                           <td>{{this.driver_salary}}</td>
-                          <td>{{this.driver_code}}</td>
                           <td><a href="javascript:void(0);"  class="edit_driver" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
                           <td><a href="/driver_mast/delete_driver/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                       </tr>

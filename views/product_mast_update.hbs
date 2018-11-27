@@ -39,11 +39,11 @@ $(function () {
           <div class="form-group">
             <label class="col-md-4">Item Code</label>
             <div class="col-md-8"> 
-                <input type="text" class="form-control" name="prdt_itemcode" id="prdt_itemcode" placeholder="NA" value="{{product.prdt_itemcode}}">
+                <input type="text" class="form-control" name="prdt_itemcode" id="prdt_itemcode" placeholder="NA" value="{{product.prdt_itemcode}}" required="">
             </div>
             <label class="col-md-4">Supressed Code</label>
             <div class="col-md-8"> 
-                <input type="text" class="form-control" name="prdt_subresscode" id="prdt_subresscode" value="{{product.prdt_subresscode}}" placeholder="NA">
+                <input type="text" class="form-control" name="prdt_subresscode" id="prdt_subresscode" value="{{product.prdt_subresscode}}" placeholder="NA" required="">
             </div>
            <label class="col-md-4">Artwork Rec Dt</label>
             <div class="col-md-8"> 
@@ -103,21 +103,21 @@ $(function () {
             </div>
             <label class="col-md-4">Actual Size</label>
            <div class="col-md-3"> 
-                <input type="text" class="form-control" name="actul_l" id="actul_l" value="{{product.actul_l}}" placeholder="NA">
+                <input type="text" class="form-control" name="actul_l" id="actul_l" value="{{product.actul_l}}" placeholder="NA" required="">
             </div>
             <div class="col-md-3"> 
-                <input type="text" class="form-control" name="actul_w" id="actul_w" value="{{product.actul_w}}" style="margin-left: -8px;" placeholder="NA">
+                <input type="text" class="form-control" name="actul_w" id="actul_w" value="{{product.actul_w}}" style="margin-left: -8px;" placeholder="NA" required="">
             </div>
             <div class="col-md-2"> 
-                <input type="text" class="form-control" name="actul_h" id="actul_h" value="{{product.actul_h}}" style="margin-left: -28px; width: 77px;" placeholder="NA">
+                <input type="text" class="form-control" name="actul_h" id="actul_h" value="{{product.actul_h}}" style="margin-left: -28px; width: 77px;" placeholder="NA" required="">
             </div>
             <label class="col-md-4">GSM</label>
             <div class="col-md-8"> 
-                <input type="text" class="form-control" name="prdt_gsmtp" id="prdt_gsmtp" value="{{product.prdt_gsmtp}}" required="" placeholder="NA">
+                <input type="text" class="form-control" name="prdt_gsmtp" id="prdt_gsmtp" value="{{product.prdt_gsmtp}}"  placeholder="NA">
             </div>
             <label class="col-md-4">Pad Size</label>
            <div class="col-md-3"> 
-                <input type="text" class="form-control" name="pad_l" id="pad_l" value="{{product.pad_l}}" required="" placeholder="NA">
+                <input type="text" class="form-control" name="pad_l" id="pad_l" value="{{product.pad_l}}"  placeholder="NA">
             </div>
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="pad_w" id="pad_w" value="{{product.pad_w}}" style="margin-left: -8px;" placeholder="NA">

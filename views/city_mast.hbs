@@ -51,7 +51,7 @@ $(function () {
             <label class="col-md-4">State Name</label>
             <div class="col-md-8 state_name_div"> 
                <select class="form-control stateid" name="stateid" id="stateid" required="">
-                 <option>----Select State----</option>
+                 <option value="">----Select State----</option>
                 {{#each state}}
                 <option value="{{this._id}}" data-state="{{this._id}}">{{this.state_name}}</option>
                 {{/each}}
@@ -85,7 +85,7 @@ $(function () {
             <label class="col-md-4">Country Name</label>
             <div class="col-md-8"> 
                <select class="form-control countryid" name="countryid" id="countryid" required="">
-                 <option>----Select Country----</option>
+                 <option value="">----Select Country----</option>
                 {{#each country}}
                 <option value="{{this._id}}" data-country="{{this._id}}">{{this.country_name}}</option>
                 {{/each}}

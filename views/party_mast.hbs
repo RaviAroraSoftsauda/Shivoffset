@@ -60,7 +60,7 @@ $(function () {
             <label class="col-md-3">City</label>
             <div class="col-md-3"> 
                <select class="form-control part_city" name="part_city" id="part_city">
-                 <option>Select City</option>
+                 <option value="">Select City</option>
                 {{#each city}}
                 <option value="{{this._id}}" data-city="{{this._id}}">{{this.city_name}}</option>
                 {{/each}}
@@ -79,7 +79,7 @@ $(function () {
             <label class="col-md-3">Party Type</label>
             <div class="col-md-3"> 
                 <select class="form-control party_prttyp" name="party_prttyp" id="party_prttyp" required="">
-                 <option>Select Party</option>
+                 <option value="">Select Party</option>
                 {{#each party_type}}
                 <option value="{{this._id}}" data-city="{{this._id}}">{{this.party_type_name}}</option>
                 {{/each}}
@@ -198,7 +198,7 @@ $(function () {
             <label class="col-md-3">City</label>
             <div class="col-md-3"> 
                <select class="form-control part_city" name="part_city" id="part_city" required="">
-                 <option>Select City</option>
+                 <option value="">Select City</option>
                 {{#each city}}
                 <option value="{{this._id}}" data-city="{{this._id}}">{{this.city_name}}</option>
                 {{/each}}
@@ -218,7 +218,7 @@ $(function () {
             <div class="col-md-3"> 
                 {{!-- <input type="text" class="form-control " name="party_prttyp" id="party_prttyp" placeholder="Part Type" required=""> --}}
              <select class="form-control party_prttyp" name="party_prttyp" id="party_prttyp" required="">
-                 <option>Select Party</option>
+                 <option value="">Select Party</option>
                 {{#each party_type}}
                 <option value="{{this._id}}" data-city="{{this._id}}">{{this.party_type_name}}</option>
                 {{/each}}
