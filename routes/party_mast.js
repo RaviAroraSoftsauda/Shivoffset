@@ -3,6 +3,7 @@ const router = express.Router();
 var multer = require('multer');
 var fs = require('fs');
 var path = require('path');
+const mongoose = require('mongoose');
 let party = require('../models/party_mast_schema');
 let party_type = require('../models/party_type_mast_schema');
 let city = require('../models/city_mast_schema');
@@ -58,6 +59,8 @@ var upload = multer({
     }
 });
 router.post('/add', upload.single('party_scandoc'), (req, res, next) => {
+    if(req.body.part_city=="Select City") req.body.part_city=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+    if(req.body.party_prttyp=="") req.body.party_prttyp=mongoose.Types.ObjectId('578df3efb618f5141202a196');
     let errors = req.validationErrors();
     if (errors) {
         if(req.file) {
@@ -134,6 +137,8 @@ router.post('/add', upload.single('party_scandoc'), (req, res, next) => {
     });
 });
     router.post('/edit_party_mast/:id', upload.single('party_scandoc'), function(req, res){
+        if(req.body.part_city=="Select City") req.body.part_city=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.party_prttyp=="") req.body.party_prttyp=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if (errors) {
             if(req.file) {
@@ -198,20 +203,23 @@ router.post('/add', upload.single('party_scandoc'), (req, res, next) => {
             }
         }
     });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
-                res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              party.findById(req.params.id, function(err, party){
-                party.remove(query, function(err){
-                    if(err){
-                      console.log(err);
-                    }
-                    res.send('Success');
-                  });
-              });
-          });
+    router.get('/delete_party/:id', function(req, res){
+        if(!req.user.id)
+        {
+            res.status(500).send();
+        }
+        let query = {_id:req.param.id}
+        party.findById(req.params.id, function(err, party){
+            party.remove(query,function(err){
+                if(err)
+                {
+                    console.log(err);
+                }
+                res.redirect('/party_mast/party_mast');
+            });
+        });
+    });
+        
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

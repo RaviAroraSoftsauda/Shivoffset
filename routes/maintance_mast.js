@@ -79,20 +79,22 @@ router.get('/maintance_mast', ensureAuthenticated, function(req, res){
                 });
             }
         });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
+        router.get('/delete_maintance/:id', function(req, res){
+            if(!req.user.id)
+            {
                 res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              maintance.findById(req.params.id, function(err, maintance){
-                maintance.remove(query, function(err){
-                    if(err){
-                      console.log(err);
+            }
+            let query = {_id:req.param.id}
+            maintance.findById(req.params.id, function(err, maintance){
+                maintance.remove(query,function(err){
+                    if(err)
+                    {
+                        console.log(err);
                     }
-                    res.send('Success');
-                  });
-              });
-          });
+                    res.redirect('/maintance_mast/maintance_mast');
+                });
+            });
+        });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

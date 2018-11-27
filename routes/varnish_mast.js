@@ -77,20 +77,22 @@ router.get('/varnish_mast', ensureAuthenticated, function(req, res){
                 });
             }
         });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
+          router.get('/delete_vernish/:id', function(req, res){
+            if(!req.user.id)
+            {
                 res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              vernish.findById(req.params.id, function(err, vernish){
-                vernish.remove(query, function(err){
-                    if(err){
-                      console.log(err);
+            }
+            let query = {_id:req.param.id}
+            vernish.findById(req.params.id, function(err, vernish){
+                vernish.remove(query,function(err){
+                    if(err)
+                    {
+                        console.log(err);
                     }
-                    res.send('Success');
-                  });
-              });
-          });
+                    res.redirect('/varnish_mast/varnish_mast');
+                });
+            });
+        });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

@@ -77,20 +77,22 @@ router.get('/driver_mast', ensureAuthenticated, function(req, res){
                 });
             }
         });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
+        router.get('/delete_driver/:id', function(req, res){
+            if(!req.user.id)
+            {
                 res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              driver.findById(req.params.id, function(err, driver){
-                driver.remove(query, function(err){
-                    if(err){
-                      console.log(err);
+            }
+            let query = {_id:req.param.id}
+            driver.findById(req.params.id, function(err, driver){
+                driver.remove(query,function(err){
+                    if(err)
+                    {
+                        console.log(err);
                     }
-                    res.send('Success');
-                  });
-              });
-          });
+                    res.redirect('/driver_mast/driver_mast');
+                });
+            });
+        });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

@@ -77,20 +77,22 @@ router.get('/product_type_mast', ensureAuthenticated, function(req, res){
                 });
             }
         });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
+        router.get('/delete_prodt/:id', function(req, res){
+            if(!req.user.id)
+            {
                 res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              product.findById(req.params.id, function(err, product){
-                product.remove(query, function(err){
-                    if(err){
-                      console.log(err);
+            }
+            let query = {_id:req.param.id}
+            product.findById(req.params.id, function(err, product){
+                product.remove(query,function(err){
+                    if(err)
+                    {
+                        console.log(err);
                     }
-                    res.send('Success');
-                  });
-              });
-          });
+                    res.redirect('/product_type_mast/product_type_mast');
+                });
+            });
+        });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

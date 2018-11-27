@@ -106,20 +106,22 @@ router.get('/departmnt_mast', ensureAuthenticated, function(req, res){
                 });
             }
         });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
+        router.get('/delete_departmnt/:id', function(req, res){
+            if(!req.user.id)
+            {
                 res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              departmnt.findById(req.params.id, function(err, departmnt){
-                departmnt.remove(query, function(err){
-                    if(err){
-                      console.log(err);
+            }
+            let query = {_id:req.param.id}
+            departmnt.findById(req.params.id, function(err, departmnt){
+                departmnt.remove(query,function(err){
+                    if(err)
+                    {
+                        console.log(err);
                     }
-                    res.send('Success');
-                  });
-              });
-          });
+                    res.redirect('/departmnt_mast/departmnt_mast');
+                });
+            });
+        });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router(); 
+const mongoose = require('mongoose');
 let manufactur = require('../models/manufactur_mast_schema');
 let accessriestyp = require('../models/accessriestyp_mast_schema');
 var query;
@@ -21,6 +22,7 @@ router.get('/manufactur_mast', ensureAuthenticated, function(req, res){
     }).populate('manufactur_typ');
 });
     router.post('/add',function(req, res){
+        if(req.body.manufactur_typ=="----Select Type----") req.body.manufactur_typ=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if(errors)
         {
@@ -60,6 +62,7 @@ router.get('/manufactur_mast', ensureAuthenticated, function(req, res){
         });
     });
         router.post('/edit_manufacturer_mast/:id', function(req, res) {
+            if(req.body.manufactur_typ=="----Select Type----") req.body.manufactur_typ=mongoose.Types.ObjectId('578df3efb618f5141202a196');
             let errors = req.validationErrors();
             if (errors) {
                 console.log(errors);
@@ -83,20 +86,22 @@ router.get('/manufactur_mast', ensureAuthenticated, function(req, res){
                 });
             }
         });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
+        router.get('/delete_manufacturer/:id', function(req, res){
+            if(!req.user.id)
+            {
                 res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              manufactur.findById(req.params.id, function(err, manufactur){
-                manufactur.remove(query, function(err){
-                    if(err){
-                      console.log(err);
+            }
+            let query = {_id:req.param.id}
+            manufactur.findById(req.params.id, function(err, manufactur){
+                manufactur.remove(query,function(err){
+                    if(err)
+                    {
+                        console.log(err);
                     }
-                    res.send('Success');
-                  });
-              });
-          });
+                    res.redirect('/manufactur_mast/manufactur_mast');
+                });
+            });
+        });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

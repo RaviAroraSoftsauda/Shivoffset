@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router(); 
+const mongoose = require('mongoose');
 let accessories = require('../models/accessories_mast_schema');
 let accessubtyp = require('../models/accessubtyp_mast_schema');
 let accessriestyp = require('../models/accessriestyp_mast_schema');
@@ -10,10 +11,10 @@ var query;
 // Add Route
 router.get('/accessories_mast', ensureAuthenticated, function(req, res){
     accessories.find({flag:"ACC",co_code:req.session.compid,div_code:req.session.divid}, function (err, accessories){
-        accessubtyp.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, accessubtyp){
-            manufactur.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, manufactur){
-                accessriestyp.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, accessriestyp){
-                    machine.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, machine){
+    accessubtyp.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, accessubtyp){
+    manufactur.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, manufactur){
+    accessriestyp.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, accessriestyp){
+    machine.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, machine){
             if (err) {
                 console.log(err);
             } else {
@@ -33,6 +34,10 @@ router.get('/accessories_mast', ensureAuthenticated, function(req, res){
 }).populate('accessubtyp_name').populate('manufactur_name').populate('accestyp_name').populate('machine_name');
 });
     router.post('/add',function(req, res){
+        if(req.body.accestyp_name=="----Select Type----") req.body.accestyp_name=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.accessubtyp_name=="----Select Sub Type----") req.body.accessubtyp_name=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.manufactur_name=="----Select Manuacturer----") req.body.manufactur_name=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.machine_name=="") req.body.machine_name=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if(errors)
         {
@@ -76,6 +81,10 @@ router.get('/accessories_mast', ensureAuthenticated, function(req, res){
         });
     });
         router.post('/edit_accessories_mast/:id', function(req, res) {
+            if(req.body.accestyp_name=="----Select Type----") req.body.accestyp_name=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+            if(req.body.accessubtyp_name=="----Select Sub Type----") req.body.accessubtyp_name=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+            if(req.body.manufactur_name=="----Select Manuacturer----") req.body.manufactur_name=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+            if(req.body.machine_name=="") req.body.machine_name=mongoose.Types.ObjectId('578df3efb618f5141202a196');
             let errors = req.validationErrors();
             if (errors) {
                 console.log(errors);
@@ -103,20 +112,36 @@ router.get('/accessories_mast', ensureAuthenticated, function(req, res){
                 });
             }
         });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
+        router.get('/delete_accessories/:id', function(req, res){
+            if(!req.user.id)
+            {
                 res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              accessories.findById(req.params.id, function(err, accessories){
-                accessories.remove(query, function(err){
-                    if(err){
-                      console.log(err);
+            }
+            let query = {_id:req.param.id}
+            accessories.findById(req.params.id, function(err, accessories){
+                accessories.remove(query,function(err){
+                    if(err)
+                    {
+                        console.log(err);
                     }
-                    res.send('Success');
-                  });
-              });
-          });
+                    res.redirect('/accessories_mast/accessories_mast');
+                });
+            });
+        });
+        // router.delete('/:id', function(req, res){
+        //     if(!req.user._id){
+        //         res.status(500).send();
+        //       }
+        //       let query = {_id:req.params.id}
+        //       accessories.findById(req.params.id, function(err, accessories){
+        //         accessories.remove(query, function(err){
+        //             if(err){
+        //               console.log(err);
+        //             }
+        //             res.send('Success');
+        //           });
+        //       });
+        //   });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

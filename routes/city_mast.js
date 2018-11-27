@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 let country = require('../models/country_mast_schema');
 let state = require('../models/state_mast_schema');
 let city = require('../models/city_mast_schema');
@@ -42,6 +43,8 @@ router.get('/city_mast', ensureAuthenticated, function(req, res){
 });
 });
     router.post('/add',function(req, res){
+        if(req.body.countryid=="----Select Country----") req.body.countryid=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.stateid=="----Select State----") req.body.stateid=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if(errors)
         {
@@ -82,6 +85,8 @@ router.get('/city_mast', ensureAuthenticated, function(req, res){
         });
     });
         router.post('/edit_city_mast/:id', function(req, res) {
+            if(req.body.countryid=="----Select Country----") req.body.countryid=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.stateid=="----Select State----") req.body.stateid=mongoose.Types.ObjectId('578df3efb618f5141202a196');
             let errors = req.validationErrors();
             if (errors) {
                 console.log(errors);
@@ -106,20 +111,22 @@ router.get('/city_mast', ensureAuthenticated, function(req, res){
                 });
             }
         });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
+        router.get('/delete_city/:id', function(req, res){
+            if(!req.user.id)
+            {
                 res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              city.findById(req.params.id, function(err, city){
-                city.remove(query, function(err){
-                    if(err){
-                      console.log(err);
+            }
+            let query = {_id:req.param.id}
+            city.findById(req.params.id, function(err, city){
+                city.remove(query,function(err){
+                    if(err)
+                    {
+                        console.log(err);
                     }
-                    res.send('Success');
-                  });
-              });
-          });
+                    res.redirect('/city_mast/city_mast');
+                });
+            });
+        });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router(); 
+const mongoose = require('mongoose');
 let qcequimnts = require('../models/qcequimnts_mast_schema');
 let depart = require('../models/departmnt_mast_schema');
 let machinechecklist = require('../models/machinechecklist_mast_schema');
@@ -25,6 +26,8 @@ router.get('/qcequimnts_mast', ensureAuthenticated, function(req, res){
 }).populate('qcequimnts_deprt').populate('qcequimnts_chklst');
 });
     router.post('/add',function(req, res){
+        if(req.body.qcequimnts_deprt=="") req.body.qcequimnts_deprt=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.qcequimnts_chklst=="") req.body.qcequimnts_chklst=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if(errors)
         {
@@ -70,6 +73,8 @@ router.get('/qcequimnts_mast', ensureAuthenticated, function(req, res){
         });
     });
         router.post('/edit_qcequimnts_mast/:id', function(req, res) {
+            if(req.body.qcequimnts_deprt=="") req.body.qcequimnts_deprt=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.qcequimnts_chklst=="") req.body.qcequimnts_chklst=mongoose.Types.ObjectId('578df3efb618f5141202a196');
             let errors = req.validationErrors();
             if (errors) {
                 console.log(errors);
@@ -99,20 +104,22 @@ router.get('/qcequimnts_mast', ensureAuthenticated, function(req, res){
                 });
             }
         });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
+        router.get('/delete_qcequimnts/:id', function(req, res){
+            if(!req.user.id)
+            {
                 res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              qcequimnts.findById(req.params.id, function(err, qcequimnts){
-                qcequimnts.remove(query, function(err){
-                    if(err){
-                      console.log(err);
+            }
+            let query = {_id:req.param.id}
+            qcequimnts.findById(req.params.id, function(err, qcequimnts){
+                qcequimnts.remove(query,function(err){
+                    if(err)
+                    {
+                        console.log(err);
                     }
-                    res.send('Success');
-                  });
-              });
-          });
+                    res.redirect('/qcequimnts_mast/qcequimnts_mast');
+                });
+            });
+        });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

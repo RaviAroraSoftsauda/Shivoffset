@@ -3,6 +3,7 @@ const router = express.Router();
 var multer = require('multer');
 var fs = require('fs');
 var path = require('path');
+const mongoose = require('mongoose');
 let machine = require('../models/machine_mast_schema');
 let manufuctur = require('../models/manufactur_mast_schema');
 let departmnt = require('../models/departmnt_mast_schema');
@@ -50,6 +51,8 @@ var upload = multer({
     }
 });
 router.post('/add', upload.single('machine_pdf'), (req, res, next) => {
+    if(req.body.machine_manufctur=="----Select Manuacturer----") req.body.machine_manufctur=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+    if(req.body.machine_deprt=="") req.body.machine_deprt=mongoose.Types.ObjectId('578df3efb618f5141202a196');
     let errors = req.validationErrors();
     if (errors) {
         if(req.file) {
@@ -120,6 +123,8 @@ router.post('/add', upload.single('machine_pdf'), (req, res, next) => {
         });
     });
     router.post('/edit_machine_mast/:id', upload.single('machine_pdf'), function(req, res){
+        if(req.body.machine_manufctur=="----Select Manuacturer----") req.body.machine_manufctur=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.machine_deprt=="") req.body.machine_deprt=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if (errors) {
             if(req.file) {
@@ -181,20 +186,22 @@ router.post('/add', upload.single('machine_pdf'), (req, res, next) => {
             }
         }
     });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
-                res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              machine.findById(req.params.id, function(err, machine){
-                machine.remove(query, function(err){
-                    if(err){
-                      console.log(err);
-                    }
-                    res.send('Success');
-                  });
-              });
-          });
+    router.get('/delete_machine/:id', function(req, res){
+        if(!req.user.id)
+        {
+            res.status(500).send();
+        }
+        let query = {_id:req.param.id}
+        machine.findById(req.params.id, function(err, machine){
+            machine.remove(query,function(err){
+                if(err)
+                {
+                    console.log(err);
+                }
+                res.redirect('/machine_mast/machine_mast');
+            });
+        });
+    });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

@@ -92,13 +92,13 @@ var upload = multer({
     }
 });
     router.post('/add', upload.single('prdt_image'), (req, res, next) => {
-        if(req.body.prdt_country=="Select") req.body.prdt_country=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-        if(req.body.prdt_brdmnfctur=="Select") req.body.prdt_brdmnfctur=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-        if(req.body.prdt_cnstrcton=="Select") req.body.prdt_cnstrcton=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-        if(req.body.prdt_vernish=="Select") req.body.prdt_vernish=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-        if(req.body.prdt_dsignstyl=="Select") req.body.prdt_dsignstyl=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-        if(req.body.prdt_fldingflat=="Select") req.body.prdt_fldingflat=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-        if(req.body.prdt_fldingpttrn=="Select") req.body.prdt_fldingpttrn=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_country=="") req.body.prdt_country=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_brdmnfctur=="") req.body.prdt_brdmnfctur=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_cnstrcton=="") req.body.prdt_cnstrcton=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_vernish=="") req.body.prdt_vernish=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_dsignstyl=="") req.body.prdt_dsignstyl=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_fldingflat=="") req.body.prdt_fldingflat=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_fldingpttrn=="") req.body.prdt_fldingpttrn=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         if(req.body.prdt_prtyname=="") req.body.prdt_prtyname=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if (errors) {
@@ -256,15 +256,14 @@ router.get('/product_mast_update/:id', ensureAuthenticated, function(req, res){
 });
 });
 router.post('/update/:id', upload.single('prdt_image'), function(req, res){
-    if(req.body.prdt_country=="Select") req.body.prdt_country=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-    if(req.body.prdt_brdmnfctur=="Select") req.body.prdt_brdmnfctur=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-    if(req.body.prdt_cnstrcton=="Select") req.body.prdt_cnstrcton=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-    if(req.body.prdt_vernish=="Select") req.body.prdt_vernish=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-    if(req.body.prdt_dsignstyl=="Select") req.body.prdt_dsignstyl=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-    if(req.body.prdt_fldingflat=="Select") req.body.prdt_fldingflat=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-    if(req.body.prdt_fldingpttrn=="Select") req.body.prdt_fldingpttrn=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-    if(req.body.design_michne=="") req.body.design_michne=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-    if(req.body.prdt_prtyname=="") req.body.prdt_prtyname=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+    if(req.body.prdt_country=="") req.body.prdt_country=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_brdmnfctur=="") req.body.prdt_brdmnfctur=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_cnstrcton=="") req.body.prdt_cnstrcton=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_vernish=="") req.body.prdt_vernish=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_dsignstyl=="") req.body.prdt_dsignstyl=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_fldingflat=="") req.body.prdt_fldingflat=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_fldingpttrn=="") req.body.prdt_fldingpttrn=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_prtyname=="") req.body.prdt_prtyname=mongoose.Types.ObjectId('578df3efb618f5141202a196');
     let errors = req.validationErrors();
     if (errors) {
         if(req.file) {
@@ -353,7 +352,7 @@ router.post('/update/:id', upload.single('prdt_image'), function(req, res){
     }
 });
         router.post('/updatedesign/:id', function(req, res) {
-            if(req.body.design_michne=="Select") req.body.design_michne=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+            if(req.body.design_michne=="") req.body.design_michne=mongoose.Types.ObjectId('578df3efb618f5141202a196');
             let errors = req.validationErrors();
             if (errors) {
                 console.log(errors);
@@ -448,20 +447,22 @@ router.post('/update/:id', upload.single('prdt_image'), function(req, res){
                 });
             }
         });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
+        router.get('/delete_prodtmast/:id', function(req, res){
+            if(!req.user.id)
+            {
                 res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              product.findById(req.params.id, function(err, product){
-                product.remove(query, function(err){
-                    if(err){
-                      console.log(err);
+            }
+            let query = {_id:req.param.id}
+            product.findById(req.params.id, function(err, product){
+                product.remove(query,function(err){
+                    if(err)
+                    {
+                        console.log(err);
                     }
-                    res.send('Success');
-                  });
-              });
-          });
+                    res.redirect('/product_mast/product_mast');
+                });
+            });
+        });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

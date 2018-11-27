@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 var multer = require('multer');
 var fs = require('fs');
 var path = require('path');
@@ -50,6 +51,8 @@ var upload = multer({
     }
 });
 router.post('/add', upload.single('training_crtifcte'), (req, res, next) => {
+    if(req.body.employee_deprt=="") req.body.employee_deprt=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+    if(req.body.employee_sop=="") req.body.employee_sop=mongoose.Types.ObjectId('578df3efb618f5141202a196');
     let errors = req.validationErrors();
     if (errors) {
         if(req.file) {
@@ -115,6 +118,8 @@ router.post('/add', upload.single('training_crtifcte'), (req, res, next) => {
         });
     });
     router.post('/edit_employee_mast/:id', upload.single('training_crtifcte'), function(req, res){
+        if(req.body.employee_deprt=="") req.body.employee_deprt=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+    if(req.body.employee_sop=="") req.body.employee_sop=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if (errors) {
             if(req.file) {
@@ -171,20 +176,22 @@ router.post('/add', upload.single('training_crtifcte'), (req, res, next) => {
             }
         }
     });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
-                res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              employee.findById(req.params.id, function(err, employee){
-                employee.remove(query, function(err){
-                    if(err){
-                      console.log(err);
-                    }
-                    res.send('Success');
-                  });
-              });
-          });
+    router.get('/delete_employee/:id', function(req, res){
+        if(!req.user.id)
+        {
+            res.status(500).send();
+        }
+        let query = {_id:req.param.id}
+        employee.findById(req.params.id, function(err, employee){
+            employee.remove(query,function(err){
+                if(err)
+                {
+                    console.log(err);
+                }
+                res.redirect('/employee_mast/employee_mast');
+            });
+        });
+    });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

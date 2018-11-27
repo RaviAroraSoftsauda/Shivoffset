@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router(); 
+const mongoose = require('mongoose');
 let stockpantone = require('../models/accessories_mast_schema');
 let accbord = require('../models/accessories_mast_schema');
 let accink = require('../models/accessories_mast_schema');
@@ -30,9 +31,11 @@ router.get('/stockpantone_mast', ensureAuthenticated, function(req, res){
         })
     });
 });
-}).populate('stockpantone_board').populate('stockpantone_pantonno');
+}).populate('stockpantone_board').populate('stockpantone_pantonno').sort('-stockpantone_rcpno');
 });
     router.post('/add',function(req, res){
+        if(req.body.stockpantone_board=="") req.body.stockpantone_board=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.stockpantone_pantonno=="") req.body.stockpantone_pantonno=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if(errors)
         {
@@ -103,20 +106,22 @@ router.get('/stockpantone_mast', ensureAuthenticated, function(req, res){
                 });
             }
         });
-        router.delete('/:id', function(req, res){
-            if(!req.user._id){
+        router.get('/delete_stockpantone/:id', function(req, res){
+            if(!req.user.id)
+            {
                 res.status(500).send();
-              }
-              let query = {_id:req.params.id}
-              stockpantone.findById(req.params.id, function(err, stockpantone){
-                stockpantone.remove(query, function(err){
-                    if(err){
-                      console.log(err);
+            }
+            let query = {_id:req.param.id}
+            stockpantone.findById(req.params.id, function(err, stockpantone){
+                stockpantone.remove(query,function(err){
+                    if(err)
+                    {
+                        console.log(err);
                     }
-                    res.send('Success');
-                  });
-              });
-          });
+                    res.redirect('/stockpantone_mast/stockpantone_mast');
+                });
+            });
+        });
 // Access Control 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
