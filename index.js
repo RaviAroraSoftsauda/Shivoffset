@@ -65,6 +65,10 @@ hbs.registerHelper("contains", function( value, strval ){
     else xx = "Y";
     return xx;
 });
+hbs.registerHelper('maxno', function (context) {
+    var maxsno = parseInt(context[0].stockpantone_rcpno)+1;
+    return maxsno;
+ });
 hbs.registerHelper('chkchecked', function(vlu,cvlu) {
 
     console.log(vlu);
