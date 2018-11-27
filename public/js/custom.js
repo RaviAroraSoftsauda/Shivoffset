@@ -275,7 +275,6 @@ $(document).on('click', '.delete_prodt', function(){
         type:'DELETE',
         url: '/product_type_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/product_type_mast/product_type_mast';
             $('.loader').hide();
         },
@@ -324,7 +323,6 @@ $(document).on('click', '.delete_country', function(){
         type:'DELETE',
         url: '/country_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/country_mast/country_mast';
             $('.loader').hide();
         },
@@ -375,7 +373,6 @@ $(document).on('click', '.delete_state', function(){
         type:'DELETE',
         url: '/state_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/state_mast/state_mast';
             $('.loader').hide();
         },
@@ -428,7 +425,6 @@ $(document).on('click', '.delete_city', function(){
         type:'DELETE',
         url: '/city_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/city_mast/city_mast';
             $('.loader').hide();
         },
@@ -478,7 +474,6 @@ $(document).on('click', '.delete_vernish', function(){
         type:'DELETE',
         url: '/varnish_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/varnish_mast/varnish_mast';
             $('.loader').hide();
         },
@@ -580,7 +575,6 @@ $(document).on('click', '.delete_design', function(){
         type:'DELETE',
         url: '/designstyl_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/designstyl_mast/designstyl_mast';
             $('.loader').hide();
         },
@@ -631,7 +625,6 @@ $(document).on('click', '.delete_manufacturer', function(){
         type:'DELETE',
         url: '/manufactur_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/manufactur_mast/manufactur_mast';
             $('.loader').hide();
         },
@@ -680,7 +673,6 @@ $(document).on('click', '.delete_construction', function(){
         type:'DELETE',
         url: '/construction_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/construction_mast/construction_mast';
             $('.loader').hide();
         },
@@ -731,7 +723,6 @@ $(document).on('click', '.delete_indsrttyp', function(){
         type:'DELETE',
         url: '/inserttyp_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/inserttyp_mast/inserttyp_mast';
             $('.loader').hide();
         },
@@ -780,7 +771,6 @@ $(document).on('click', '.delete_floading', function(){
         type:'DELETE',
         url: '/floading_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/floading_mast/floading_mast';
             $('.loader').hide();
         },
@@ -827,7 +817,6 @@ $(document).on('click', '.delete_sop', function(){
         type:'DELETE',
         url: '/sop_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/sop_mast/sop_mast';
             $('.loader').hide();
         },
@@ -876,7 +865,6 @@ $(document).on('click', '.delete_deviation', function(){
         type:'DELETE',
         url: '/deviation_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/deviation_mast/deviation_mast';
             $('.loader').hide();
         },
@@ -974,7 +962,6 @@ $(document).on('click', '.delete_vehiclemaintnce', function(){
         type:'DELETE',
         url: '/vehiclemaintnce_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/vehiclemaintnce_mast/vehiclemaintnce_mast';
             $('.loader').hide();
         },
@@ -1023,7 +1010,6 @@ $(document).on('click', '.delete_trnsportagncy', function(){
         type:'DELETE',
         url: '/trnsportagncy_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/trnsportagncy_mast/trnsportagncy_mast';
             $('.loader').hide();
         },
@@ -1072,7 +1058,6 @@ $(document).on('click', '.delete_accessriestyp', function(){
         type:'DELETE',
         url: '/accessriestyp_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/accessriestyp_mast/accessriestyp_mast';
             $('.loader').hide();
         },
@@ -1121,7 +1106,6 @@ $(document).on('click', '.delete_accessubtyp', function(){
         type:'DELETE',
         url: '/accessubtyp_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/accessubtyp_mast/accessubtyp_mast';
             $('.loader').hide();
         },
@@ -1180,7 +1164,6 @@ $(document).on('click', '.delete_accessories', function(){
         type:'DELETE',
         url: '/accessories_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/accessories_mast/accessories_mast';
             $('.loader').hide();
         },
@@ -1250,7 +1233,6 @@ $(document).on('click', '.delete_machine', function(){
         type:'DELETE',
         url: '/machine_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/machine_mast/machine_mast';
             $('.loader').hide();
         },
@@ -1397,7 +1379,6 @@ $(document).on('click', '.delete_departmnt', function(){
         type:'DELETE',
         url: '/departmnt_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/departmnt_mast/departmnt_mast';
             $('.loader').hide();
         },
@@ -1599,7 +1580,7 @@ $(document).on('click', '.addTolerance', function()
                 console.log(product);
                 var newdiv = document.createElement('div');
                var new_div = "<div class='tolrance_wrapper' id='rohit"+membertoldiv+"'> <div class='form-group'><div class='col-md-3'><select class='form-control' name='tolrance_group["+membertoldiv+"][jobstyl]' id='jobstyl'>";
-               for(j = 1; j < product.length; j++) {
+               for(j = 0; j < product.length; j++) {
                 new_div += "<option value='"+product[j]['_id']+"'>"+product[j]['prdt_typ_name']+"</option>";
                }
                new_div += "</select></div><div class='col-md-2'><input type='text' class='form-control' name='tolrance_group["+membertoldiv+"][limitfrom]' id='limitfrom' placeholder='Limit From' style='width: 72px;'></div><div class='col-md-3'><input type='text' class='form-control' name='tolrance_group["+membertoldiv+"][limitto]' id='limitto' placeholder='Limit To'></div><div class='col-md-3'><input type='text' class='form-control' name='tolrance_group["+membertoldiv+"][slab]' id='slab' placeholder='Slab[Nos]'></div>";
@@ -1645,7 +1626,7 @@ $(document).on('click', '.addTo', function()
                 console.log(product);
                 var newdiv = document.createElement('div');
                var new_div = "<div class='tol_wrapper' id='rohit"+member+"'> <div class='form-group'><div class='col-md-3'><select class='form-control' name='tole_group["+member+"][jobstyltwo]' id='jobstyltwo'>";
-               for(j = 1; j < product.length; j++) {
+               for(j = 0; j < product.length; j++) {
                 new_div += "<option value='"+product[j]['_id']+"'>"+product[j]['prdt_typ_name']+"</option>";
                }
                new_div += "</select></div><div class='col-md-2'><input type='text' class='form-control' name='tole_group["+member+"][limitfromtwo]' id='limitfromtwo' placeholder='Limit From' style='width: 72px;'></div><div class='col-md-3'><input type='text' class='form-control' name='tole_group["+member+"][limittotwo]' id='limittotwo' placeholder='Limit To'></div><div class='col-md-3'><input type='text' class='form-control' name='tole_group["+member+"][slabtwo]' id='slabtwo' placeholder='Slab%'></div>";
@@ -1812,7 +1793,6 @@ $(document).on('click', '.delete_party', function(){
         type:'DELETE',
         url: '/party_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/party_mast/party_mast';
             $('.loader').hide();
         },
@@ -1955,7 +1935,6 @@ $(document).on('click', '.delete_party_type_mast', function(){
         type:'DELETE',
         url: '/party_type_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/party_type_mast/party_type_mast';
             $('.loader').hide();
         },
@@ -2013,7 +1992,6 @@ $(document).on('click', '.delete_supplier', function(){
         type:'DELETE',
         url: '/supplier_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/supplier_mast/supplier_mast';
             $('.loader').hide();
         },
@@ -2045,7 +2023,7 @@ $(document).on('click', '.addLocation', function()
             if( data['success'] ) {
                 city = data['city'];
                 var newdiv = document.createElement('div');
-               var new_div = "<div class='location_wrapper' id='rohit"+counter+"'><div class='form-group'><label class='col-md-4'>Location</label><div class='col-md-7'><select class='form-control' name='location_group["+counter+"][prdt_location]' id='prdt_location' required=''><option value=''>----Select Location----</option>";
+               var new_div = "<div class='location_wrapper' id='rohit"+counter+"'><div class='form-group'><label class='col-md-4'>Location</label><div class='col-md-7'><select class='form-control' name='location_group["+counter+"][prdt_location]' id='prdt_location'><option value=''>----Select Location----</option>";
                for(j = 0; j < city.length; j++) {
                 new_div += "<option value='"+city[j]['_id']+"'>"+city[j]['city_name']+"</option>";
                }
@@ -2184,7 +2162,6 @@ $(document).on('click', '.delete_prodtmast', function(){
         type:'DELETE',
         url: '/product_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/product_mast/product_mast_list';
             $('.loader').hide();
         },
@@ -2233,7 +2210,6 @@ $(document).on('click', '.delete_driver', function(){
         type:'DELETE',
         url: '/driver_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/driver_mast/driver_mast';
             $('.loader').hide();
         },
@@ -2312,7 +2288,6 @@ $(document).on('click', '.delete_rackloc', function(){
         type:'DELETE',
         url: '/rackloc_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/rackloc_mast/rackloc_mast';
             $('.loader').hide();
         },
@@ -2369,7 +2344,6 @@ $(document).on('click', '.delete_pantone', function(){
         type:'DELETE',
         url: '/pantone_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/pantone_mast/pantone_mast';
             $('.loader').hide();
         },
@@ -2433,7 +2407,6 @@ $(document).on('click', '.delete_employee', function(){
         type:'DELETE',
         url: '/employee_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/employee_mast/employee_mast';
             $('.loader').hide();
         },
@@ -2559,7 +2532,6 @@ $(document).on('click', '.delete_maintance', function(){
         type:'DELETE',
         url: '/maintance_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/maintance_mast/maintance_mast';
             $('.loader').hide();
         },
@@ -2611,7 +2583,6 @@ $(document).on('click', '.delete_machinechk', function(){
         type:'DELETE',
         url: '/machinechecklist_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/machinechecklist_mast/machinechecklist_mast';
             $('.loader').hide();
         },
@@ -2680,7 +2651,6 @@ $(document).on('click', '.delete_qcequimnts', function(){
         type:'DELETE',
         url: '/qcequimnts_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/qcequimnts_mast/qcequimnts_mast';
             $('.loader').hide();
         },
@@ -2714,7 +2684,7 @@ $(document).on('click', '.edit_jobactivty', function(){
                                 html += '<a data-repeater-delete="'+r+'" class="jobupdate-delete-btn"" style="cursor:pointer;"><i class="fa fa-times" style="font-size: 20px;color: red;"></i></a> ';
                             }   
                             html += '</td> </tr>';
-                            $('.job_result').append(html);      
+                            $('.stock_result').append(html);      
                     } 
                 
                 var jobactivty_active = response['jobactivty'].jobactivty_active;
@@ -2786,7 +2756,6 @@ $(document).on('click', '.delete_jobactivty', function(){
         type:'DELETE',
         url: '/jobactivty_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             window.location.href='/jobactivty_mast/jobactivty_mast';
             $('.loader').hide();
         },
@@ -3030,7 +2999,6 @@ $(document).on('click', 'delete_stockpantone', function(){
         type:'DELETE',
         url: '/stockpantone_mast/'+id,
         success: function(response) {
-            alert('confirm(Are you sure want to delete.)');
             // $('.loader').hide();
             window.location.href='/stockpantone_mast/stockpantone_mast';
             $('.loader').hide();
