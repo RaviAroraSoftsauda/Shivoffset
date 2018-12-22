@@ -52,9 +52,9 @@ $(function () {
             <div class="col-md-8 state_name_div"> 
                <select class="form-control stateid" name="stateid" id="stateid" required="">
                  <option value="">----Select State----</option>
-                {{#each state}}
+                {{!-- {{#each state}}
                 <option value="{{this._id}}" data-state="{{this._id}}">{{this.state_name}}</option>
-                {{/each}}
+                {{/each}} --}}
               </select>
             </div>
           </div>
@@ -94,7 +94,7 @@ $(function () {
           </div>
            <div class="form-group">
             <label class="col-md-4">State Name</label>
-            <div class="col-md-8"> 
+            <div class="col-md-8 state_name_div"> 
                 <select class="form-control stateid" name="stateid" id="stateid" required="">
                 {{#each state}}
                 <option value="{{this._id}}" data-state="{{this._id}}">{{this.state_name}}</option>

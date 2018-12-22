@@ -1,0 +1,108 @@
+{{> header}}
+{{> nav}}
+
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+     <a href="/plate_receval_note/plate_receval_note" style="color:white"><h1 class="btn btn-primary pull-left" style="margin-bottom: 21px;">Add Plate Receival Note</h1></a>
+      <ol class="breadcrumb" >
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+         <li><a href="#"><i class="fa fa-dashboard"></i>Plate Receival Note</a></li>
+      </ol>
+    </section>
+  <div class="row">
+    <div class="col-md-7">
+      <section class="content-header">
+         
+         
+  {{!-- <div class="box box-primary"> --}}
+    {{!-- <div class="box-header with-border"> --}}
+      {{!-- <h3 class="box-title" id="add">Product Master</h3>
+      <h3 class="box-title" id="edit" style="display: none">Update Product Master</h3> --}}
+          {{#if err}}
+          <div class="alert alert-danger">
+          <strong>{{err}}</strong>
+          </div>
+          {{/if}}
+          {{#if errors}}
+          <div class="alert alert-danger">
+          <strong>{{errors}}</strong>
+          </div>
+          {{/if}}
+    {{!-- </div> --}}
+  {{!-- </div> --}}
+      </section>
+    </div>
+    <div class="col-md-12">
+      <section class="content-header">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">Plate Receival Note List </h3>
+                  <p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>
+          </div>
+            <div class="box-body">
+              <div class="table-responsive">
+                <table id="example" class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Enter Book/No</th>
+                        <th>CJSP</th>
+                        <th>Date</th>
+                        <th>From Location</th>
+                        <th>To Location</th>
+                        <th width="15%">Acttion</th>
+                        {{!-- <th width="10%">Delete</th> --}}
+                      </tr>
+                  </thead>
+                 <tbody>
+                   {{#each plateissuance as |value key|}}
+                      <tr>
+                      <td>{{sum @index 1}}</td>
+                      <td>{{this.ref_no}}</td>
+                      <td>{{this.c_j_s_p}}</td>
+                      <td>{{this.acc_date}}</td>
+                      <td>{{this.from_ltcon.city_name}}</td>
+                      <td>{{this.to_ltcon.city_name}}</td>
+                      <td>
+                          <div class="btn-group">
+                          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="/plate_receval_note/plate_receval_note_update/{{value._id}}"  class="edit_recepitnote" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></li>
+                            <li><a href="/plate_receval_note/delete_plate_receval_note/{{value._id}}"  class="delbutton"><i class="fa fa-trash-o" style="color:red;"></i></a></li>
+                            
+                          </ul>
+                        </div>
+                        </td>
+                      </tr>
+                     {{/each}}  
+                   </tbody>
+                </table>
+      </div>
+    </div>
+  </div>
+      </section>
+    </div>
+    
+  </div>
+</div>
+ {{> footer}}
+<style>
+ .button-clear {
+
+          background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+
+        }
+        div.dataTables_wrapper {
+        margin-bottom: 3em;
+    }
+       </style>
+       

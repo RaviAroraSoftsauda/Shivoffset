@@ -36,6 +36,23 @@ $(function () {
        <form action="/product_mast/update/{{product.id}}" class="form-horizontal" enctype="multipart/form-data"  method="post" id="prdt_mast_add">
           <h4 style="color: red;text-align: center;"></h4>
         <div class="box-body">
+             <div class="form-group">
+            <label class="col-md-4">Product Type Name</label>
+            <div class="col-md-8">
+                 {{#listjob prdttyp product.prdt_typ_name  'prdt_typ_name' 'prdt_typ_name'}}
+                            {{this.prdt_typ_name}}
+                  {{/listjob}}
+            </div>
+          </div>
+            <div class="form-group">
+            <label class="col-md-4">Applicable Departments</label>
+            <div class="col-md-8">
+              {{#each departmnt as |value key|}}
+                   <input type="checkbox" name="prdt_deprtmnt[]" ng-checked="user.skills.indexOf(option) > -1" ng-change="toggle(option,user.skills)" id="prdt_deprtmnt" value="{{this._id}}" data-id="{{this.departmnt_name}}" onclick="deprt();">&nbsp;&nbsp;{{this.departmnt_name}}&nbsp;
+                {{/each}}
+               
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-md-4">Item Code</label>
             <div class="col-md-8"> 
@@ -86,6 +103,39 @@ $(function () {
           <div id="insert_updatelocation">
               <center><a id="add" class="updateLocation" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 92px;"></i></a></center>                  
             </div>
+             {{#each product.pantone_group as |value key|}}
+             <div class="prodtpantoneview_variation_row" id="prodt_variation_row-{{@index}}">
+             <div class="form-group">
+            <label class="col-md-4">Pantone</label>
+            <div class="col-md-3"> 
+                 <input type="hidden" name="cntret{{@index}}" value="{{@index}}" id="cntret{{@index}}">
+               <select class="form-control" name="pantone_group[{{@index}}][prdt_pantone]" id="prdt_pantone" required="">
+                 <option value="">Select</option>
+                {{#each ../stockpantone}}
+                <option value="{{this._id}}" data-country="{{this._id}}"  {{#equal ../prdt_pantone this._id}}selected=""{{/equal}}>{{this.stockpantone_pantonno.pantone_descrpton}}</option>
+                {{/each}}
+              </select>
+            </div>
+             <label class="col-md-2">Barcode</label>
+            <div class="col-md-2"> 
+               <select class="form-control" name="pantone_group[{{@index}}][prdt_barcode]" id="prdt_barcode" required="" style="margin-left: -28px;width: 82px;">
+                 <option value="">Select</option>
+                {{#each ../stockpantone}}
+                <option value="{{this._id}}" data-country="{{this._id}}" {{#equal ../prdt_barcode this._id}}selected=""{{/equal}}>{{this.stockpantone_barcode}}</option>
+                {{/each}}
+              </select>
+            </div>
+             <div class="col-md-1">
+              {{#notequal @index 0}}
+                      <a  data-repeater-delete="{{@index}}" class='prodtpantoneview-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;margin-left: -18px;margin-top: 7px;'></i></a>
+              {{/notequal}}
+            </div>
+          </div>
+             </div>
+          {{/each}}
+          <div id="insert_prdtpntn">
+              <center><a id="add" class="addprdtpantone" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 20px;color: #36c536;margin-left: 92px;"></i></a></center>                  
+            </div>
            <div class="form-group">
             <label class="col-md-4">Product Name</label>
             <div class="col-md-8"> 
@@ -101,6 +151,26 @@ $(function () {
             <div class="col-md-8"> 
                 <input type="text" class="form-control" name="prdt_gsmmb" id="prdt_gsmmb" value="{{product.prdt_gsmmb}}" placeholder="NA">
             </div>
+            <div id="coinscratch" style="display:none">
+             <label class="col-md-4">coin scratch</label>
+            <div class="col-md-8"> 
+                <select class="form-control" name="prdt_coinscratch"> 
+                <option value="">---coin scratch---</option>
+                <option value="Y" {{#equal product.prdt_coinscratch "Y"}}selected=""{{/equal}}>Y</option>
+                 <option value="N" {{#equal product.prdt_coinscratch "N"}}selected=""{{/equal}}>N</option>
+                 </select>
+            </div>
+            </div>
+            <div id="perforation" style="display:none">
+             <label class="col-md-4">Perforation</label>
+            <div class="col-md-8">
+              <select class="form-control" name="prdt_perfration"> 
+                <option value="">---Perforation---</option>
+                <option value="Y" {{#equal product.prdt_perfration "Y"}}selected=""{{/equal}}>Y</option>
+                 <option value="N" {{#equal product.prdt_perfration "N"}}selected=""{{/equal}}>N</option>
+                 </select>
+            </div>
+            </div>
             <label class="col-md-4">Actual Size</label>
            <div class="col-md-3"> 
                 <input type="text" class="form-control" name="actul_l" id="actul_l" value="{{product.actul_l}}" placeholder="NA" required="">
@@ -111,52 +181,69 @@ $(function () {
             <div class="col-md-2"> 
                 <input type="text" class="form-control" name="actul_h" id="actul_h" value="{{product.actul_h}}" style="margin-left: -28px; width: 77px;" placeholder="NA" required="">
             </div>
-            <label class="col-md-4">GSM</label>
+            <div id="gsmtmb" style="display:none">
+            <label class="col-md-4">GSM(Top/Middle/Bottom)</label>
             <div class="col-md-8"> 
                 <input type="text" class="form-control" name="prdt_gsmtp" id="prdt_gsmtp" value="{{product.prdt_gsmtp}}"  placeholder="NA">
             </div>
+            </div>
+            <div id="padsize" style="display:none">
             <label class="col-md-4">Pad Size</label>
            <div class="col-md-3"> 
                 <input type="text" class="form-control" name="pad_l" id="pad_l" value="{{product.pad_l}}"  placeholder="NA">
             </div>
+            
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="pad_w" id="pad_w" value="{{product.pad_w}}" style="margin-left: -8px;" placeholder="NA">
             </div>
             <div class="col-md-2"> 
                 <input type="text" class="form-control" name="pad_h" id="pad_h" value="{{product.pad_h}}" style="margin-left: -28px; width: 77px;" placeholder="NA">
             </div>
+            </div>
+            <div id="leafcolor" style="display:none">
             <label class="col-md-4">Leaf Color</label>
             <div class="col-md-8"> 
                 <input type="text" class="form-control" name="prdt_lfcolor" id="prdt_lfcolor" value="{{product.prdt_lfcolor}}" placeholder="NA">
             </div>
+            </div>
+            <div id="foldingflat" style="display:none">
             <label class="col-md-4">Folding/Flat</label>
             <div class="col-md-8"> 
               {{#listrt inserttyp product.prdt_fldingflat  'prdt_fldingflat'}}
                             {{this.indsrttyp_dscrpton}}
                   {{/listrt}}
             </div>
+            </div>
+            <div id="foldingpattrn" style="display:none">
             <label class="col-md-4">Folding  Pattern</label>
             <div class="col-md-8"> 
               {{#listrt floading product.prdt_fldingpttrn  'prdt_fldingpttrn'}}
                             {{this.floading_desp}}
                   {{/listrt}}
             </div>
+            </div>
+            <div id="foldinsize" style="display:none">
             <label class="col-md-4">Folding  Size</label>
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="foldng_l" id="foldng_l" value="{{product.foldng_l}}" placeholder="NA">
             </div>
+            
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="foldng_w" id="foldng_w" value="{{product.foldng_w}}" style="margin-left: -8px;" placeholder="NA">
             </div>
             <div class="col-md-2"> 
                 <input type="text" class="form-control" name="foldng_h" id="foldng_h" value="{{product.foldng_h}}" style="margin-left: -28px; width: 77px;" placeholder="NA">
             </div>
+            </div>
+            <div id="verticlhorzntl" style="display:none">
             <label class="col-md-4">Vertical/Horizontal</label>
             <div class="col-md-4">
               <input type="text" class="form-control" name="prdt_vrtclhorzntlone" id="prdt_vrtclhorzntlone"  value="{{product.prdt_vrtclhorzntlone}}" placeholder="NA"> 
             </div>
+            
              <div class="col-md-4">
               <input type="text" class="form-control" name="prdt_vrtclhorzntltwo" id="prdt_vrtclhorzntltwo" value="{{product.prdt_vrtclhorzntltwo}}" placeholder="NA"> 
+            </div>
             </div>
             <label class="col-md-4">Image</label>
             <div class="col-md-4"> 
@@ -167,13 +254,17 @@ $(function () {
             <div class="col-md-4"> 
                 <img src="{{product.filepath}}" height="50px" width="50px"/>
            </div>
+           <div id="tuckingsizmm" style="display:none">
             <label class="col-md-4">Tucking size MM</label>
             <div class="col-md-8"> 
                 <input type="text" class="form-control" name="prdt_tkingszmm" id="prdt_tkingszmm" value="{{product.prdt_tkingszmm}}" placeholder="NA">
             </div>
+            </div>
+            <div id="earflap" style="display:none">
             <label class="col-md-4">Ear Flap</label>
             <div class="col-md-8"> 
                 <input type="text" class="form-control" name="prdt_erflp" id="prdt_erflp" value="{{product.prdt_erflp}}" placeholder="NA">
+            </div>
             </div>
             <label class="col-md-4">Design Style</label>
             <div class="col-md-8">
@@ -187,6 +278,16 @@ $(function () {
                             {{this.country_name}}
                   {{/listrt}}  
             </div>
+            <div id="nvz" style="display:none">
+            <label class="col-md-4">NVZ</label>
+            <div class="col-md-8"> 
+                <select class="form-control prdt_nvz" name="prdt_nvz" id="prdt_nvz">
+                 <option value="">----Select NVZ/Varnish----</option>
+                  <option value="Y" {{#equal product.prdt_nvz "Y"}}selected=""{{/equal}}>Y</option>
+                   <option value="N" {{#equal product.prdt_nvz "N"}}selected=""{{/equal}}>N</option>
+              </select>
+            </div>
+            </div>
             <label class="col-md-4">Board Manufacturer</label>
             <div class="col-md-8">
                {{#listrt manufactur product.prdt_brdmnfctur  'prdt_brdmnfctur'}}
@@ -199,10 +300,13 @@ $(function () {
                             {{this.construction_name}}
                   {{/listrt}}
             </div>
+            <div id="embossrckno" style="display:none">
             <label class="col-md-4">Emboss Rack No</label>
             <div class="col-md-8"> 
                 <input type="text" class="form-control" name="prdt_embssrckno" id="prdt_embssrckno" value="{{product.prdt_embssrckno}}" placeholder="NA">
             </div>
+            </div>
+            <div id="lamination" style="display:none">
             <label class="col-md-4">Lamination</label>
             <div class="col-md-8"> 
                  <select class="form-control" name="prdt_lamination" id="prdt_lamination">
@@ -211,6 +315,8 @@ $(function () {
                   <option value="inside/NA" {{#equal product.prdt_lamination "inside/NA"}}selected=""{{/equal}}>inside/NA</option>
               </select>
             </div>
+            </div>
+            <div  id="laminationtyp" style="display:none">
             <label class="col-md-4">Lamination Type</label>
             <div class="col-md-8"> 
                  <select class="form-control" name="prdt_laminationtyp" id="prdt_laminationtyp">
@@ -219,6 +325,8 @@ $(function () {
                   <option value="Matt" {{#equal product.prdt_laminationtyp "Matt"}}selected=""{{/equal}}>Matt</option>
               </select>
             </div>
+            </div>
+            <div id="uv" style="display:none">
             <label class="col-md-4">UV</label>
             <div class="col-md-8"> 
                 <select class="form-control" name="prdt_uv" id="prdt_uv">
@@ -228,11 +336,14 @@ $(function () {
                   <option value="Textured" {{#equal product.prdt_uv "Textured"}}selected=""{{/equal}}>Textured</option>
               </select>
             </div>
+            </div>
+            <div id="varnish" style="display:none">
             <label class="col-md-4">Varnish</label>
             <div class="col-md-8">
                 {{#listrt vernish product.prdt_vernish  'prdt_vernish'}}
                             {{this.vernish_name}}
                   {{/listrt}}
+            </div>
             </div>
           </div>
            {{#each product.remark_group as |value key|}}
@@ -254,15 +365,7 @@ $(function () {
          <div id="insert_updateremark">
               <center><a id="add" class="addupdateRemark" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 92px;"></i></a></center>                
             </div>
-           <div class="form-group">
-            <label class="col-md-4">Applicable Departments</label>
-            <div class="col-md-8">
-               {{#each departmnt}}
-                   <input type="checkbox"  name="prdt_deprtmnt" value="{{this._id}}">{{this.departmnt_name}}
-                {{/each}}
-               
-            </div>
-          </div>
+           
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
@@ -362,14 +465,6 @@ $(function () {
             <div class="col-md-8"> 
                 <input type="text" class="form-control" name="dsign_brallerckno" id="dsign_brallerckno" value="{{product.dsign_brallerckno}}" placeholder="NA">
             </div>
-            <label class="col-md-4">Blanket No.</label>
-            <div class="col-md-8"> 
-                <input type="text" class="form-control" name="dsign_blnktno" id="dsign_blnktno" value="{{product.dsign_blnktno}}" placeholder="NA">
-            </div>
-            <label class="col-md-4">Gripper</label>
-            <div class="col-md-8"> 
-                <input type="text" class="form-control" name="dsign_grippr" id="dsign_grippr" value="{{product.dsign_grippr}}" placeholder="NA">
-            </div>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
@@ -401,6 +496,14 @@ $(function () {
             <label class="col-md-4">Blanket Name</label>
             <div class="col-md-8"> 
                 <input type="text" class="form-control blanket_name" name="blanket_name" value="{{product.blanket_name}}" id="blanket_name" placeholder="NA">
+            </div>
+             <label class="col-md-4">Blanket No.</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_blnktno" id="dsign_blnktno" value="{{product.dsign_blnktno}}" placeholder="NA">
+            </div>
+              <label class="col-md-4">Gripper</label>
+            <div class="col-md-8"> 
+                <input type="text" class="form-control" name="dsign_grippr" id="dsign_grippr" value="{{product.dsign_grippr}}" placeholder="NA">
             </div>
             <label class="col-md-4">Blanket Type /UPS</label>
             <div class="col-md-8 state_name_div"> 
@@ -457,10 +560,34 @@ $(function () {
             <div class="col-md-8"> 
                 <input type="text" class="form-control qc_size" name="qc_coaconstrtion" value="{{product.qc_coaconstrtion}}" id="qc_coaconstrtion" placeholder="NA">
             </div>
-            <label class="col-md-4">Pasting Dept</label>
-            <div class="col-md-8"> 
-                <input type="text" class="form-control qc_in" name="qc_psting" value="{{product.qc_psting}}" id="qc_psting" placeholder="NA">
-            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+           <input type="reset" class="btn btn-default pull-right" value="Clear Form">
+              <input type="submit" class="btn btn-success"  value="update" id="update">
+        </div>
+        </form>
+
+    </div>
+  </div>
+      </section>
+    </div>
+    <div class="col-md-6">
+      <section class="content-header">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+             <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          </div>
+            <h3 class="box-title">Pasting Department</h3>
+                  <p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>
+          </div>
+            <div class="box-body">
+            <form action="/product_mast/updatepeastedepartment/{{product.id}}" class="form-horizontal"  method="post" id="blanket_add">
+          <h4 style="color: red;text-align: center;"></h4>
+        <div class="box-body">
+            <div class="form-group">
              <label class="col-md-4">Corr Box  Size/Qty</label>
            <div class="col-md-3"> 
                 <input type="text" class="form-control" name="qc_corbx" id="qc_corbx" value="{{product.qc_corbx}}">
@@ -482,7 +609,7 @@ $(function () {
               <input type="submit" class="btn btn-success"  value="update" id="update">
         </div>
         </form>
-
+</div>
     </div>
   </div>
       </section>

@@ -1,8 +1,8 @@
 var lstdx ;
 var lstidx ;
-$(document).ready(function() {
-    $('table.display').DataTable();
-} );
+// $(document).ready(function() {
+//     $('table.display').DataTable();
+// } );
 $( function() {
     $( "#ratechangedate" ).datepicker({
         changeMonth: true,
@@ -22,8 +22,7 @@ $( function() {
     $( "#offerenddate" ).datepicker({
         changeMonth: true,
         changeYear: true,
-        dateFormat: 'dd/mm/yy',
-        minDate: new Date
+        dateFormat: 'dd/mm/yy'
     });
 
     $( "#filterstartdate" ).datepicker({
@@ -46,11 +45,11 @@ $( function() {
         changeYear: true,
         dateFormat: 'dd/mm/yy'
     });
-    // $( "#date" ).datepicker({
-    //     changeMonth: true,
-    //     changeYear: true,
-    //     dateFormat: 'dd/mm/yy'
-    // });
+    $( "#newjbdt" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'dd/mm/yy'
+    });
     $(document).ready(function()
     {
         $("#example").DataTable();
@@ -67,7 +66,7 @@ $(document).ready(function()
     });
 });
 $(document).ready(function() {
-    $('table.display').DataTable();
+    $('#example').DataTable();
 } );
 $(document).ready(function () {   
     var table;
@@ -177,59 +176,54 @@ $(document).ready(function () {
 $(document).on("click", "input[name='formfilter']", function(){
     datatablesearch();
 });
-// $(document).on("change", "#countryid", function() {
-//     $('.loader').show(); 
-//     var countryID =  $("#countryid option:selected").attr("data-country");
-//     alert(countryID);
-//     $.ajax({
-//         type:'GET',
-//         url: '/city_mast/stateid',
-//         dataType:'json',
-//         data:
-//         {
-//             id: countryID
-//         },
-//         success: function(data) {
-//             if( data['success'] ) {
-//                 console.log(data['success']);
-//                 var statArray = data['state'];
-//                 alert(statArray);
-//                 console.log(statArray);
-//                 var i;
-//                 var result = '<select class="form-control" name="state_name" id="state_name">';
-//                 $.each(statArray, function( index, value ) {
-//                     alert(statArray);
-//                     result += '<option value="'+statArray._id+'">'+statArray.state_name+'</option>';
-//                  });
-//                 result += '</select>';
-//                 $('.state_name_div').html(result);
-//                 $('.loader').hide();
-//             }
-//         }
-//     });
+///delete
+$("body").on("click",".delbutton",function(e){
+    e.preventDefault();
+
+// swal("Error","Can Not Delete Item", "error",{
+//     button: false,
+//     timer: 2000
+
 // });
-$(document).on("change", "#kind", function() {
-    $('.loader').show();
-    var partyID =  $("#kind option:selected").attr("data-party_id");
-     alert(partyID); 
+
+    var link = $(this).attr("href");
+    return swal({
+        title:"Confirm",
+        text:"Are you Sure you want to delete it?",
+        icon:"warning",
+        buttons: ["Cancel","Confirm"],
+        dangerMode: true
+    }).then(function(valu){
+        if(valu)
+            window.location.href = link;
+    }).catch(function(){
+        return false;
+    })
+
+
+})
+////delete
+$(document).on("change", "#countryid", function() {
+    $('.loader').show(); 
+    var cntryid =  $("#countryid option:selected").attr("data-country");
     $.ajax({
-        type:'GET',
-        url: '/contract_sauda/kindname',
+        type: "POST",
+        url: '/city_mast/stateid',
         dataType:'json',
         data:
         {
-            id: partyID
+            cntryid:cntryid,
         },
-        success: function(data) {
-            if( data['success'] ) {
-                var kindArray = data['party']['contact_group'];
-                // alert(kindArray);
-                var  j;
-                var result='';
-                for(j = 0; j < kindArray.length; j++) {
-                    result += '<input class="form-control" name="sl_cont" value="'+kindArray[j]['contact_no']+'" type="text" autocomplete="off"/>';
+        success: function(response) {
+            var i, j=0, result;
+            if(response['success'] == true) {
+                var statArray = response['state'];
+                var result = '<select class="form-control" name="stateid" id="stateid">';
+                for (i = 0; i < statArray.length; i++) {
+                    result += '<option value="'+statArray[i]['_id']+'">'+statArray[i]['state_name']+'</option>';
                 }
-                $('.kind_name_div').html(result);
+                result += '</select>';
+                $('.state_name_div').html(result);
                 $('.loader').hide();
             }
         }
@@ -1029,11 +1023,13 @@ $(document).on('click', '.edit_accessriestyp', function(){
         success: function(response) {
             if(response['success'] == true) {
                 console.log(response);
+                var accessriestyp_supname = response['accessriestyp'].accessriestyp_supname;
                 var accessriestyp_name = response['accessriestyp'].accessriestyp_name;
                 var accessriestyp_code = response['accessriestyp'].accessriestyp_code;
                 var accessriestypid = response['accessriestyp']._id;
                 $('.accessriestyp_name').val(accessriestyp_name);
                 $('.accessriestyp_code').val(accessriestyp_code);
+                $('.accessriestyp_supname').val(accessriestyp_supname);
                 $('#edit_accessriestyp').show();
                 $('#edit').show();
                 $('#accessriestyp_add').hide();
@@ -1131,6 +1127,9 @@ $(document).on('click', '.edit_accessories', function(){
                 var manufactur_name = response['accessories'].manufactur_name;
                 var machine_name = response['accessories'].machine_name;
                 var accessoriesmin_stk = response['accessories'].accessoriesmin_stk;
+                var accessories_gsm = response['accessories'].accessories_gsm;
+                var accessories_maxstk = response['accessories'].accessories_maxstk;
+                var accessories_sku = response['accessories'].accessories_sku;
                 var accessoriesqty_pen = response['accessories'].accessoriesqty_pen;
                 var accessoriesid = response['accessories']._id;
                 $('.accestyp_name').val(accestyp_name);
@@ -1139,6 +1138,9 @@ $(document).on('click', '.edit_accessories', function(){
                 $('.manufactur_name').val(manufactur_name);
                 $('.machine_name').val(machine_name);
                 $('.accessoriesmin_stk').val(accessoriesmin_stk);
+                $('.accessories_gsm').val(accessories_gsm);
+                $('.accessories_maxstk').val(accessories_maxstk);
+                $('.accessories_sku').val(accessories_sku);
                 $('.accessoriesqty_pen').val(accessoriesqty_pen);
                 $('#edit_accessories').show();
                 $('#edit').show();
@@ -1254,25 +1256,33 @@ $(document).on('click', '.edit_departmnt', function(){
                 console.log(response);
                 departmnt = response['depart'];
                 machine = response['machine'];
-                console.log(machine);
+                sop = response['sop'];
+                console.log(sop);
                 var departmnt_name = response['departmnt'].departmnt_name;
                 var departmnt_jbordr = response['departmnt'].departmnt_jbordr;
                 var departmnt_dflt = response['departmnt'].departmnt_dflt;
                 var departmnt_invreqrmnt = response['departmnt'].departmnt_invreqrmnt;
                 var machine_group = response['departmnt'].machine_group;
+                var sop_group = response['departmnt'].sop_group;
                 var departmntid = response['departmnt']._id;
                 var dprtmnt_group = response['departmnt'].dprtmnt_group;
+                $('.departmnt_name').val(departmnt_name);
+                $('.departmnt_jbordr').val(departmnt_jbordr);
+                $('.departmnt_dflt').val(departmnt_dflt);
+                $('.departmnt_invreqrmnt').val(departmnt_invreqrmnt);
+                $('.machine_variaton').html(" ");
+                $('.departmnt_wrapper').html(" ");
+                $('.sop_wrapper').html(" ");
                 var html;
                 for (let index = 0; index < machine_group.length; index++){
                         // var machine = machine_group[index];
                         html = '<div class="machine_variation_wrapper" id="machine_group_var-'+index+'">';
-                            html += '<div class="box-body" style="margin-bottom: -28px;"><div class="form-group"><input type="hidden" name="cntr'+index+'" value="'+index+'" id=cntr"'+index+'"><label class="col-md-4">Machine Name</label><div class="col-md-7"><select class="form-control " name="machine_group['+index+'][departmnt_mechnenm]" id="departmnt_nameone"><option value="">Select Machine</option>';
+                            html += '<div class="box-body" style="margin-bottom: -28px;"><div class="form-group"><input type="hidden" name="cntrlet'+index+'" value="'+index+'" id=cntrlet"'+index+'"><label class="col-md-4">Machine Name</label><div class="col-md-7"><select class="form-control " name="machine_group['+index+'][departmnt_mechnenm]" id="departmnt_nameone"><option value="">Select Machine</option>';
                             for(m = 0; m < machine.length; m++) {
-                                if(machine_group[index]['departmnt_mechnenm']=machine[m]['_id'])
+                                if(machine_group[index]['departmnt_mechnenm']==machine[m]['_id'])
                                 {
                                     html += "<option value='"+machine[m]['_id']+"' selected>"+machine[m]['machine_name']+"</option>";
                                 }
-                                
                                 else
                                 {
                                     html += "<option value='"+machine[m]['_id']+"'>"+machine[m]['machine_name']+"</option>";
@@ -1321,10 +1331,34 @@ $(document).on('click', '.edit_departmnt', function(){
                      $('.departmnt_wrapper').append(html);
                            
                     } 
-                $('.departmnt_name').val(departmnt_name);
-                $('.departmnt_jbordr').val(departmnt_jbordr);
-                $('.departmnt_dflt').val(departmnt_dflt);
-                $('.departmnt_invreqrmnt').val(departmnt_invreqrmnt);
+                    for (let sp = 0; sp < sop_group.length; sp++){
+                        // var sop = sop_group[index];
+                        html = '<div class="sop_variation_wrapper" id="sop_group_var-'+sp+'">';
+                            html += '<div class="box-body" style="margin-bottom: -28px;">';
+                            html += '<div class="form-group">';
+                            html += '<input type="hidden" name="cntret'+sp+'" value="'+sp+'" id=cntret"'+sp+'">';
+                            html += '<label class="col-md-4">SOPs [Training Needs]</label><div class="col-md-7">';
+                            html += '<select class="form-control " name="sop_group['+sp+'][sop]" id="sop">';
+                            html += '<option value="">Select SOP</option>';
+                            for(s = 0; s < sop.length; s++) {
+                                if(sop_group[sp]['sop']==sop[s]['_id'])
+                                {
+                                    html += "<option value='"+sop[s]['_id']+"' selected>"+sop[s]['sop_desp']+"</option>";
+                                }
+                                
+                                else
+                                {
+                                    html += "<option value='"+sop[s]['_id']+"'>"+sop[s]['sop_desp']+"</option>";
+                                }
+                            }
+                            html +='</select></div><div class="col-md-1">';
+                            if(sp != 0) {
+                            html += '<a data-repeater-delete="'+sp+'" class="sopup-delete-btn"" style="cursor:pointer;"><i class="fa fa-times" style="font-size: 20px;margin-left: -18px;color: red;"></i></a> ';
+                            }   
+                            html += '</div></div></div></div>';
+                            $('.sop_wrapper').append(html);
+                           
+                    } 
                 $('#edit_departmnt').show();
                 $('#edit').show();
                 $('#departmnt_add').hide();
@@ -1358,7 +1392,13 @@ $(document).on("click", ".outer-add-btn", function() {
     var machine_mast = '<div class="machine_variation_wrapper" id="machine_variation_wrapper-'+main_loop_id+'"><div class="machine_variaton_wrapper" id="variation-row-'+main_loop_id+'"><label class="col-md-4">Machine Name</label><div class="col-md-5"><input name="machine_group['+main_loop_id+'][departmnt_mechnenm]" class="form-control departmnt_mechnenm"  type="text"></div><div class="col-md-3"><a data-repeater-delete="inner-field-'+main_loop_id+'" data-brand-index="'+main_loop_id+'" class="inner-delete-btn" style="cursor:pointer;"><i class="fa fa-times" style="font-size: 25px;color: red;"></i></a></div></div></div></div>';
     $(".machine_variaton").append(machine_mast);
 });
-
+$(document).on("click", ".sopup-delete-btn", function(){
+    alert('Are you sure you want to delete this element');
+    var brandIndex = $(this).attr('data-repeater-delete');
+    var parent_id = $(this).closest('.sop_variation_wrapper').prop('id');
+    $("#"+parent_id).remove();
+    $('#inner-btn-'+brandIndex).remove();
+});
 $(document).on("click", ".outer-delete-btn", function(){
     alert('Are you sure you want to delete this element');
     var brandIndex = $(this).attr('data-repeater-delete');
@@ -1426,13 +1466,64 @@ $(document).on('click', '.addMachine', function()
 
   } 
 });
+var counter = 1;
+var member = counter + 1;
+var limit = 10;
+
+$(document).on('click', '.addsop', function()
+{
+//    alert(counter);
+  if (counter == limit)
+  {
+    alert("You have reached the limit of adding " + counter + " inputs");
+  }
+  else
+  {
+     var sop = "";
+    $.ajax({
+        type:'GET',
+        url: '/departmnt_mast/sopname',
+        dataType:'json',
+        success: function(data) {
+            if( data['success'] ) {
+                sop = data['sop'];
+                console.log(sop);
+                var newdiv = document.createElement('div');
+                var new_div = "<div class='sop_wrapper' id='rohit"+counter+"'>";
+                new_div += "<div class='form-group'><label class='col-md-4'>SOPs [Training Needs]</label>";
+                new_div += "<div class='col-md-7'><select class='form-control' name='sop_group["+counter+"][sop]' id='sop"+counter+"'>";
+                new_div += "<option value=''>----Select sop----</option>";
+                for(j = 0; j < sop.length; j++) {
+                    new_div += "<option value='"+sop[j]['_id']+"'>"+sop[j]['sop_desp']+"</option>";
+                   }
+                new_div +="</select>";
+                new_div += "</div><div class='col-md-1'>";
+                new_div += "<a data-repeater-delete='inner-field-"+counter+"' data-brand-index='"+counter+"' class='sop-delete-btn' style='cursor:pointer;'>";
+                new_div += "<i class='fa fa-times' style='font-size: 20px;color: red;margin-left:-18px;'></i>";
+                new_div += "</a></div></div>";
+                // document.getElementById(divName).appendChild(newdiv);
+                $(new_div).insertBefore("#insert_sop");
+                counter++;
+                member++;
+
+            }
+        }
+    });
+
+  } 
+});
+$(document).on("click", ".sop-delete-btn", function(){
+    alert('Are you sure you want to delete this element');
+    var parent_id = $(this).closest('.sop_wrapper').prop('id');
+    $("#"+parent_id).remove();
+});
 var countup = 1;
 var member = countup + 1;
 var limit = 10;
 
 $(document).on('click', '.addMachineupdate', function()
 {
-    lstidx = $("input[name*='cntr']").length;
+    lstidx = $("input[name*='cntrlet']").length;
     countup=lstidx;
   if (countup == limit)
   {
@@ -1450,7 +1541,7 @@ $(document).on('click', '.addMachineupdate', function()
                 machine = data['machine'];
                 console.log(machine);
                 var newdiv = document.createElement('div');
-                var new_div = "<div class='machine_wrapper' id='rohit"+countup+"'><input type='hidden' name='cntr"+lstidx+"' value="+lstidx+" id='cntr"+countup+"'><div class='form-group'><label class='col-md-4'>Machine Name</label><div class='col-md-7'><select class='form-control' name='machine_group["+countup+"][departmnt_mechnenm]' id='departmnt_mechnenm"+countup+"'><option value=''>----Select Machine----</option>";
+                var new_div = "<div class='machine_wrapper' id='rohit"+countup+"'><input type='hidden' name='cntrlet"+lstidx+"' value="+lstidx+" id='cntrlet"+countup+"'><div class='form-group'><label class='col-md-4'>Machine Name</label><div class='col-md-7'><select class='form-control' name='machine_group["+countup+"][departmnt_mechnenm]' id='departmnt_mechnenm"+countup+"'><option value=''>----Select Machine----</option>";
                 for(j = 0; j < machine.length; j++) {
                     new_div += "<option value='"+machine[j]['_id']+"'>"+machine[j]['machine_name']+"</option>";
                    }
@@ -1459,6 +1550,54 @@ $(document).on('click', '.addMachineupdate', function()
                 $(new_div).insertBefore("#insert_divup");
                 countup++;
                 member++;
+            }
+        }
+    });
+
+  } 
+});
+var counter = 1;
+var member = counter + 1;
+var limit = 10;
+
+$(document).on('click', '.adddupdatesop', function()
+{
+    lstdx = $("input[name*='cntret']").length;
+    counter=lstdx;
+  if (counter == limit)
+  {
+    alert("You have reached the limit of adding " + counter + " inputs");
+  }
+  else
+  {
+     var sop = "";
+    $.ajax({
+        type:'GET',
+        url: '/departmnt_mast/sopname',
+        dataType:'json',
+        success: function(data) {
+            if( data['success'] ) {
+                sop = data['sop'];
+                console.log(sop);
+                var newdiv = document.createElement('div');
+                var new_div = "<div class='sop_wrapper' id='rohit"+counter+"'>";
+                new_div += "<div class='form-group'><label class='col-md-4'>SOPs [Training Needs]</label>";
+                new_div += "<input type='hidden' name='cntret"+counter+"' value="+counter+" id='cntret"+counter+"'></input>";
+                new_div += "<div class='col-md-7'><select class='form-control' name='sop_group["+counter+"][sop]' id='sop"+counter+"'>";
+                new_div += "<option value=''>----Select sop----</option>";
+                for(j = 0; j < sop.length; j++) {
+                    new_div += "<option value='"+sop[j]['_id']+"'>"+sop[j]['sop_desp']+"</option>";
+                   }
+                new_div +="</select>";
+                new_div += "</div><div class='col-md-1'>";
+                new_div += "<a data-repeater-delete='inner-field-"+counter+"' data-brand-index='"+counter+"' class='sop-delete-btn' style='cursor:pointer;'>";
+                new_div += "<i class='fa fa-times' style='font-size: 20px;color: red;margin-left:-18px;'></i>";
+                new_div += "</a></div></div>";
+                // document.getElementById(divName).appendChild(newdiv);
+                $(new_div).insertBefore("#adddsop_divup");
+                counter++;
+                member++;
+
             }
         }
     });
@@ -1680,6 +1819,42 @@ $(document).on('click', '.edit_party', function(){
                 var tole_group = response['party'].tole_group;
                 var filepath = response['party'].filepath;
                 var party_fixsheet = response['party'].party_fixsheet;
+                $('.party_code').val(party_code);
+                $('.party_name').val(party_name);
+                $('.party_addrss1').val(party_addrss1);
+                $('.party_addrss2').val(party_addrss2);
+                $('.part_city').val(part_city);
+                $('.party_mobno').val(party_mobno);
+                $('.party_contprsn').val(party_contprsn);
+                $('.party_prttyp').val(party_prttyp);
+                if(partysndcrd=='Y')
+                {
+                    $('.partysndcrd').prop('checked', true);
+                }
+                else{
+                    $('.partysndcrd').prop('checked', false);
+                }
+                if(partylckcrd=='Y')
+                {
+                    $('.partylckcrd').prop('checked', true);
+                }
+                else
+                {
+                    $('.partylckcrd').prop('checked', false);
+                }
+                if(partyapproval=='Y')
+                {
+                    $('.partyapproval').prop('checked', true);
+                }
+                else
+                {
+                    $('.partyapproval').prop('checked', false);
+                }
+                $('.party_fixsheet').val(party_fixsheet);
+                $('.edit_party_img').attr("src",filepath);
+                $('.edit_filename').val(filepath);
+                $('.tolerance_div').html(" ");
+                $('.tol_div').html(" ");
                 var html;
                 for (let t = 1; t < tolrance_group.length; t++){
                     var tolrnce = tolrance_group[t];
@@ -1721,40 +1896,7 @@ $(document).on('click', '.edit_party', function(){
                      $('.tol_div').append(html);
                            
                     } 
-                $('.party_code').val(party_code);
-                $('.party_name').val(party_name);
-                $('.party_addrss1').val(party_addrss1);
-                $('.party_addrss2').val(party_addrss2);
-                $('.part_city').val(part_city);
-                $('.party_mobno').val(party_mobno);
-                $('.party_contprsn').val(party_contprsn);
-                $('.party_prttyp').val(party_prttyp);
-                if(partysndcrd=='Y')
-                {
-                    $('.partysndcrd').prop('checked', true);
-                }
-                else{
-                    $('.partysndcrd').prop('checked', false);
-                }
-                if(partylckcrd=='Y')
-                {
-                    $('.partylckcrd').prop('checked', true);
-                }
-                else
-                {
-                    $('.partylckcrd').prop('checked', false);
-                }
-                if(partyapproval=='Y')
-                {
-                    $('.partyapproval').prop('checked', true);
-                }
-                else
-                {
-                    $('.partyapproval').prop('checked', false);
-                }
-                $('.party_fixsheet').val(party_fixsheet);
-                $('.edit_party_img').attr("src",filepath);
-                $('.edit_filename').val(filepath);
+               
                 $('#edit_party').show();
                 $('#edit').show();
                 $('#party_add').hide();
@@ -2674,9 +2816,53 @@ $(document).on('click', '.edit_jobactivty', function(){
                 var jobactivty_deprt = response['jobactivty'].jobactivty_deprt;
                 var jobactivty_actvnm = response['jobactivty'].jobactivty_actvnm;
                 var jobactivty_group = response['jobactivty'].jobactivty_group;
+                var jobactivty_active = response['jobactivty'].jobactivty_active;
+                var jobactivtyid = response['jobactivty']._id;
+                $('.jobactivty_deprt').val(jobactivty_deprt);
+                $('.jobactivty_actvnm').val(jobactivty_actvnm);
+                $('.product_brand_variaton').html(" ");
+                if(jobactivty_active=='Y')
+                {
+                    $('.jobactivty_active').prop('checked', true);
+                }
+                else{
+                    $('.jobactivty_active').prop('checked', false);
+                }
+                $('.stock_result').html(" ");
                 for (let r = 0; r < jobactivty_group.length; r++){
                         var job = jobactivty_group[r];
-                        html = '<tr class="jobview_wrapper" id="jobview_group_var-'+r+'"><input type="hidden" name="cntrtol'+r+'" value="'+r+'" id=cntrtol"'+r+'"><td><input type="text" class="form-control" name="jobactivty_group['+r+'][dscpton]" value="'+job.dscpton+'" id="dscpton"  style="width:100%;"></td><td><select class="form-control jobactivty_typ" name="jobactivty_group['+r+'][typ]" id="typ"><option value="'+job.typ+'">'+job.typ+'</option></option><option value="Date">Date</option><option value="Shift">Shift</option><option value="Time">Time</option><option value="Loging">Loging</option><option value="Text">Text</option><option value="Combo">Combo</option><option value="Observation">Observation</option><option value="Y/n">Y/n</option></td><td><input type="text" class="form-control" name="jobactivty_group['+r+'][timrq]" value="'+job.timrq+'" id="timrq" style="width:100%;"></td><td><input type="text" class="form-control" name="jobactivty_group['+r+'][dfltval]" value="'+job.dfltval+'" id="dfltval" style="width:100%;"></td><td><input type="text" class="form-control" name="jobactivty_group['+r+'][ordr]" value="'+job.ordr+'" id="ordr" style="width:100%;"></td>';
+                        var html = '<tr class="jobview_wrapper" id="jobview_group_var-'+r+'"><input type="hidden" name="cntrtol'+r+'" value="'+r+'" id=cntrtol"'+r+'">';
+                        html += '<td><input type="text" class="form-control" name="jobactivty_group['+r+'][dscpton]" value="'+job.dscpton+'" id="dscpton"  style="width:100%;"></td>';
+                        html += '<td><select class="form-control jobactivty_typ" name="jobactivty_group['+r+'][typ]" id="typ">';
+                        // if (value == +job.typ)
+                        // {
+                        //     // tolrance_group[t]['jobstyl']
+                        html += '<option value="'+job.typ+'" selected>'+job.typ+'</option>';
+                        html += '<option value="Date" >Date</option>';
+                        html += '<option value="Shift" >Shift</option>';
+                        html += '<option value="Time" >Time</option>';
+                        html += '<option value="Number">Number</option>';
+                        html += '<option value="jobcardno">Job card No</option>';
+                        html += '<option value="Loging" >Loging</option>';
+                        html += '<option value="Text" >Text</option>';
+                        html += '<option value="Combo" >Combo</option>';
+                        html += '<option value="Observation" >Observation</option>';
+                        html += '<option value="Y/n" >Y/n</option>';
+                        // }
+                        html += '</select>';
+                        html += '</td>';
+                        html += '<td>';
+                        html +="<select class='form-control' name='jobactivty_group["+r+"][timrq]' required>";
+                        html +="<option value='"+job.timrq+"'>"+job.timrq+"</option>";
+                        html +="<option value='1'>1</option>";
+                        html +="<option value='2'>2</option>";
+                        html +="<option value='3'>3</option>";
+                        html +="<option value='4'>4</option>";
+                        html +="<option value='5'>5</option>";
+                        html +="</select>";
+                        html += '</td>';
+                        html += '<td><input type="text" class="form-control" name="jobactivty_group['+r+'][dfltval]" value="'+job.dfltval+'" id="dfltval" style="width:100%;"></td>';
+                        html += '<td><input type="text" class="form-control" name="jobactivty_group['+r+'][ordr]" value="'+job.ordr+'" id="ordr" style="width:100%;"></td>';
                         
                             html +='<td>';
                             if(r != 0)
@@ -2687,17 +2873,7 @@ $(document).on('click', '.edit_jobactivty', function(){
                             $('.stock_result').append(html);      
                     } 
                 
-                var jobactivty_active = response['jobactivty'].jobactivty_active;
-                var jobactivtyid = response['jobactivty']._id;
-                $('.jobactivty_deprt').val(jobactivty_deprt);
-                $('.jobactivty_actvnm').val(jobactivty_actvnm);
-                if(jobactivty_active=='Y')
-                {
-                    $('.jobactivty_active').prop('checked', true);
-                }
-                else{
-                    $('.jobactivty_active').prop('checked', false);
-                }
+               
                 $('#edit_jobactivty').show();
                 $('#edit').show();
                 $('#jobactivty_add').hide();
@@ -2724,7 +2900,7 @@ $(document).on("click", ".jobupdate-delete-btn", function(){
 }); 
 var jobup = 1;
 var jobupmember = jobup + 1;
-var jobuplimit = 10;
+var jobuplimit = 50;
 $(document).on('click', '.addjobactiveupdate', function()
 {
     lstdx = $("input[name*='cntrtol']").length;
@@ -2737,7 +2913,33 @@ $(document).on('click', '.addjobactiveupdate', function()
   else
   {
         var new_div = document.createElement('div');
-        var new_div = "<tr class='updatejob_wrapper' id='rohit"+ jobup +"'><td><input type='text' class='form-control' name='jobactivty_group["+jobup+"][dscpton]' id='dscpton'  style='width:100%;'></td><td><select class='form-control jobactivty_typ' name='jobactivty_group["+jobup+"][typ]' id='typ'><option value=''>----Select Type----</option><option value='Date'>Date</option><option value='Shift'>Shift</option><option value='Time'>Time</option><option value='Loging'>Loging</option><option value='Text'>Text</option><option value='Combo'>Combo</option><option value='Observation'>Observation</option><option value='Y/n'>Y/n</option></select></td><td><input type='text' class='form-control' name='jobactivty_group["+jobup+"][timrq]' id='timrq' style='width:100%;'></td><td> <input type='text' class='form-control' name='jobactivty_group["+jobup+"][dfltval]' id='dfltval' style='width:100%;'></td><td> <input type='text' class='form-control' name='jobactivty_group["+jobup+"][ordr]' id='ordr' style='width:100%;'></td><td><a data-repeater-delete='inner-field-"+ jobup +"' data-brand-index='"+ jobup +"' class='updatejbactive-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;'></i></a></td><td><input type='hidden' name='cntrtol"+lstdx+"' value="+lstdx+" id='cntrtol"+lstdx+"'></td></tr>";
+        var new_div = "<tr class='updatejob_wrapper' id='rohit"+ jobup +"'>";
+        new_div +="<td><input type='text' class='form-control' name='jobactivty_group["+ jobup +"][dscpton]' id='dscpton'  style='width:100%;'></td>";
+        new_div +="<td><select class='form-control jobactivty_typ' name='jobactivty_group["+ jobup +"][typ]' id='typ'>";
+        new_div +="<option value=''>----Select Type----</option><option value='Date'>Date</option>";
+        new_div +="<option value='Shift'>Shift</option>";
+        new_div +="<option value='Number'>Number</option>";
+        new_div +="<option value='jobcardno'>Job card No</option>";
+        new_div +="<option value='Time'>Time</option>";
+        new_div +="<option value='Loging'>Loging</option>";
+        new_div +="<option value='Text'>Text</option>";
+        new_div +="<option value='Combo'>Combo</option>";
+        new_div +="<option value='Observation'>Observation</option>";
+        new_div +="<option value='Y/n'>Y/n</option>";
+        new_div +="</select></td>";
+        new_div +="<td>";
+        new_div +="<select class='form-control' name='jobactivty_group["+ jobup +"][timrq]' id='timrq' required>";
+        new_div +="<option value=''>----Select timrq----</option>";
+        new_div +="<option value='1'>1</option>";
+        new_div +="<option value='2'>2</option>";
+        new_div +="<option value='3'>3</option>";
+        new_div +="<option value='4'>4</option>";
+        new_div +="<option value='5'>5</option>";
+        new_div +="</select>";
+        new_div +="</td>";
+        new_div +="<td> <input type='text' class='form-control' name='jobactivty_group["+ jobup +"][dfltval]' id='dfltval' style='width:100%;'></td>";
+        new_div +="<td> <input type='text' class='form-control' name='jobactivty_group["+ jobup +"][ordr]' id='ordr' style='width:100%;'></td>";
+        new_div +="<td><a data-repeater-delete='inner-field-"+ jobup +"' data-brand-index='"+ jobup +"' class='updatejbactive-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;'></i></a></td><td><input type='hidden' name='cntrtol"+jobup+"' value="+jobup+" id='cntrtol"+jobup+"'></td></tr>";
         $(new_div).insertBefore("#insert_jobupdate");
         jobup++;
         jobmember++;
@@ -2815,7 +3017,7 @@ $(document).on('click', '.delete-security', function(){
 
 var job = 1;
 var jobmember = job + 1;
-var joblimit = 10;
+var joblimit = 50;
 $(document).on('click', '.addjobactive', function()
 {
   if (job == joblimit)
@@ -2825,7 +3027,33 @@ $(document).on('click', '.addjobactive', function()
   else
   {
         var new_div = document.createElement('div');
-        var new_div = "<tr class='job_wrapper' id='rohit"+job+"'><td><input type='text' class='form-control' name='jobactivty_group["+ job +"][dscpton]' id='dscpton'  style='width:100%;'></td><td><select class='form-control jobactivty_typ' name='jobactivty_group["+ job +"][typ]' id='typ'><option value=''>----Select Type----</option><option value='Date'>Date</option><option value='Shift'>Shift</option><option value='Time'>Time</option><option value='Loging'>Loging</option><option value='Text'>Text</option><option value='Combo'>Combo</option><option value='Observation'>Observation</option><option value='Y/n'>Y/n</option></select></td><td><input type='text' class='form-control' name='jobactivty_group["+ job +"][timrq]' id='timrq' style='width:100%;'></td><td> <input type='text' class='form-control' name='jobactivty_group["+ job +"][dfltval]' id='dfltval' style='width:100%;'></td><td> <input type='text' class='form-control' name='jobactivty_group["+ job +"][ordr]' id='ordr' style='width:100%;'></td><td><a data-repeater-delete='inner-field-"+job+"' data-brand-index='"+job+"' class='jbactive-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;'></i></a></td></tr>";
+        var new_div = "<tr class='job_wrapper' id='rohit"+job+"'>";
+        new_div +="<td><input type='text' class='form-control' name='jobactivty_group["+ job +"][dscpton]' id='dscpton'  style='width:100%;'></td>";
+        new_div +="<td><select class='form-control jobactivty_typ' name='jobactivty_group["+ job +"][typ]' id='typ'>";
+        new_div +="<option value=''>----Select Type----</option><option value='Date'>Date</option>";
+        new_div +="<option value='Shift'>Shift</option>";
+        new_div +="<option value='Number'>Number</option>";
+        new_div +="<option value='jobcardno'>Job card No</option>";
+        new_div +="<option value='Time'>Time</option>";
+        new_div +="<option value='Loging'>Loging</option>";
+        new_div +="<option value='Text'>Text</option>";
+        new_div +="<option value='Combo'>Combo</option>";
+        new_div +="<option value='Observation'>Observation</option>";
+        new_div +="<option value='Y/n'>Y/n</option>";
+        new_div +="</select></td>";
+        new_div +="<td>";
+        new_div +="<select class='form-control' name='jobactivty_group["+ job +"][timrq]' id='timrq' required>";
+        new_div +="<option value=''>----Select timrq----</option>";
+        new_div +="<option value='1'>1</option>";
+        new_div +="<option value='2'>2</option>";
+        new_div +="<option value='3'>3</option>";
+        new_div +="<option value='4'>4</option>";
+        new_div +="<option value='5'>5</option>";
+        new_div +="</select>";
+        new_div +="</td>";
+        new_div +="<td> <input type='text' class='form-control' name='jobactivty_group["+ job +"][dfltval]' id='dfltval' style='width:100%;'></td>";
+        new_div +="<td> <input type='text' class='form-control' name='jobactivty_group["+ job +"][ordr]' id='ordr' style='width:100%;'></td>";
+        new_div +="<td><a data-repeater-delete='inner-field-"+job+"' data-brand-index='"+job+"' class='jbactive-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;'></i></a></td></tr>";
         $(new_div).insertBefore("#insert_job");
         job++;
         jobmember++;
@@ -2895,6 +3123,12 @@ $(document).on('click', '.edit_stockpantone', function(){
                 var stockpantone_pantonno = response['stockpantone'].stockpantone_pantonno;
                 var stockpantone_barcode = response['stockpantone'].stockpantone_barcode;
                 var stock_item = response['stockpantone'].stock_item;
+                var stockpantoneid = response['stockpantone']._id;
+                $('.stockpantone_rcpno').val(stockpantone_rcpno);
+                $('.stockpantone_board').val(stockpantone_board);
+                $('.stockpantone_pantonno').val(stockpantone_pantonno);
+                $('.stockpantone_barcode').val(stockpantone_barcode);
+                $('.stock_result').html(" ");
                 for (let r = 0; r < stock_item.length; r++){
                         var stock = stock_item[r];
                         html = '<tr class="stockview_wrapper" id="jobview_group_var-'+r+'"><input type="hidden" name="cntrtol'+r+'" value="'+r+'" id=cntrtol"'+r+'"> <td><select class="form-control stockpantone_deprt" name="stock_item['+r+'][baseink]" id="baseink" style="width:100%;"><option value="">----Select Base Ink----</option>';
@@ -2918,11 +3152,7 @@ $(document).on('click', '.edit_stockpantone', function(){
                             html += '</td> </tr>';
                             $('.stock_result').append(html);      
                     } 
-                var stockpantoneid = response['stockpantone']._id;
-                $('.stockpantone_rcpno').val(stockpantone_rcpno);
-                $('.stockpantone_board').val(stockpantone_board);
-                $('.stockpantone_pantonno').val(stockpantone_pantonno);
-                $('.stockpantone_barcode').val(stockpantone_barcode);
+               
                 $('#edit_stockpantone').show();
                 $('#edit').show();
                 $('#stockpantone_add').hide();
@@ -3008,3 +3238,880 @@ $(document).on('click', 'delete_stockpantone', function(){
         }
     });
 });
+$(document).on("click", "#filtersubmit", function(){
+    $('.loader').show();
+    var prdt_itemcode = $('#prdt_itemcode').val(); 
+    var prdt_prtyname = $('#prdt_prtyname').val();
+    var prdt_pname =    $('#prdt_pname').val();
+    // var prdt_itemcode = $('#prdt_itemcode').val(); $("#prdt_itemcode option:selected").attr("data-item");
+    // var prdt_prtyname = $('#prdt_prtyname').val(); $("#prdt_prtyname option:selected").attr("data-party");
+    // var prdt_pname =    $('#prdt_pname').val();$("#prdt_pname option:selected").attr("data-itemname");
+    $.ajax({
+        type: "POST",
+        url: '/newjobentry/productdetail',
+        dataType:'json',
+        data:
+        {
+            prdt_itemcode:prdt_itemcode,
+            prdt_prtyname:prdt_prtyname,
+            prdt_pname:prdt_pname,
+        },
+        success: function(response) {
+            var i, j=0, result='';
+            if(response['success'] == true) {
+                var product = response['product'];
+                for (i = 0; i < product.length; i++) {
+                    j++;
+                        if (prdt_itemcode == prdt_itemcode || prdt_prtyname == prdt_prtyname)
+                        {
+                            result += '<div class="col-md-12">';
+                            result += '<section class="content-header">';
+                            result += '<div class="box box-primary">';
+                            result += '<div class="box-header with-border">';
+                            result += '<h3 class="box-title">View New Job Entry  </h3>';
+                            result += '<p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>';
+                            result += ' </div>';
+                            result += '<div class="box-body">';
+                            result += '<div class="table-responsive">';
+                            result += '<table id="example" class="table table-bordered table-striped">';
+                            result += '<thead>';
+                            result += '<tr>';
+                            result += '<th>#</th>';
+                            result += '<th>Product Type Name</th>';
+                            result += '<th>Item Code</th>';
+                            result += '<th>Supressed Code</th>';
+                            result += '<th>Artwork Rec Dt</th>';
+                            result += '<th>Party Name</th>';
+                            result += '<th width="15%">Product Name</th>';
+                            result += '<th>Board Quality</th>';
+                            result += '<th>GSM (M/B)</th>';
+                            result += '<th>Actual Size</th>';
+                            result += '<th>GSM (Top/Middle/Bottom)</th>';
+                            result += '<th>Pad Size</th>';
+                            result += '<th>Leaf Color</th>';
+                            // result += '{{!-- <th>Folding/Flat</th>';
+                            // result += '<th>Folding Pattern</th> --}}';
+                            result += '<th>Folding Size</th>';
+                            result += '<th>Vertical/Horizontal</th>';
+                            result += '<th>Image</th>';
+                            result += '<th>Tucking size MM</th>';
+                            result += '<th>Ear Flap</th>';
+                            // result += '{{!-- <th>Design Style</th>';
+                            // result += '<th>Country</th>';
+                            // result += '<th>Board Paper Manufacturer</th>';
+                            // result += '<th>Construction</th> --}}';
+                            result += '<th>Emboss Rack No</th>';
+                            result += '<th>Lamination</th>';
+                            result += '<th>Lamination Type</th>';
+                            result += '<th>UV</th>';
+                            // result += '{{!-- <th>Varnish</th> --}}';
+                            result += '<th>Select</th>';
+                            result += '</tr>';
+                            result += '</thead>';
+                            result += '<tbody class="product_detail_body">';
+                            result += '<tr>';
+                            result += '<tr>';
+                            result += '<td>'+j+'</td><td>'+product[i]['prdt_typ_name']['prdt_typ_name']+'</td>';
+                            result += '<td>'+product[i]['prdt_itemcode']+'</td>';
+                            result += '<td>'+product[i]['prdt_subresscode']+'</td>';
+                            result += '<td>'+product[i]['prdt_artwkdt']+'</td>';
+                            result += '<td>'+product[i]['prdt_prtyname']['party_name']+'</td>';
+                            result += '<td>'+product[i]['prdt_pname']+'</td>';
+                            result += '<td>'+product[i]['prdt_brdqlty']+'</td>';
+                            result += '<td>'+product[i]['prdt_gsmmb']+'</td>';
+                            result += '<td>'+product[i]['actul_l']+','+product[i]['actul_w']+''+product[i]['actul_h']+'</td>';
+                            result += '<td>'+product[i]['prdt_gsmtp']+'</td>';
+                            result += '<td>'+product[i]['pad_l']+','+product[i]['pad_w']+','+product[i]['pad_h']+'</td>';
+                            result += '<td>'+product[i]['prdt_lfcolor']+'</td>';
+                            // result += '<td>'+product[i]['prdt_fldingflat']['indsrttyp_dscrpton']+'</td>';
+                            // result += '<td>'+product[i]['prdt_fldingpttrn']['floading_desp']+'</td>';
+                            result += '<td>'+product[i]['foldng_l']+','+product[i]['foldng_w']+','+product[i]['foldng_h']+'</td>';
+                            result += ' <td>'+product[i]['prdt_vrtclhorzntlone']+','+product[i]['prdt_vrtclhorzntltwo']+'</td>';
+                            result += '<td><a href="'+product[i]['filepath']+'" target="_blank" alt="pdf Not Found">';
+                            result += '<img src="'+product[i]['filepath']+'" target="_blank" height="50" width="50"/></a></td>';
+                            result += '<td>'+product[i]['prdt_tkingszmm']+'</td>';
+                            result += '<td>'+product[i]['prdt_erflp']+'</td>';
+                            // result += '<td>'+product[i]['prdt_dsignstyl']['design_style']+'</td>';
+                            // result += '<td>'+product[i]['prdt_country']['country_name']+'</td>';
+                            // result += '<td>'+product[i]['prdt_brdmnfctur']['manufactur_name']+'</td>';
+                            // result += '<td>'+product[i]['prdt_cnstrcton']['construction_name']+'</td>';
+                            result += '<td>'+product[i]['prdt_embssrckno']+'</td>';
+                            result += '<td>'+product[i]['prdt_lamination']+'</td>';
+                            result += '<td>'+product[i]['prdt_laminationtyp']+'</td>';
+                            result += '<td>'+product[i]['prdt_uv']+'</td>';
+                            // result += '<td>'+product[i]['prdt_vernish']['vernish_name']+'</td>';
+                            result += '<td><a href="/newjobentry/newjobentry_submit/'+product[i]['_id']+'"><button type="button" class="btn btn-info">Select</button></a></td>';  
+                            result += '</tr>';  
+                            result += ' </tr>'; 
+                            result += ' </tbody>'; 
+                            result += ' </table>'; 
+                            result += ' </div>'; 
+                            result += ' </div>'; 
+                            result += '</div>'; 
+                            result += '</section>'; 
+                            result += '</div>'; 
+                            
+                        }
+                    }
+                }
+               
+                $('.product_detail_body').html(result);
+                $('.loader').hide();
+        }
+    });
+});
+var counter = 1;
+var member = counter + 1;
+var limit = 10;
+
+$(document).on('click', '.adddateqty', function()
+{
+    lstidx = $("input[name*='cont']").length;
+    counter=lstidx;
+
+  if (counter == limit)
+  {
+    alert("You have reached the limit of adding " + counter + " inputs");
+  }
+  else
+  {
+        var newdiv = document.createElement('div');
+        var new_div = "<div class='date_wrapper' id='rohit"+counter+"'><div class='form-group'><label class='col-md-2'>Date</label><div class='col-md-3'><input type='hidden' name='cont"+lstidx+"' value="+lstidx+" id='cont"+lstidx+"'>";
+
+        new_div +="<input type='text' class='form-control' name='newjobdate["+counter+"][newjb_dt]' id='offerstartdate' placeholder='Date'></div><label class='col-md-2'>Qty</label><div class='col-md-3'><input type='text' class='form-control' name='newjobdate["+counter+"][newjb_qty]' id='newjb_qty' placeholder='QTY'></div><div class='col-md-1'><a data-repeater-delete='inner-field-"+counter+"' data-brand-index='"+counter+"' class='date-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;margin-left:-18px;margin-top: 8px;'></i></a></div></div>";
+        $(new_div).insertBefore("#adddateqty_div");
+        counter++;
+        member++;
+ }
+});
+$(document).on("click", ".date-delete-btn", function(){
+    alert('Are you sure you want to delete this element');
+    var parent_id = $(this).closest('.date_wrapper').prop('id');
+    $("#"+parent_id).remove();
+});
+$(document).on("click", ".newjobview-delete-btn", function(){
+    alert('Are you sure you want to delete this element');
+    var brandIndex = $(this).attr('data-repeater-delete');
+    var parent_id = $(this).closest('.newjobview_variation_row').prop('id');
+    $("#"+parent_id).remove();
+    $('#inner-btn-'+brandIndex).remove();
+});
+
+$(document).on("change", "#jobprcss_deprt", function() {
+    $('.loader').show();
+    var deprt =  $("#jobprcss_deprt option:selected").attr("data-departmnt"); 
+    $.ajax({
+        type: "POST",
+        url: '/jobprocessentry/activityname',
+        dataType:'json',
+        data:
+        {
+            deprt:deprt,
+        },
+        success: function(response) {
+            var i, j=0, result;
+            if(response['success'] == true) {
+                var jobactname = response['jobactivty'];
+                var result='<select class="form-control" name="jobprcss_activity" id="jobprcss_activity" required>';
+                result +='<option value="">----Select Activity----</option>';
+                for(j = 0; j < jobactname.length; j++) {
+                    result +='<option value="'+jobactname[j]['_id']+'" data-active="'+jobactname[j]['_id']+'">'+jobactname[j]['jobactivty_actvnm']+'</option>';
+                }
+               result +='</select>';
+                $('.activity_name_div').html(result);
+                $('.loader').hide();
+            }
+        }
+    });
+});
+$(document).on("change", "#jobprcss_activity", function() {
+    $('.loader').show();
+    var actid =  $("#jobprcss_activity option:selected").attr("data-active"); 
+    $.ajax({
+        type:'GET',
+        url: '/jobprocessentry/activigroup',
+        dataType:'json',
+        data:
+        {
+            id: actid
+        },
+        success: function(data) {
+            if( data['success'] ) {
+                var job = data['jobactivtyname']['jobactivty_group'];
+                var l=0;
+                var result="";
+                result+=" <div class='col-md-12'>";
+                result+="<table class='table' width='100%'>";
+                result+=" <thead style='background-color:#00acd6;color: #fff;font-size: 15px;'>";
+                result+="<tr>";
+                result+="<th>Heading</th>";
+                result+= "<th>Description1</th>";
+                result+= "<th>Description2</th>";
+                result+= "<th>Description3</th>";
+                result+= "<th>Description4</th>";
+                result+= "<th>Description5</th>";
+                result+= "<th></th>";
+                result+= "</tr>";
+                result+= "</thead>";
+                result+="<tbody>";
+                for(j = 0; j < job.length; j++) {
+                result+="<tr>";
+                // result+="<td><input type='text' class='form-control' name='jobprocess_group["+j+"][head]' value='"+job[j]['_id']+"' id='dscpton'  style='width:100%;'></td>";
+                   result+="<td style='word-wrap: break-word'>"+job[j]['dscpton']+"<input type='hidden' name='jobprocess_group["+j+"][head]' value='"+job[j]['dscpton']+"' id='dscpton'></td>";
+                   for(p = 0; p < job[j]['timrq']; p++)
+                   {
+                       l++;
+                    if(job[j]['typ']=="Number")
+                       {
+                        result+="<td>";
+                        result+="<input type='hidden' name='jobprocess_group["+j+"][typ"+p+"]' value='Number'><input type='text' class='form-control' placeholder='Text' name='jobprocess_group["+j+"][number"+p+"]' value='"+job[j]['dfltval']+"' id='text'  style='width:100%;'>";
+                        result+="</td>";
+                     }
+                     if(job[j]['typ']=="jobcardno")
+                     {
+                      result+="<td>";
+                      result+="<input type='hidden' name='jobprocess_group["+j+"][typ"+p+"]' value='jobcardno'><input type='text' class='form-control' placeholder='Text' name='jobprocess_group["+j+"][jobcardno"+p+"]' id='text'  style='width:100%;'>";
+                      result+="</td>";
+                    }
+                    if(job[j]['typ']=="Y/n")
+                    {
+                        result+="<td>";
+                        result+="<input type='hidden' name='jobprocess_group["+j+"][typ"+p+"]' value='Y/n'>";
+                        result+="<select class='form-control' name='jobprocess_group["+j+"][dsprtion"+p+"]' id='dsprtion'>";
+                        result+="<option value='Y'>Y</option>";
+                        result+="<option value='N'>N</option>";
+                        result+="</select>";
+                        result+="</td>";
+                   }
+                    if(job[j]['typ']=="Text")
+                    {
+                        result+="<td><input type='hidden' name='jobprocess_group["+j+"][typ"+p+"]' value='Text'><input type='text' class='form-control' placeholder='Text' name='jobprocess_group["+j+"][text"+p+"]' value='"+job[j]['dfltval']+"' id='text'  style='width:100%;'></td>";
+                    }
+                    if(job[j]['typ']=="Date")
+                    {
+                        var filterstartdate = moment.tz("Asia/Kolkata").format('DD/MM/YYYY');
+                        result+="<td><input type='hidden' name='jobprocess_group["+j+"][typ"+p+"]' value='Date'><input type='text' class='form-control' placeholder='Date' name='jobprocess_group["+j+"][date"+p+"]' value='"+filterstartdate+"' id='filterstartdate  style='width:100%;'></td>";
+                    }
+                    if(job[j]['typ']=="Shift")
+                    {
+                        result+="<td><input type='hidden' name='jobprocess_group["+j+"][typ"+p+"]' value='Shift'><input type='text' class='form-control' placeholder='Shift' name='jobprocess_group["+j+"][shift"+p+"]' value='"+job[j]['dfltval']+"' id='shift'  style='width:100%;'></td>";
+                    }
+                    if(job[j]['typ']=="Time")
+                    {
+                        result+="<td><input type='hidden' name='jobprocess_group["+j+"][typ"+p+"]' value='Time'><input type='text' class='form-control' placeholder='Time' name='jobprocess_group["+j+"][time"+p+"]' value='"+job[j]['dfltval']+"' id='time'  style='width:100%;'></td>";
+                    }
+                    if(job[j]['typ']=="Loging")
+                    {
+                        result+="<td><input type='hidden' name='jobprocess_group["+j+"][typ"+p+"]' value='Loging'><input type='text' class='form-control' placeholder='Loging' name='jobprocess_group["+j+"][loging"+p+"]' value='"+job[j]['dfltval']+"' id='loging'  style='width:100%;'></td>";
+                    }
+                    if(job[j]['typ']=="Combo")
+                    {
+                        result+="<td>";
+                        result+="<input type='hidden' name='jobprocess_group["+j+"][typ"+p+"]' value='Combo'>";
+                        result+="<select class='form-control' name='jobprocess_group["+j+"][combo"+p+"]' id='combo'>";
+                        result+="<option value='"+job[j]['typ']+"'>"+job[j]['typ']+"</option>";
+                        result+="<option value='Date'>Date</option>";
+                        result+= "<option value='Shift'>Shift</option>";
+                        result+= "<option value='Time'>Time</option>";
+                        result+="<option value='Loging'>Loging</option>";
+                        result+="<option value='Text'>Text</option>";
+                        result+= "<option value='Combo'>Combo</option>";
+                        result+="<option value='Observation'>Observation</option>";
+                        result+="<option value='Y/n'>Y/n</option>";
+                        result+="</select>";
+                        result+="</td>";
+                    }
+                    if(job[j]['typ']=="Observation")
+                    {
+                        result+="<td><input type='hidden' name='jobprocess_group["+j+"][typ"+p+"]' value='Observation'><input type='text' placeholder='Observation' class='form-control' name='jobprocess_group["+j+"][observation"+p+"]' id='observation'  style='width:100%;'></td>";
+                    }
+                   }
+                   result+="</tr>";
+                }
+                   result+="</tbody>";
+                   result+="</table>";
+                   result+="</div>";
+                   $('.activity_group_div').html(result);
+                $('.loader').hide();
+            }
+        }
+    });
+});
+$(document).on("click", ".timrq", function() {
+var v = $(this).val();
+if(v !=1 && v !=2 && v !=3 && v !=4 && v !=5 )
+{
+    $(this).val('0');
+}
+});
+$(document).on("keyup", "#newjb_jbcrd", function() {
+    $('.loader').show();
+    var newjobno =  $("#newjb_jbcrd").val(); 
+    $.ajax({
+        type: "POST",
+        url: '/jobprocessentry/productname',
+        dataType:'json',
+        data:
+        {
+            newjobno:newjobno,
+        },
+        success: function(response) {
+            var i, j=0, result;
+            if(response['success'] == true) {
+                var newjobentry = response['newjobentry'];
+                var product = response['product'];
+                if(newjobentry!='')
+                {
+                    var result= '<input type="hidden" class="form-control" name="jobprcss_itemcode" id="jobprcss_itemcode">';
+                    var prdtname= '<input type="hidden" class="form-control" name="jobprcss_productname" id="jobprcss_productname">'; 
+                }
+                else
+                {
+                    var result= '<input type="text" class="form-control" name="jobprcss_itemcode" id="jobprcss_itemcode">';
+                    var prdtname= '<input type="text" class="form-control" name="jobprcss_productname" id="jobprcss_productname">'; 
+                }
+                for (i = 0; i < newjobentry.length; i++) {
+                     result += '<input type="text" class="form-control" value="'+newjobentry[i]['newjb_itemcd']+'" name="jobprcss_itemcode" id="jobprcss_itemcode">';
+                     prdtname += '<input type="text" class="form-control" value="'+newjobentry[i]['productid']['prdt_pname']+'" name="jobprcss_productname" id="jobprcss_productname">';       
+               
+                    }
+                    $('.product_name').html(prdtname);
+                    $('.item_code').html(result);
+                    $('.loader').hide();
+            }
+        }
+    });
+});
+function foldername()
+{
+    var prdtname =  $("#prdt_typ_name option:selected").attr("data-prdttyp");
+    if(prdtname == "inserts")
+    {
+       $("#foldingflat").show();
+       $("#foldingpattrn").show();
+       $("#foldinsize").show();
+       $("#verticlhorzntl").show();
+       $("#coinscratch").hide();
+       $("#perforation").show();
+       $("#padsize").hide();
+       $("#tuckingsizmm").hide();
+       $("#earflap").hide();
+       $("#uv").hide();
+       $("#varnish").hide();
+       $("#nvz").hide();
+       $("#gsmtmb").hide();
+    }
+    if(prdtname == "Pad")
+    {
+       $("#padsize").show();
+       $("#foldingflat").show();
+       $("#foldingpattrn").show();
+       $("#foldinsize").show();
+       $("#verticlhorzntl").show();
+       $("#coinscratch").hide();
+       $("#perforation").show();
+       $("#tuckingsizmm").hide();
+       $("#earflap").hide();
+       $("#uv").hide();
+       $("#varnish").hide();
+       $("#nvz").hide();
+       $("#gsmtmb").hide();
+    }
+    if(prdtname == "carton" || prdtname == "Plain" || prdtname == "eflute")
+    { 
+       $("#coinscratch").show();
+       $("#perforation").show();
+       $("#tuckingsizmm").show();
+       $("#earflap").show();
+       $("#uv").show();
+       $("#varnish").show();
+       $("#nvz").show();
+       $("#padsize").hide();
+       $("#foldingflat").hide();
+       $("#foldingpattrn").hide();
+       $("#foldinsize").hide();
+       $("#verticlhorzntl").hide();
+       $("#gsmtmb").hide();
+    }
+    if(prdtname == "e-flute carton")
+    {
+       $("#gsmtmb").show();
+       $("#coinscratch").hide();
+       $("#perforation").hide();
+       $("#padsize").hide();
+       $("#foldingflat").hide();
+       $("#foldingpattrn").hide();
+       $("#foldinsize").hide();
+       $("#verticlhorzntl").hide();
+       $("#tuckingsizmm").hide();
+       $("#earflap").hide();
+       $("#uv").hide();
+       $("#varnish").hide();
+       $("#nvz").hide();
+    }    
+}
+function deprt()
+{
+    // var deprt =  $("checkbox:checked").attr("data-id");
+    // alert(deprt);
+    var val = [];
+    $(':checkbox:checked').each(function(i){
+    val[i] = $(this).attr("data-id");
+    if(val[i] =="emboss")
+    {
+        $('#embossrckno').toggleClass('toggled');
+    }
+    if(val[i] =="lamniation")
+    {
+        $("#lamination").show();
+        $("#laminationtyp").show();
+    }
+    if(val[i] =="Leaf")
+    {
+        $("#leafcolor").show();
+    }
+    });
+}
+
+var counter = 1;
+var member = counter + 1;
+var limit = 10;
+
+$(document).on('click', '.addprdtpantone', function()
+{
+    lstidx = $("input[name*='cntret']").length;
+    counter=lstidx;
+  if (counter == limit)
+  {
+    alert("You have reached the limit of adding " + counter + " inputs");
+  }
+  else
+  {
+    var stockpantone = "";
+    $.ajax({
+        type:'GET',
+        url: '/product_mast/pantonename',
+        dataType:'json',
+        success: function(data) {
+            if( data['success'] ) {
+                stockpantone = data['stockpantone'];
+                console.log(stockpantone);
+                var newdiv = document.createElement('div');
+               var new_div = "<div class='location_wrapper' id='rohit"+counter+"'>";
+               new_div +='<div class="form-group">';
+               new_div +='<label class="col-md-4">Pantone</label>';
+               new_div +='<div class="col-md-3"> ';
+               new_div +="<input type='hidden' name='cntret"+counter+"' value="+counter+" id='cntret"+counter+"'>";
+               new_div +='<select class="form-control" name="pantone_group['+counter+'][prdt_pantone]" id="prdt_pantone" required="">';
+               new_div +=' <option value="">Select</option>';
+               for(j = 0; j < stockpantone.length; j++) {
+               new_div +=' <option value="'+stockpantone[j]["_id"]+'">'+stockpantone[j]["stockpantone_pantonno"]["pantone_descrpton"]+'</option>';
+              
+               }
+               new_div +=' </select>';
+               new_div +='</div>';
+               new_div +='<label class="col-md-2">Barcode</label>';
+               new_div +='<div class="col-md-2"> ';
+               new_div +='<select class="form-control" name="pantone_group['+counter+'][prdt_barcode]" id="prdt_barcode" required="" style="margin-left: -28px;width: 82px;">';
+               new_div +=' <option value="">Select</option>';
+               for(j = 0; j < stockpantone.length; j++) {
+               new_div +=' <option value="'+stockpantone[j]["_id"]+'">'+stockpantone[j]["stockpantone_barcode"]+'</option>';
+             
+               }
+               new_div +='</select>';
+               new_div +='</div>';
+               new_div +="<div class='col-md-1'><a data-repeater-delete='inner-field-"+counter+"' data-brand-index='"+counter+"' class='prdtpantone-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;margin-left:-18px;margin-top: 8px;'></i></a></div>";
+               new_div +='</div>';
+               $(new_div).insertBefore("#insert_prdtpntn");
+               counter++;
+               member++;
+            }
+        }
+    });
+
+  } 
+});
+$(document).on("click", ".prdtpantone-delete-btn", function(){
+    alert('Are you sure you want to delete this element');
+    var parent_id = $(this).closest('.location_wrapper').prop('id');
+    $("#"+parent_id).remove();
+});
+$(document).on("click", ".prodtpantoneview-delete-btn", function(){
+    alert('Are you sure you want to delete this element');
+    var brandIndex = $(this).attr('data-repeater-delete');
+    var parent_id = $(this).closest('.prodtpantoneview_variation_row').prop('id');
+    $("#"+parent_id).remove();
+    $('#inner-btn-'+brandIndex).remove();
+});
+function get_product(callback)
+{
+    counter=callback;
+    lstidx = counter; 
+    $('.loader').show();
+    var acctyp =  $("#type"+callback+" option:selected").attr("data-accessriestyp");
+    $.ajax({
+        type: "POST",
+        url: '/accessories_recepit_note/productname',
+        dataType:'json',
+        data:
+        {
+            acctyp:acctyp,
+        },
+        success: function(response) {
+            var i,result;
+            if(response['success'] == true) {
+                var accessories = response['accessories'];
+                var result='<select class="form-control" name="acc_note_item['+counter+'][product]" id="product" style="width:100%;">';
+                result +='<option value="">----Select Product----</option>'
+                for (i = 0; i < accessories.length; i++)
+                   {
+                    result += '<option value="'+accessories[i]['_id']+'">'+accessories[i]['accessories_desc']+'</option>';     
+               
+                    }
+                    result += '</select>';
+                    $('.productname'+callback).html(result);
+                    $('.loader').hide();
+            }
+        }
+    });
+}
+var counter = 1;
+var member = counter + 1;
+var limit = 100;
+$(document).on('click', '.addreciptnote', function()
+{
+    lstidx = $("input[name*='cntrer']").length;
+    counter=lstidx;
+  if (counter == limit)
+  {
+    alert("You have reached the limit of adding " +counter+ " inputs");
+  }
+  {
+    $.ajax({
+        type:'GET',
+        url: '/accessories_recepit_note/acctyname',
+        dataType:'json',
+        success: function(data) {
+            if( data['success'] ) {
+                accessriestypname = data['accessriestyp'];
+                racklocname = data['rackloc'];
+                var new_div = document.createElement('div');
+                var new_div = "<tr class='recepit_note_wrapper' id='rohit"+counter+"'>";
+                new_div += "<td><select class='form-control' name='acc_note_item["+counter+"][type]' onchange='get_product("+counter+")' id='type"+counter+"' style='width:100%;'>";
+                new_div += "<option value=''>----Select Type----</option>";
+                for(j = 0; j < accessriestypname.length; j++) {
+                    new_div += "<option value='"+accessriestypname[j]['_id']+"' data-accessriestyp='"+accessriestypname[j]['_id']+"'>"+accessriestypname[j]['accessriestyp_name']+"</option>";
+                   }
+                new_div +="</select></td>";
+                new_div +="<td class='productname"+counter+"'><input type='text' class='form-control' name='acc_note_item["+counter+"][product]' id='product' style='width:100%;' placeholder='Product'></td>";
+                new_div +="<td><input type='hidden' name='cntrer"+counter+"' value="+counter+" id='cntrer"+counter+"'><input type='number' class='form-control' name='acc_note_item["+counter+"][qty]' id='qty"+counter+"' oninput='calc("+counter+")' style='width:100%;text-align: -webkit-right;' placeholder='Qty'></td>";
+                new_div += "<td><select class='form-control' name='acc_note_item["+ counter +"][location]' id='location' style='width:100%;'>";
+                new_div += "<option value=''>----Select Location----</option>";
+                for(j = 0; j < racklocname.length; j++) {
+                    new_div += "<option value='"+racklocname[j]['_id']+"'>"+racklocname[j]['rackloc_name']+"</option>";
+                   }
+                new_div +="</select></td>";
+                new_div +="<td><a onclick='remove_div("+counter+");' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;margin-left:12px;'></i></a></td></tr>";
+                // new_div +="<td><a data-repeater-delete='inner-field-"+counter+"' data-brand-index='"+counter+"' class='reciptnoteitem-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;'></i></a></td></tr>";
+                $(new_div).insertBefore("#insert_stockitem");
+                counter++;
+                member++;
+            }
+        }
+    });
+
+  } 
+});
+function remove_div(id)
+{
+    alert('Are you sure you want to delete this element');
+    if(counter == 0)
+    {
+        alert("No record to delete");
+    }
+    else
+    {
+        counter--;
+        member--;
+        $("#rohit"+id).remove();
+        calc(0);   
+       
+    }
+}
+function calc(callback) {
+    
+    var qty = 0;
+    lstidx = $("input[name*='cntrer']").length-1;
+    counter=lstidx; 
+    for (i = 0; i <= lstidx; i++) 
+    {
+        qty= qty +  parseInt($("#qty"+i).val());
+    }
+            $("#total_qty").val(Number(qty));
+}
+var counter = 1;
+var member = counter + 1;
+var limit = 100;
+$(document).on('click', '.addissuenote', function()
+{
+    lstidx = $("input[name*='cntrer']").length;
+    counter=lstidx;
+  if (counter == limit)
+  {
+    alert("You have reached the limit of adding " +counter+ " inputs");
+  }
+  {
+    $.ajax({
+        type:'GET',
+        url: '/accessories_issue_note/acctyname',
+        dataType:'json',
+        success: function(data) {
+            if( data['success'] ) {
+                accessriestypname = data['accessriestyp'];
+                racklocname = data['rackloc'];
+                var new_div = document.createElement('div');
+                var new_div = "<tr class='recepit_note_wrapper' id='rohit"+counter+"'>";
+                new_div += "<td><select class='form-control' name='acc_note_item["+counter+"][type]' onchange='get_product("+counter+")' id='type"+counter+"' style='width:100%;'>";
+                new_div += "<option value=''>----Select Type----</option>";
+                for(j = 0; j < accessriestypname.length; j++) {
+                    new_div += "<option value='"+accessriestypname[j]['_id']+"' data-accessriestyp='"+accessriestypname[j]['_id']+"'>"+accessriestypname[j]['accessriestyp_name']+"</option>";
+                   }
+                new_div +="</select></td>";
+                new_div +="<td class='productname"+counter+"'><input type='text' class='form-control' name='acc_note_item["+counter+"][product]' id='product' style='width:100%;' placeholder='Product'></td>";
+                new_div +="<td><input type='hidden' name='cntrer"+counter+"' value="+counter+" id='cntrer"+counter+"'><input type='number' class='form-control' name='acc_note_item["+counter+"][qty]' id='qty"+counter+"' oninput='calc("+counter+")' style='width:100%;text-align: -webkit-right;' placeholder='Qty'></td>";
+                new_div += "<td><select class='form-control' name='acc_note_item["+ counter +"][location]' id='location' style='width:100%;'>";
+                new_div += "<option value=''>----Select Location----</option>";
+                for(j = 0; j < racklocname.length; j++) {
+                    new_div += "<option value='"+racklocname[j]['_id']+"'>"+racklocname[j]['rackloc_name']+"</option>";
+                   }
+                new_div +="</select></td>";
+                new_div +="<td><input type='text' class='form-control' name='acc_note_item["+counter+"][batchno]' id='batchno' style='width:100%;' placeholder='Batch No'></td>";
+                new_div +="<td><input type='text' class='form-control' name='acc_note_item["+counter+"][jobcrdno]' id='jobcrdno' style='width:100%;' placeholder='Job card No'></td>";
+                new_div +="<td><a onclick='remove_issue("+counter+");' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;margin-left:12px;'></i></a></td></tr>";
+                // new_div +="<td><a data-repeater-delete='inner-field-"+counter+"' data-brand-index='"+counter+"' class='reciptnoteitem-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;'></i></a></td></tr>";
+                $(new_div).insertBefore("#insert_stockitem");
+                counter++;
+                member++;
+            }
+        }
+    });
+
+  } 
+});
+function remove_issue(id)
+{
+    alert('Are you sure you want to delete this element');
+    if(counter == 0)
+    {
+        alert("No record to delete");
+    }
+    else
+    {
+        counter--;
+        member--;
+        $("#rohit"+id).remove();
+        calc(0);   
+       
+    }
+} 
+$(document).on("click", ".recepitissue-delete-btn", function(){
+    alert('Are you sure you want to delete this element');
+    var brandIndex = $(this).attr('data-repeater-delete');
+    var parent_id = $(this).closest('.recepitissue_variation_row').prop('id');
+    $("#"+parent_id).remove();
+    $('#inner-btn-'+brandIndex).remove();
+    calc(0);   
+});
+var counter = 1;
+var member = counter + 1;
+var limit = 100;
+$(document).on('click', '.addpin', function()
+{
+    lstidx = $("input[name*='cntrer']").length;
+    counter=lstidx;
+  if (counter == limit)
+  {
+    alert("You have reached the limit of adding " +counter+ " inputs");
+  }
+  {
+    $.ajax({
+        type:'GET',
+        url: '/plate_issuance_note/plateszname',
+        dataType:'json',
+        success: function(data) {
+            if( data['success'] ) {
+                accessories = data['accessories'];
+                recepit = data['recepit'];
+                var new_div = document.createElement('div');
+                var new_div = "<tr class='recepit_note_wrapper' id='rohit"+counter+"'>";
+                new_div +="<td><input type='text' class='form-control' name='p_i_n["+counter+"][jobcrdno]' onkeyup='fname("+counter+");'  id='jobcrdno"+counter+"' style='width:100%;' placeholder='Job Card No'></td>";
+                new_div +="<td  class='item_code"+counter+"'><input type='text' class='form-control' name='p_i_n["+counter+"][procode]'  id='procode' style='width:100%;' placeholder='Prod Code'></td>";
+                new_div +="<td class='produtname"+counter+"'><input type='text' class='form-control' name='p_i_n["+counter+"][prdtname]'  id='prdtname' style='width:100%;' placeholder='Prod Name'></td>";
+                new_div +=" <td class='partynm"+counter+"'><input type='text' class='form-control' name='p_i_n["+counter+"][custumer]'  id='custumer' style='width:100%;' placeholder='Customer'></td>";
+                new_div +="<input type='hidden' name='cntrer"+counter+"' value='"+counter+"' id='cntrer"+counter+"' class='form-control' style='width: 102px;'>";
+                new_div +="<td><input type='text' class='form-control' name='p_i_n["+counter+"][typctpts]' id='typctpts'  style='width:100%;' placeholder='Type CTP/TS'></td>";
+                new_div +="<td><input type='text' class='form-control' name='p_i_n["+counter+"][onldnw]'  id='onldnw' style='width:100%;' placeholder='O/N old\new'></td>";
+                new_div += "<td><select class='form-control' name='p_i_n["+counter+"][platesz]' id='platesz' style='width:100%;'>";
+                new_div += "<option value=''>-Select Plate Size-</option>";
+                for(j = 0; j < accessories.length; j++) {
+                    new_div += "<option value='"+accessories[j]['_id']+"'>"+accessories[j]['accessories_desc']+"</option>";
+                   }
+                new_div +="</select></td>";
+                new_div +="<td><input type='text' class='form-control' name='p_i_n["+counter+"][nofplates]'  id='nofplates' style='width:100%;' placeholder='No of plates'></td>";
+                new_div +="<td><input type='text' class='form-control' name='p_i_n["+counter+"][remarks]'  id='remarks' style='width:100%;' placeholder='Remarks'></td>";
+                new_div +="<td><input type='text' class='form-control' name='p_i_n["+counter+"][qty]'  id='qty' style='width:100%;' placeholder='Qty'></td>";
+                new_div +="<td>";
+                new_div +="<select class='form-control' name='p_i_n["+counter+"][location]'  id='location' style='width:100%;'>";
+                new_div +="<option value=''>-Select Location-</option>";
+                for(acc = 0; acc < recepit.length; acc++) {
+                    var accnote = recepit[acc]['acc_note_item'];
+                    for(ac = 0; ac < accnote.length; ac++) {
+                    new_div +='<option value="'+accnote[ac]['location']+'" data-accessories="'+accnote[ac]['location']+'">'+accnote[ac]['location']+'</option>';
+                    }   
+                  }
+                new_div +="</select>";
+                new_div +="</td>";
+                new_div +="<td><a onclick='remove_issue("+counter+");' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;margin-left:12px;'></i></a></td></tr>";
+                // new_div +="<td><a data-repeater-delete='inner-field-"+counter+"' data-brand-index='"+counter+"' class='reciptnoteitem-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;'></i></a></td></tr>";
+                $(new_div).insertBefore("#insert_stockitem");
+                counter++;
+                member++;
+            }
+        }
+    });
+
+  } 
+});
+function fname(callback)
+{
+    counter=callback;
+    lstidx = counter; 
+    $(document).on("keyup", "#jobcrdno"+callback, function() {
+    $('.loader').show();
+    var jobcrdno =  $("#jobcrdno"+callback).val(); 
+    $.ajax({
+        type: "POST",
+        url: '/plate_issuance_note/productname',
+        dataType:'json',
+        data:
+        {
+            jobcrdno:jobcrdno,
+        },
+        success: function(response) {
+            var i, j=0, result;
+            if(response['success'] == true) {
+                var newjobentry = response['newjobentry'];
+                if(newjobentry!='')
+                {
+                    var result = '<input type="hidden" class="form-control"  name="p_i_n['+counter+'][procode]" id="procode">';
+                    var prdtnm= '<input type="hidden" class="form-control" name="p_i_n['+counter+'][prdtname]" id="prdtname">'; 
+                    var prtynm= '<input type="hidden" class="form-control"  name="p_i_n['+counter+'][custumer]" id="custumer">';
+                }
+                else
+                {
+                    var result = '<input type="text" class="form-control"  name="p_i_n['+counter+'][procode]" id="procode">';
+                    var prdtnm= '<input type="text" class="form-control"  name="p_i_n['+counter+'][prdtname]" id="prdtname">'; 
+                    var prtynm= '<input type="text" class="form-control"  name="p_i_n['+counter+'][custumer]" id="custumer">';
+                }
+                for (i = 0; i < newjobentry.length; i++) {
+                     result += '<input type="text" class="form-control" value="'+newjobentry[i]['newjb_itemcd']+'" name="p_i_n['+counter+'][procode]" id="procode">';
+                     prdtnm += '<input type="text" class="form-control" value="'+newjobentry[i]['productid']['prdt_pname']+'" name="p_i_n['+counter+'][prdtname]" id="prdtname">'; 
+                     prtynm += '<input type="text" class="form-control" value="'+newjobentry[i]['productid']['prdt_prtyname']+'" name="p_i_n['+counter+'][custumer]" id="custumer">';             
+               
+                    }
+                    $('.produtname'+callback).html(prdtnm);
+                    $('.item_code'+callback).html(result);
+                    $('.partynm'+callback).html(prtynm);
+                    $('.loader').hide();
+            }
+        }
+    });
+});
+}
+function remove_report(id)
+{
+    return swal({
+        title:"Confirm",
+        text:"Are you Sure you want to Select?",
+        icon:"warning",
+        buttons: ["Cancel","Confirm"],
+        dangerMode: true
+    }).then(function(valu){
+        if(valu)
+        $("#report"+id).remove();
+    }).catch(function(){
+        return false;
+    })
+       
+} 
+$(document).on("click", ".plate-issuance-view-delete-btn", function(){
+    alert('Are you sure you want to delete this element');
+    var brandIndex = $(this).attr('data-repeater-delete');
+    var parent_id = $(this).closest('.plateissuance_variation_row').prop('id');
+    $("#"+parent_id).remove();
+    $('#inner-btn-'+brandIndex).remove();  
+});
+var counter = 1;
+var member = counter + 1;
+var limit = 100;
+$(document).on('click', '.ddinkpreparation', function()
+{
+    lstidx = $("input[name*='cntrer']").length;
+    counter=lstidx;
+  if (counter == limit)
+  {
+    alert("You have reached the limit of adding " +counter+ " inputs");
+  }
+  {
+    $.ajax({
+        type:'GET',
+        url: '/ink_preparation/pantoneno',
+        dataType:'json',
+        success: function(data) {
+            if( data['success'] ) {
+                stockpantone = data['stockpantone'];
+                accbord = data['accbord'];
+                var new_div = document.createElement('div');
+                var new_div = "<tr class='ink_preparation_wrapper' id='rohit"+counter+"'>";
+                new_div += "<td><select class='form-control' name='ink_preparation["+counter+"][pantoneno]' id='pantoneno' style='width:100%;'>";
+                new_div += "<option value=''>----Select Pantone No----</option>";
+                for(j = 0; j < stockpantone.length; j++) {
+                    new_div += "<option value='"+stockpantone[j]['_id']+"'>"+stockpantone[j]['stockpantone_pantonno']['pantone_descrpton']+"</option>";
+                   }
+                new_div +="</select></td>";
+                new_div +="<td>";
+                new_div +="<select class='form-control' name='ink_preparation["+counter+"][board]'  id='board' style='width:100%;'>";
+                new_div +="<option value=''>----Select Board----</option>";
+                for(acc = 0; acc < accbord.length; acc++) {
+                    new_div +='<option value="'+accbord[acc]['_id']+'" data-accessories="'+accbord[acc]['_id']+'">'+accbord[acc]['accessories_desc']+'</option>';
+                  
+                  }
+                new_div +="</select>";
+                new_div +="</td>";
+                new_div +="<td><input type='text' class='form-control' name='ink_preparation["+counter+"][productionqty]'  id='productionqty' style='width:100%;' placeholder='Production Qty'></td>";
+                new_div +="<td><a onclick='remove_ink("+counter+");' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;margin-left:12px;'></i></a></td></tr>";
+                $(new_div).insertBefore("#insert_inkpreation");
+                counter++;
+                member++;
+            }
+        }
+    });
+
+  } 
+});
+function remove_ink(id)
+{
+    alert('Are you sure you want to delete this element');
+    if(counter == 0)
+    {
+        alert("No record to delete");
+    }
+    else
+    {
+        counter--;
+        member--;
+        $("#rohit"+id).remove();
+        calc(0);   
+       
+    }
+} 

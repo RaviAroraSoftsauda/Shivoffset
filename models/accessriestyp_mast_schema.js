@@ -1,5 +1,5 @@
 let mongoose = require('mongoose');
-
+var Schema = mongoose.Schema;
 // Brand Schema
 let accessriestypSchema = mongoose.Schema({
     accessriestyp_name: {
@@ -7,6 +7,9 @@ let accessriestypSchema = mongoose.Schema({
     },
     accessriestyp_code: {
         type: String,
+    },
+    accessriestyp_supname: {
+        type: Schema.Types.ObjectId, ref: 'supplier_mast',
     },
     co_code:{
         type:String,

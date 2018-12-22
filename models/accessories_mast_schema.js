@@ -18,6 +18,16 @@ let accessoriesSchema = mongoose.Schema({
         type: Schema.Types.ObjectId, ref: 'machine_mast',
     },
     accessoriesmin_stk: {
+        type: Number,
+    },
+    accessories_gsm: {
+        type: Number,
+    },
+    accessories_maxstk: {
+        type: Number,
+    },
+    accessories_sku:
+    {
         type: String,
     },
     accessoriesqty_pen: {

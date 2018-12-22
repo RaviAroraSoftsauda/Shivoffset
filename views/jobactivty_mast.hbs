@@ -39,7 +39,7 @@ $(function () {
           <div class="form-group">
             <label class="col-md-2">Deparmpent</label>
             <div class="col-md-4"> 
-              <select class="form-control jobactivty_deprt" name="jobactivty_deprt" id="jobactivty_deprt">
+              <select class="form-control jobactivty_deprt" name="jobactivty_deprt" id="jobactivty_deprt" required>
                  <option value="">----Select Department----</option>
                 {{#each departmnt}}
                 <option value="{{this._id}}" data-departmnt="{{this._id}}">{{this.departmnt_name}}</option>
@@ -48,7 +48,7 @@ $(function () {
             </div>
              <label class="col-md-2">Activity Name</label>
             <div class="col-md-4"> 
-                <input type="text" class="form-control" name="jobactivty_actvnm" id="jobactivty_actvnm" placeholder="Activity Name">
+                <input type="text" class="form-control" name="jobactivty_actvnm" id="jobactivty_actvnm" placeholder="Activity Name" required>
             </div>
           </div>
            <div class="form-group">
@@ -67,20 +67,32 @@ $(function () {
        
       <tbody>
         <tr>
-          <td><input type='text' class="form-control" name='jobactivty_group[0][dscpton]' id="dscpton"  style='width:100%;'></td>
+          <td><input type='text' class="form-control" name='jobactivty_group[0][dscpton]' id="dscpton"  style='width:100%;' required></td>
           <td>
-             <select class="form-control jobactivty_typ" name="jobactivty_group[0][typ]" id="typ">
+             <select class="form-control jobactivty_typ" name="jobactivty_group[0][typ]" id="typ" required>
                  <option value="">----Select Type----</option>
                  <option value="Date">Date</option>
                  <option value="Shift">Shift</option>
+                <option value='Number'>Number</option>
+                <option value='jobcardno'>Job card No</option>
                  <option value="Time">Time</option>
                  <option value="Loging">Loging</option>
                  <option value="Text">Text</option>
                  <option value="Combo">Combo</option>
                  <option value="Observation">Observation</option>
                  <option value="Y/n">Y/n</option>
+                 </select>
           </td>
-          <td><input type='text' class="form-control" name='jobactivty_group[0][timrq]' id='timrq' style='width:100%;'></td>
+          <td>
+            <select class="form-control" name="jobactivty_group[0][timrq]" id="timrq" required>
+                 <option value="">----Select timrq----</option>
+                 <option value="1">1</option>
+                 <option value="2">2</option>
+                 <option value="3">3</option>
+                 <option value="4">4</option>
+                 <option value="5">5</option>
+                 </select>
+            </td>
           <td><input type='text' class="form-control" name='jobactivty_group[0][dfltval]' id='dfltval' style='width:100%;'></td>
           <td><input type='text' class="form-control" name='jobactivty_group[0][ordr]' id='ordr' style='width:100%;'></td>
         </tr>
@@ -181,11 +193,6 @@ $(function () {
                         <th>#</th>
                         <th>Deparmpent</th>
                         <th>Activity Name</th>
-                        {{!-- <th>Description</th>
-                        <th>Type</th>
-                        <th>Time Req</th>
-                        <th>Default Value</th>
-                        <th>Order</th> --}}
                         <th>Active</th>
                         <th width="10%">Update</th>
                         <th width="10%">Delete</th>
@@ -197,11 +204,6 @@ $(function () {
                           <td>{{sum @index 1}}</td>
                           <td>{{this.jobactivty_deprt.departmnt_name}}</td>
                           <td>{{this.jobactivty_actvnm}}</td>
-                          {{!-- <td>{{this.jobactivty_dscpton}}</td>
-                          <td>{{this.jobactivty_typ}}</td>
-                          <td>{{this.jobactivty_timrq}}</td>
-                          <td>{{this.jobactivty_dfltval}}</td>
-                          <td>{{this.jobactivty_ordr}}</td> --}}
                           <td>{{this.jobactivty_active}}</td>
                           <td><a href="javascript:void(0);"  class="edit_jobactivty" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
                            <td><a href="/jobactivty_mast/delete_jobactivty/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>

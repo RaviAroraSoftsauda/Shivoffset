@@ -1,22 +1,27 @@
 const express = require('express');
 const router = express.Router(); 
 let accessriestyp = require('../models/accessriestyp_mast_schema');
+let supplier = require('../models/supplier_mast_schema');
 var query;
 
 // Add Route
 router.get('/accessriestyp_mast', ensureAuthenticated, function(req, res){
     accessriestyp.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, accessriestyp){
+        supplier.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, supplier){
             if (err) {
                 console.log(err);
             } else {
                 res.render('accessriestyp_mast.hbs', {
                     pageTitle:'Add accessriestyp',
                     accessriestyp: accessriestyp,
+                    supplier: supplier,
                 });
             }
         })
-    });
+    }).populate('accessriestyp_supname');
+});
     router.post('/add',function(req, res){
+        if(req.body.accessriestyp_supname=="") req.body.accessriestyp_supname=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if(errors)
         {
@@ -25,6 +30,7 @@ router.get('/accessriestyp_mast', ensureAuthenticated, function(req, res){
         else
         {
             let accstyp = new accessriestyp();
+            accstyp.accessriestyp_supname = req.body.accessriestyp_supname;
             accstyp.accessriestyp_name = req.body.accessriestyp_name;
             accstyp.accessriestyp_code = req.body.accessriestyp_code;
             accstyp.co_code =  req.session.compid;
@@ -55,12 +61,14 @@ router.get('/accessriestyp_mast', ensureAuthenticated, function(req, res){
         });
     });
         router.post('/edit_accessriestyp_mast/:id', function(req, res) {
+            if(req.body.accessriestyp_supname=="") req.body.accessriestyp_supname=mongoose.Types.ObjectId('578df3efb618f5141202a196');
             let errors = req.validationErrors();
             if (errors) {
                 console.log(errors);
                 res.json({ 'success': false, 'message': 'validation error', 'errors': errors });
             } else {
                 let accstyp = {};
+                accstyp.accessriestyp_supname = req.body.accessriestyp_supname;
                 accstyp.accessriestyp_name = req.body.accessriestyp_name;
                 accstyp.accessriestyp_code = req.body.accessriestyp_code;
                 accstyp.co_code =  req.session.compid;

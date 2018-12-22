@@ -4,15 +4,21 @@ let departmnt = require('../models/departmnt_mast_schema');
 let depart = require('../models/departmnt_mast_schema');
 let manufuctur = require('../models/manufactur_mast_schema');
 let machine = require('../models/machine_mast_schema');
+let sop = require('../models/sop_mast_schema');
 var query;
 router.get('/departmntname', function (req, res) {
-    departmnt.find({}, function(err, departmnt){
+    departmnt.find({co_code:req.session.compid,div_code:req.session.divid}, function(err, departmnt){
         res.json({ 'success': true, 'departmnt': departmnt});
     });
 });
 router.get('/machinename', function (req, res) {
-    machine.find({}, function(err, machine){
+    machine.find({co_code:req.session.compid,div_code:req.session.divid}, function(err, machine){
         res.json({ 'success': true, 'machine': machine});
+    });
+});
+router.get('/sopname', function (req, res) {
+    sop.find({co_code:req.session.compid,div_code:req.session.divid}, function(err, sop){
+        res.json({ 'success': true, 'sop': sop});
     });
 });
 // Add Route
@@ -20,17 +26,20 @@ router.get('/departmnt_mast', ensureAuthenticated, function(req, res){
     departmnt.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, departmnt){
         manufuctur.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, manufuctur){
             machine.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, machine){
+                sop.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, sop){
             if (err) {
                 console.log(err);
             } else {
                 res.render('departmnt_mast.hbs', {
                     pageTitle:'Add departmnt',
                     departmnt: departmnt,
-                    manufuctur: manufuctur,
+                    departmnt: departmnt,
+                    sop: sop,
                     machine: machine,
                 });
             }
         })
+    })
     });
 }).populate('departmnt_manufctur');
 });
@@ -49,6 +58,7 @@ router.get('/departmnt_mast', ensureAuthenticated, function(req, res){
             dpart.departmnt_dflt = req.body.departmnt_dflt;
             dpart.departmnt_invreqrmnt = req.body.departmnt_invreqrmnt;
             dpart.dprtmnt_group = req.body.dprtmnt_group;
+            dpart.sop_group = req.body.sop_group;
             dpart.co_code =  req.session.compid;
             dpart.div_code =  req.session.divid;
             dpart.usrnm =  req.session.user;
@@ -67,15 +77,17 @@ router.get('/departmnt_mast', ensureAuthenticated, function(req, res){
     });
     router.get('/:id', ensureAuthenticated, function(req, res){
         departmnt.findById(req.params.id, function(err, departmnt){
-            depart.find({}, function(err, depart){
-                machine.find({}, function(err, machine){
+            depart.find({co_code:req.session.compid,div_code:req.session.divid}, function(err, depart){
+                machine.find({co_code:req.session.compid,div_code:req.session.divid}, function(err, machine){
+                    sop.find({co_code:req.session.compid,div_code:req.session.divid}, function(err, sop){
             if (err) {
                 res.json({ 'success': false, 'message': 'error in fetching departmnt details' });
             } else {
-                res.json({ 'success': true, 'departmnt': departmnt,'depart': depart,'machine': machine });
+                res.json({ 'success': true, 'departmnt': departmnt,'depart': depart,'machine': machine,'sop': sop  });
             }
             
         });
+    });
     });
 });
 });
@@ -92,6 +104,7 @@ router.get('/departmnt_mast', ensureAuthenticated, function(req, res){
                 dpart.departmnt_dflt = req.body.departmnt_dflt;
                 dpart.departmnt_invreqrmnt = req.body.departmnt_invreqrmnt;
                 dpart.dprtmnt_group = req.body.dprtmnt_group;
+                dpart.sop_group = req.body.sop_group;
                 dpart.co_code =  req.session.compid;
                 dpart.div_code =  req.session.divid;
                 dpart.usrnm =  req.session.user;

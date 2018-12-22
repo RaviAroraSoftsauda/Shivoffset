@@ -51,6 +51,7 @@
                   <thead>
                       <tr>
                         <th>#</th>
+                        <th>Product Type Name</th>
                         <th>Item Code</th>
                         <th>Supressed Code</th>
                         <th>Artwork Rec Dt</th>
@@ -97,14 +98,15 @@
                         <th>Desgin Department</th>
                         <th>Blanket Information</th>
                         <th>QC Department</th>
-                        <th width="10%">Update</th>
-                        <th width="10%">Delete</th>
+                        <th width="20%">Action</th>
+                        {{!-- <th width="10%">Delete</th> --}}
                       </tr>
                   </thead>
                  <tbody>
                    {{#each product as |value key|}}
                       <tr>
                           <td>{{sum @index 1}}</td>
+                          <td>{{this.prdt_typ_name.prdt_typ_name}}</td>
                           <td>{{this.prdt_itemcode}}</td>
                           <td>{{this.prdt_subresscode}}</td>
                           <td>{{this.prdt_artwkdt}}</td>
@@ -143,18 +145,30 @@
                           <td>{{this.dsign_ups}}</td>
                           <td>{{this.dsign_grain}}</td>
                           <td>{{this.dsign_dieno}}</td>
-                          <td>{{this.design_michne}}</td>
+                          <td>{{this.design_michne.machine_name}}</td>
                           <td>{{this.dsign_bralletyp}}</td>
                           <td>{{this.dsign_brallerckno}}</td>
                           <td>{{this.dsign_blnktno}}</td>
                           <td>{{this.dsign_grippr}}</td>
                           {{!--Blanket  --}}
                          
-                          <td><a href="/product_mast/product_mast_update/{{value._id}}">Design Department</a></td>
-                          <td><a href="/product_mast/product_mast_update/{{value._id}}">Blanket Information</a></td>
-                          <td><a href="/product_mast/product_mast_update/{{value._id}}">QC Department</a></td>
-                          <td><a href="/product_mast/product_mast_update/{{value._id}}"  class="edit_prodtmast" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                           <td><a href="/product_mast/delete_prodtmast/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
+                          <td><a href="/product_mast/product_mast_update/{{value._id}}"><button type="button" class="btn btn-info">Design Department</button></a></td>
+                          <td><a href="/product_mast/product_mast_update/{{value._id}}"><button type="button" class="btn btn-danger">Blanket Information</button></a></td>
+                          <td><a href="/product_mast/product_mast_update/{{value._id}}"><button type="button" class="btn btn-success">QC Department</button></a></a></td>
+                          <td>
+                             <div class="btn-group">
+                          {{!-- <button type="button" class="btn btn-info">Action</button> --}}
+                          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="/product_mast/product_mast_update/{{value._id}}"  class="edit_prodtmast" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></li>
+                            <li><a href="/product_mast/delete_prodtmast/{{value._id}}" class="delbutton"><i class="fa fa-trash-o" style="color:red;"></i></a></li>
+                            
+                          </ul>
+                        </div>
+                       </td>
                       </tr>
                      {{/each}}  
                    </tbody>

@@ -31,7 +31,7 @@
             </li>
                <li class="treeview">
              <a href="#">
-            <i class="fa fa-edit"></i> <span>Masters</span>
+            <i class="fa fa-cog"></i> <span>Masters</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -211,8 +211,10 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-plus"></i>New Job Entry</a></li>
-                <li><a href="#"><i class="fa fa-plus"></i>Job List</a></li>
+                <li><a href="/newjobentry/newjobentry"><i class="fa fa-plus"></i>New Job Entry</a></li>
+                <li><a href="/newjobentry/newjobentry_list"><i class="fa fa-plus"></i>Job List</a></li>
+                {{!-- <li><a href="/jobprocessentry/jobprocessentry"><i class="fa fa-plus"></i>Job Process Entry</a></li> --}}
+                 <li><a href="/jobprocessentry/jobprocessentry_list"><i class="fa fa-plus"></i>Job Process Entry</a></li>
                 <li><a href="#"><i class="fa fa-plus"></i>Scan Jobs</a></li>
                 <li><a href="#"><i class="fa fa-plus"></i>Machine Status</a></li>
               </ul>
@@ -224,9 +226,24 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                 <li><a href="#"><i class="fa fa-plus"></i>Accessories Recepit Note </a></li>
-                <li><a href="#"><i class="fa fa-plus"></i>Accessories Issue Note</a></li>
-                <li><a href="#"><i class="fa fa-plus"></i>Ink Preparation</a></li>
+                {{!-- <li><a href="/accessories_recepit_note/accessories_recepit_note"><i class="fa fa-plus"></i>Accessories Recepit Note </a></li> --}}
+                <li><a href="/accessories_recepit_note/accessories_recepit_note_list"><i class="fa fa-plus"></i>Accessories Recepit Note</a></li>
+                {{!-- <li><a href="/accessories_issue_note/accessories_issue_note"><i class="fa fa-plus"></i>Accessories Issue Note</a></li> --}}
+                <li><a href="/accessories_issue_note/accessories_issue_note_list"><i class="fa fa-plus"></i>Accessories Issue Note</a></li>
+                <li><a href="/ink_preparation/ink_preparation_list"><i class="fa fa-plus"></i>Ink Preparation</a></li>
+              </ul>
+            </li>
+             <li class="treeview">
+              <a href="#"><i class="fa fa-circle-o"></i> Plate
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="/plate_issuance_note/plate_issuance_note_list"><i class="fa fa-plus"></i>Plate Issuance Note</a></li>
+                 <li><a href="/plate_preparation_report/plate_preparation_report_list"><i class="fa fa-plus"></i>Plate Preparation Report</a></li>
+                 <li><a href="/plate_receval_note/plate_receval_note_list"><i class="fa fa-plus"></i>Plate Receival Note</a></li>
+                  <li><a href="/detruction_note_entry/detruction_note_entry"><i class="fa fa-plus"></i>Destruction Note Entry</a></li>
               </ul>
             </li>
           </ul>

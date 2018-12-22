@@ -53,6 +53,9 @@ router.get('/accessories_mast', ensureAuthenticated, function(req, res){
             access.manufactur_name = req.body.manufactur_name;
             access.machine_name = req.body.machine_name;
             access.accessoriesmin_stk = req.body.accessoriesmin_stk;
+            access.accessories_gsm =req.body.accessories_gsm;
+            access.accessories_maxstk =req.body.accessories_maxstk;
+            access.accessories_sku =req.body.accessories_sku;
             access.accessoriesqty_pen = req.body.accessoriesqty_pen;
             access.co_code =  req.session.compid;
             access.div_code =  req.session.divid;
@@ -98,6 +101,9 @@ router.get('/accessories_mast', ensureAuthenticated, function(req, res){
                 access.manufactur_name = req.body.manufactur_name;
                 access.machine_name = req.body.machine_name;
                 access.accessoriesmin_stk = req.body.accessoriesmin_stk;
+                access.accessories_gsm =req.body.accessories_gsm;
+                access.accessories_maxstk =req.body.accessories_maxstk;
+                access.accessories_sku =req.body.accessories_sku;
                 access.accessoriesqty_pen = req.body.accessoriesqty_pen;
                 access.co_code =  req.session.compid;
                 access.div_code =  req.session.divid;

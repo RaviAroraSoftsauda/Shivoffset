@@ -36,10 +36,21 @@ $(function () {
        <form action="/accessriestyp_mast/add" class="form-horizontal"  method="post" id="accessriestyp_add">
           <h4 style="color: red;text-align: center;"></h4>
         <div class="box-body">
+           <div class="form-group">
+            <label class="col-md-4">Supplier Name</label>
+            <div class="col-md-8"> 
+                <select class="form-control " name="accessriestyp_supname" id="accessriestyp_supname">
+                <option value="">Select Supplier</option>
+                {{#each supplier}}
+                <option value="{{this._id}}" data-supplier="{{this._id}}">{{this.supplier_name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-md-4">Description </label>
             <div class="col-md-8"> 
-                <input type="text" class="form-control" name="accessriestyp_name" id="accessriestyp_name" placeholder="accessriestyp" required="">
+                <input type="text" class="form-control" name="accessriestyp_name" id="accessriestyp_name" placeholder="Description" required="">
             </div>
           </div>
           <div class="form-group">
@@ -59,8 +70,19 @@ $(function () {
          <form action="" class="form-horizontal"  method="post" id="edit_accessriestyp" style="display:none">
           <h4 style="color: red;text-align: center;"></h4>
         <div class="box-body">
+          <div class="form-group">
+            <label class="col-md-4">Supplier Name</label>
+            <div class="col-md-8"> 
+                <select class="form-control accessriestyp_supname" name="accessriestyp_supname" id="accessriestyp_supname">
+                <option value="">Select Location</option>
+                {{#each supplier}}
+                <option value="{{this._id}}" data-supplier="{{this._id}}">{{this.supplier_name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
            <div class="form-group">
-            <label class="col-md-4">Name </label>
+            <label class="col-md-4">Description </label>
             <div class="col-md-8"> 
                 <input type="text" class="form-control accessriestyp_name" name="accessriestyp_name" id="accessriestyp_name" placeholder="accessriestyp" required="">
             </div>
@@ -94,6 +116,7 @@ $(function () {
                   <thead>
                       <tr>
                         <th>#</th>
+                        <th>Supplier Name</th>
                         <th>Description</th>
                         <th>Code</th>
                         <th width="10%">Update</th>
@@ -104,6 +127,7 @@ $(function () {
                    {{#each accessriestyp as |value key|}}
                       <tr>
                           <td>{{sum @index 1}}</td>
+                          <td>{{this.accessriestyp_supname.supplier_name}}</td>
                           <td>{{this.accessriestyp_name}}</td>
                           <td>{{this.accessriestyp_code}}</td>
                           <td><a href="javascript:void(0);"  class="edit_accessriestyp" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>

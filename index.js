@@ -10,8 +10,15 @@ const hbs = require('hbs');
 const moment = require('moment');
 const div_com = require('./models/company_schema');
 let userright = require('./models/user_right_schema');
+
+
+
+var url = "mongodb://localhost:27017/suda";
+var onlineurl = "mongodb://mishrarohit:rohit123@ds249123.mlab.com:49123/shivoffset";
+
 const PORT = process.env.PORT || 3000;
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://mishrarohit:rohit123@ds249123.mlab.com:49123/shivoffset');
+mongoose.connect(process.env.MONGOLAB_URI || onlineurl);
+
 let db = mongoose.connection;
 db.once('open', function () {
     console.log('Connected to MongoDB');
@@ -65,8 +72,41 @@ hbs.registerHelper("contains", function( value, strval ){
     else xx = "Y";
     return xx;
 });
-hbs.registerHelper('maxno', function (context) {
-    var maxsno = parseInt(context[0].stockpantone_rcpno)+1;
+hbs.registerHelper('maxstokno', function (context) {
+    // var maxsno = parseInt(context[0].stockpantone_rcpno)+1;
+    // return maxsno;
+    var lstcode =0;
+    if (context.toString().length == 0) lstcode =0; 
+    else lstcode = context[0].stockpantone_rcpno; 
+    var maxsno = parseInt(lstcode)+1;
+    return maxsno;
+ });
+ hbs.registerHelper('maxno', function (context) {
+    var lstcode =0;
+    if (context.toString().length == 0) lstcode =0; 
+    else lstcode = context[0].newjb_jbcrd; 
+    var maxsno = parseInt(lstcode)+1;
+    return maxsno;
+ });
+ hbs.registerHelper('maxnewjobcard', function (context) {
+    var lstcode =0;
+    if (context.toString().length == 0) lstcode =0; 
+    else lstcode = context[0].newjb_jbcrdno; 
+    var maxsno = parseInt(lstcode)+1;
+    return maxsno;
+ });
+ hbs.registerHelper('maxentryno', function (context,lvalue) {
+    var lstcode =0;
+    if (context.toString().length == 0) lstcode =0; 
+    else lstcode = context[0].jobprcss_entryno; 
+    var maxsno = parseInt(lstcode)+1;
+    return maxsno;
+ });
+ hbs.registerHelper('maxaccno', function (context,lvalue) {
+    var lstcode =0;
+    if (context.toString().length == 0) lstcode =0; 
+    else lstcode = context[0].ref_no; 
+    var maxsno = parseInt(lstcode)+1;
     return maxsno;
  });
 hbs.registerHelper('chkchecked', function(vlu,cvlu) {
@@ -76,17 +116,6 @@ hbs.registerHelper('chkchecked', function(vlu,cvlu) {
     if (vlu == cvlu) ret = "checked";
     else ret = "";
     return ret;
-});
-hbs.registerHelper('chkcheckeddynamic', function(context, lvalue, rvalue, options) {
-    var ret = "";
-    for(var i=0, j=context.length; i<j; i++) {
-        if ((context[i]._id).toString().trim() == lvalue.toString().trim()) {
-            ret = ret + "<input type='checkbox' value='"+context[i]._id+"' checked=''>"+options.fn(context[i]).trim()+"";
-        } else {
-            ret + "<input type='checkbox' value='"+context[i]._id+"'>"+options.fn(context[i]).trim()+"";
-        }
-    }
-    return ret + "</select>";
 });
 hbs.registerHelper("compare", function( value, strval ){
     // fallback...
@@ -160,7 +189,7 @@ hbs.registerHelper('departmntlist', function(context, lvalue, rvalue, options) {
     return ret + "</select>";
 });
 hbs.registerHelper('listrt', function(context , lvalue, rvalue, options) {
-    var ret = "<select class='form-control' name='"+rvalue+"' id='offerproductname'><option>Select</option>";
+    var ret = "<select class='form-control' name='"+rvalue+"' id='offerproductname'><option value=''>Select</option>";
     for(var i=0, j=context.length; i<j; i++) {
         if ((context[i]._id).toString().trim() == lvalue.toString().trim()) {
             ret = ret + "<option value='"+context[i]._id+"' selected='' data-productid='"+context[i]._id+"'>"+options.fn(context[i]).trim()+"</option>";
@@ -170,6 +199,64 @@ hbs.registerHelper('listrt', function(context , lvalue, rvalue, options) {
         }
     }
     return ret + "</select>";
+});
+hbs.registerHelper('listrtcomp', function(context , lvalue, rvalue,idvalue, options) {
+    var ret = "<select class='form-control' name='"+rvalue+"' id='"+idvalue+"'><option value=''>Select</option>";
+    for(var i=0, j=context.length; i<j; i++) {
+        if ((context[i]._id).toString().trim() == lvalue.toString().trim()) {
+            ret = ret + "<option value='"+context[i]._id+"' selected='' data-productid='"+context[i]._id+"'>"+options.fn(context[i]).trim()+"</option>";
+        } else {
+            ret = ret + "<option value='"+context[i]._id+"' data-productid='"+context[i]._id+"'>"+options.fn(context[i]).trim()+"</option>";
+          
+        }
+    }
+    return ret + "</select>";
+});
+hbs.registerHelper('listjob', function(context , lvalue, rvalue,idvalue, options) {
+    var ret = "<select class='form-control' name='"+rvalue+"' id='"+idvalue+"' onclick='foldername();'><option value=''>Select</option>";
+    for(var i=0, j=context.length; i<j; i++) {
+        if ((context[i]._id).toString().trim() == lvalue.toString().trim()) {
+            ret = ret + "<option value='"+context[i]._id+"' selected='' data-prdttyp='"+options.fn(context[i]).trim()+"'>"+options.fn(context[i]).trim()+"</option>";
+        } else {
+            ret = ret + "<option value='"+context[i]._id+"' data-prdttyp='"+options.fn(context[i]).trim()+"'>"+options.fn(context[i]).trim()+"</option>";
+          
+        }
+    }
+    return ret + "</select>";
+});
+hbs.registerHelper('checklist', function(context , lvalue, options) {
+    var ret = "";
+    for(var i=0, j=context.length; i<j; i++) {
+        if ((lvalue).toString().search(context[i]._id)>=0) {
+            ret = ret + ""+options.fn(context[i]).trim()+"";
+        }
+    }
+    
+    return ret + "";
+});
+hbs.registerHelper('checklist', function(context , context) {
+        var index = context.indexOf(context)
+        if (index >-1) {
+            context.splice(index,1);
+        } else {
+            context.push(context)
+        }
+});
+
+hbs.registerHelper('checkdynmc', function(context , lvalue, options) {
+    var ret = "";
+    for(var i=0, j=context.length; i<j; i++) {
+        if ((lvalue).toString().search(context[i]._id)>=0) {
+            ret = ret + "<input type='checkbox' name='"+lvalue+"' checked value='"+context[i]._id+"'>"+options.fn(context[i]).trim()+"";
+        }
+        else
+        {
+            ret = ret + "<input type='checkbox' name='"+lvalue+"' value='"+context[i]._id+"'>"+options.fn(context[i]).trim()+"";  
+        }
+
+    }
+    
+    return ret + "";
 });
 hbs.registerHelper('dateformat', function (datetime, format) {
     return moment(datetime).format(format);
@@ -249,7 +336,6 @@ app.get('/', loggedIn, function (req, res,err) {
 
 // Route Files
 // let users = require('./routes/users');
-
 let users = require('./routes/userright');
 let security_right = require('./routes/security_right');
 let product_type_mast = require('./routes/product_type_mast');
@@ -287,6 +373,15 @@ let machinechecklist_mast = require('./routes/machinechecklist_mast');
 let qcequimnts_mast = require('./routes/qcequimnts_mast');
 let jobactivty_mast = require('./routes/jobactivty_mast');
 let stockpantone_mast = require('./routes/stockpantone_mast');
+let newjobentry = require('./routes/newjobentry');
+let jobprocessentry = require('./routes/jobprocessentry');
+let accessories_recepit_note = require('./routes/accessories_recepit_note');
+let accessories_issue_note = require('./routes/accessories_issue_note');
+let plate_issuance_note = require('./routes/plate_issuance_note');
+let plate_preparation_report = require('./routes/plate_preparation_report');
+let plate_receval_note = require('./routes/plate_receval_note');
+let ink_preparation = require('./routes/ink_preparation');
+let detruction_note_entry = require('./routes/detruction_note_entry');
 // app.use('/users', users);
 app.use('/userright', users);
 app.use('/security_right', security_right);
@@ -325,6 +420,15 @@ app.use('/machinechecklist_mast',machinechecklist_mast);
 app.use('/qcequimnts_mast',qcequimnts_mast);
 app.use('/jobactivty_mast',jobactivty_mast);
 app.use('/stockpantone_mast',stockpantone_mast);
+app.use('/newjobentry',newjobentry);
+app.use('/jobprocessentry',jobprocessentry);
+app.use('/accessories_recepit_note',accessories_recepit_note);
+app.use('/accessories_issue_note',accessories_issue_note);
+app.use('/plate_issuance_note',plate_issuance_note);
+app.use('/plate_preparation_report',plate_preparation_report);
+app.use('/plate_receval_note',plate_receval_note);
+app.use('/ink_preparation',ink_preparation);
+app.use('/detruction_note_entry',detruction_note_entry);
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 

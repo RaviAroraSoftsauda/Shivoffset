@@ -10,7 +10,7 @@ let city = require('../models/city_mast_schema');
 let product = require('../models/product_type_schema');
 var query;
 router.get('/prdttypname', function (req, res) {
-    product.find({}, function(err, product){
+    product.find({co_code:req.session.compid,div_code:req.session.divid}, function(err, product){
         res.json({ 'success': true, 'product': product});
     });
 });

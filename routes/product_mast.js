@@ -5,6 +5,7 @@ var multer = require('multer');
 var fs = require('fs');
 var path = require('path');
 let product = require('../models/product_mast_schema');
+let prdttyp = require('../models/product_type_schema');
 let country = require('../models/country_mast_schema');
 let state = require('../models/state_mast_schema');
 let inserttyp = require('../models/inserttyp_mast_schema');
@@ -17,15 +18,23 @@ let vernish = require('../models/varnish_mast_schema');
 let manufactur = require('../models/manufactur_mast_schema');
 let machine = require('../models/machine_mast_schema');
 let party = require('../models/party_mast_schema');
+let stockpantone = require('../models/accessories_mast_schema');
+let accbord = require('../models/accessories_mast_schema');
 var query;
 router.get('/cityname', function (req, res) {
     city.find({co_code:req.session.compid,div_code:req.session.divid}, function(err, city){
         res.json({ 'success': true, 'city': city});
     });
 });
+router.get('/pantonename', function (req, res) {
+    stockpantone.find({flag:"PANT",co_code:req.session.compid,div_code:req.session.divid}, function(err, stockpantone){
+        res.json({ 'success': true, 'stockpantone': stockpantone});
+    }).populate('stockpantone_pantonno');
+});
 // Add Route
 router.get('/product_mast', ensureAuthenticated, function(req, res){
             product.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, product){
+            prdttyp.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, prdttyp){
             country.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, country){
             inserttyp.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, inserttyp){
             floading.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, floading){
@@ -36,13 +45,16 @@ router.get('/product_mast', ensureAuthenticated, function(req, res){
             vernish.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, vernish){
             machine.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, machine){
             party.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, party){
+            stockpantone.find({flag:"PANT",co_code:req.session.compid,div_code:req.session.divid}, function (err, stockpantone){
             manufactur.find({manufactur_typ:"5bf8dfc5971f74121491300b",co_code:req.session.compid,div_code:req.session.divid}, function (err, manufactur){
+            accbord.find({accestyp_name:"5bf8dfc5971f74121491300b",co_code:req.session.compid,div_code:req.session.divid}, function (err, accbord){
             if (err) {
                 console.log(err);
             } else {
                 res.render('product_mast.hbs', {
                     pageTitle:'Add product',
                     product: product,
+                    prdttyp: prdttyp,
                     country: country,
                     inserttyp: inserttyp,
                     floading: floading,
@@ -53,11 +65,14 @@ router.get('/product_mast', ensureAuthenticated, function(req, res){
                     vernish: vernish,
                     machine: machine,
                     party: party,
+                    stockpantone: stockpantone,
                     manufactur: manufactur,
+                    accbord: accbord,
                 });
             }
         })
-    });
+    })
+}).populate('stockpantone_pantonno');
 });
 });
 });
@@ -67,7 +82,9 @@ router.get('/product_mast', ensureAuthenticated, function(req, res){
 });
 });
 });
-}).populate('prdt_country').populate('prdt_brdmnfctur').populate('prdt_cnstrcton').populate('prdt_vernish').populate('prdt_dsignstyl').populate('prdt_fldingflat').populate('prdt_fldingpttrn');
+});
+});
+});
 });
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -100,6 +117,7 @@ var upload = multer({
         if(req.body.prdt_fldingflat=="") req.body.prdt_fldingflat=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         if(req.body.prdt_fldingpttrn=="") req.body.prdt_fldingpttrn=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         if(req.body.prdt_prtyname=="") req.body.prdt_prtyname=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_typ_name=="") req.body.prdt_typ_name=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if (errors) {
             if(req.file) {
@@ -129,14 +147,18 @@ var upload = multer({
                 });     
             } else {
                 let prdt = new product();
+                prdt.prdt_typ_name=req.body.prdt_typ_name;
                 prdt.prdt_itemcode = req.body.prdt_itemcode;
                 prdt.prdt_subresscode= req.body.prdt_subresscode;
                 prdt.prdt_artwkdt= req.body.prdt_artwkdt;
                 prdt.prdt_prtyname= req.body.prdt_prtyname;
                 prdt.location_group= req.body.location_group;
+                prdt.pantone_group = req.body.pantone_group;
                 prdt.prdt_pname= req.body.prdt_pname;
                 prdt.prdt_brdqlty= req.body.prdt_brdqlty;
                 prdt.prdt_gsmmb= req.body.prdt_gsmmb;
+                prdt.prdt_coinscratch =req.body.prdt_coinscratch;
+                prdt.prdt_perfration =req.body.prdt_perfration;
                 prdt.actul_l= req.body.actul_l;
                 prdt.actul_w= req.body.actul_w;
                 prdt.actul_h= req.body.actul_h;
@@ -156,6 +178,7 @@ var upload = multer({
                 prdt.prdt_erflp= req.body.prdt_erflp;
                 prdt.prdt_dsignstyl= req.body.prdt_dsignstyl;
                 prdt.prdt_country= req.body.prdt_country;
+                prdt.prdt_nvz= req.body.prdt_nvz;
                 prdt.prdt_brdmnfctur= req.body.prdt_brdmnfctur;
                 prdt.prdt_cnstrcton= req.body.prdt_cnstrcton;
                 prdt.prdt_embssrckno= req.body.prdt_embssrckno;
@@ -194,7 +217,7 @@ var upload = multer({
                 product: product,
             });
         }
-}).populate('prdt_country').populate('prdt_prtyname').populate('prdt_brdmnfctur').populate('prdt_cnstrcton').populate('prdt_vernish').populate('prdt_dsignstyl').populate('prdt_fldingflat').populate('prdt_fldingpttrn');
+}).populate('prdt_country').populate('prdt_prtyname').populate('prdt_brdmnfctur').populate('prdt_cnstrcton').populate('prdt_vernish').populate('prdt_dsignstyl').populate('prdt_fldingflat').populate('prdt_fldingpttrn').populate('design_michne').populate('prdt_typ_name');
 });
 //     router.get('/:id', ensureAuthenticated, function(req, res){
 //         product.findById(req.params.id, function(err, product){
@@ -212,7 +235,9 @@ var upload = multer({
 
 router.get('/product_mast_update/:id', ensureAuthenticated, function(req, res){
     product.findById(req.params.id, function(err, product){
-        country.find({}, function (err, country){
+        stockpantone.find({flag:"PANT",co_code:req.session.compid,div_code:req.session.divid}, function (err, stockpantone){
+            prdttyp.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, prdttyp){
+            country.find({}, function (err, country){
             inserttyp.find({}, function (err, inserttyp){
             floading.find({}, function (err, floading){
             departmnt.find({}, function (err, departmnt){
@@ -221,14 +246,16 @@ router.get('/product_mast_update/:id', ensureAuthenticated, function(req, res){
             construction.find({}, function (err, construction){
             vernish.find({}, function (err, vernish){
             party.find({}, function (err, party){
-            manufactur.find({manufactur_typ:"5beab94623fe5315e0150488"}, function (err, manufactur){
+            manufactur.find({manufactur_typ:"5bf8dfc5971f74121491300b"}, function (err, manufactur){
             machine.find({}, function (err, machine){
             if (err) {
                 console.log(err);
             } else {
                 res.render('product_mast_update.hbs', {
                     pageTitle:'Update product',
-                    product: product, 
+                    product: product,
+                    stockpantone: stockpantone, 
+                    prdttyp: prdttyp,   
                     country: country,
                     inserttyp: inserttyp,
                     floading: floading,
@@ -244,15 +271,17 @@ router.get('/product_mast_update/:id', ensureAuthenticated, function(req, res){
             }
         })
     });
+});
     });
     });
     });
     });
     });
+});
     });
     });
     });
-    });
+    }).populate('stockpantone_pantonno');;
 });
 });
 router.post('/update/:id', upload.single('prdt_image'), function(req, res){
@@ -264,6 +293,7 @@ router.post('/update/:id', upload.single('prdt_image'), function(req, res){
         if(req.body.prdt_fldingflat=="") req.body.prdt_fldingflat=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         if(req.body.prdt_fldingpttrn=="") req.body.prdt_fldingpttrn=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         if(req.body.prdt_prtyname=="") req.body.prdt_prtyname=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.prdt_typ_name=="") req.body.prdt_typ_name=mongoose.Types.ObjectId('578df3efb618f5141202a196');
     let errors = req.validationErrors();
     if (errors) {
         if(req.file) {
@@ -285,14 +315,18 @@ router.post('/update/:id', upload.single('prdt_image'), function(req, res){
             res.json({ 'success': false, 'message': 'File Validation error', errors: req.fileValidationError });    
         } else {
             let prdt = {};
+            prdt.prdt_typ_name=req.body.prdt_typ_name;
             prdt.prdt_itemcode = req.body.prdt_itemcode;
             prdt.prdt_subresscode= req.body.prdt_subresscode;
             prdt.prdt_artwkdt= req.body.prdt_artwkdt;
             prdt.prdt_prtyname= req.body.prdt_prtyname;
             prdt.location_group= req.body.location_group;
+            prdt.pantone_group = req.body.pantone_group;
             prdt.prdt_pname= req.body.prdt_pname;
             prdt.prdt_brdqlty= req.body.prdt_brdqlty;
             prdt.prdt_gsmmb= req.body.prdt_gsmmb;
+            prdt.prdt_coinscratch =req.body.prdt_coinscratch;
+            prdt.prdt_perfration =req.body.prdt_perfration;
             prdt.actul_l= req.body.actul_l;
             prdt.actul_w= req.body.actul_w;
             prdt.actul_h= req.body.actul_h;
@@ -312,6 +346,7 @@ router.post('/update/:id', upload.single('prdt_image'), function(req, res){
             prdt.prdt_erflp= req.body.prdt_erflp;
             prdt.prdt_dsignstyl= req.body.prdt_dsignstyl;
             prdt.prdt_country= req.body.prdt_country;
+            prdt.prdt_nvz= req.body.prdt_nvz;
             prdt.prdt_brdmnfctur= req.body.prdt_brdmnfctur;
             prdt.prdt_cnstrcton= req.body.prdt_cnstrcton;
             prdt.prdt_embssrckno= req.body.prdt_embssrckno;
@@ -400,6 +435,8 @@ router.post('/update/:id', upload.single('prdt_image'), function(req, res){
                 let prdt = {};
                 ////Blanket
                 prdt.blanket_name = req.body.blanket_name;
+                prdt.dsign_grippr= req.body.dsign_grippr;
+                prdt.dsign_blnktno= req.body.dsign_blnktno;
                 prdt.blanketyp_ups = req.body.blanketyp_ups;
                 prdt.blanket_sizeone = req.body.blanket_sizeone;
                 prdt.blanket_sizetwo = req.body.blanket_sizetwo;
@@ -447,6 +484,31 @@ router.post('/update/:id', upload.single('prdt_image'), function(req, res){
                 });
             }
         });
+        router.post('/updatepeastedepartment/:id', function(req, res) {
+            let errors = req.validationErrors();
+            if (errors) {
+                console.log(errors);
+                res.json({ 'success': false, 'message': 'validation error', 'errors': errors });
+            } else {
+                let prdt = {};
+                prdt.qc_corbx= req.body.qc_corbx;
+                prdt.qc_size= req.body.qc_size;
+                prdt.qc_qty= req.body.qc_qty;
+                prdt.qc_ups= req.body.qc_ups;
+                prdt.co_code =  req.session.compid;
+                prdt.div_code =  req.session.divid;
+                prdt.usrnm =  req.session.user;
+                let query = {_id:req.params.id}
+                product.update(query ,prdt ,function (err) {
+                    if (err) {
+                        res.json({ 'success': false, 'message': 'Error in Saving product', 'errors': err });
+                        return;
+                    } else {;
+                        res.redirect('/product_mast/product_mast_list');
+                    }
+                });
+            }
+        });
         router.get('/delete_prodtmast/:id', function(req, res){
             if(!req.user.id)
             {
@@ -459,7 +521,7 @@ router.post('/update/:id', upload.single('prdt_image'), function(req, res){
                     {
                         console.log(err);
                     }
-                    res.redirect('/product_mast/product_mast');
+                    res.redirect('/product_mast/product_mast_list');
                 });
             });
         });

@@ -40,7 +40,7 @@ $(function () {
             <label class="col-md-4">Type</label>
             <div class="col-md-8"> 
                  <select class="form-control" name="accestyp_name" id="accestyp_name" required="">
-                 <option>----Select Type----</option>
+                 <option value="">----Select Type----</option>
                 {{#each accessriestyp}}
                 <option value="{{this._id}}" data-accessriestyp="{{this._id}}">{{this.accessriestyp_name}}</option>
                 {{/each}}
@@ -51,7 +51,7 @@ $(function () {
             <label class="col-md-4">Sub Type </label>
             <div class="col-md-8"> 
                  <select class="form-control" name="accessubtyp_name" id="accessubtyp_name" required="">
-                 <option>----Select Sub Type----</option>
+                 <option value="">----Select Sub Type----</option>
                 {{#each accessubtyp}}
                 <option value="{{this._id}}" data-accessriestyp="{{this._id}}">{{this.accessubtyp_name}}</option>
                 {{/each}}
@@ -68,7 +68,7 @@ $(function () {
             <label class="col-md-4">Manuacturer</label>
             <div class="col-md-8"> 
                 <select class="form-control manufactur_name" name="manufactur_name" id="manufactur_name" required="">
-                 <option>----Select Manuacturer----</option>
+                 <option value="">----Select Manuacturer----</option>
                 {{#each manufactur}}
                 <option value="{{this._id}}" data-manufactur="{{this._id}}">{{this.manufactur_name}}</option>
                 {{/each}}
@@ -89,7 +89,29 @@ $(function () {
            <div class="form-group">
             <label class="col-md-4">Min Stk</label>
             <div class="col-md-8"> 
-                <input type="text" class="form-control" name="accessoriesmin_stk" id="accessoriesmin_stk" placeholder="Min Stk">
+                <input type="number" class="form-control" name="accessoriesmin_stk" id="accessoriesmin_stk" placeholder="Min Stk">
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">GSM</label>
+            <div class="col-md-8"> 
+                <input type="number" class="form-control" name="accessories_gsm" id="accessories_gsm" placeholder="GSM">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Max Stk</label>
+            <div class="col-md-8"> 
+                <input type="number" class="form-control" name="accessories_maxstk" id="accessories_maxstk" placeholder="Max Stk">
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">SKU</label>
+            <div class="col-md-8"> 
+              <select class="form-control" name="accessories_sku" id="accessories_sku">
+                <option value="">--Select Sku--</option>
+                <option value="PC">PC</option>
+                <option value="KG">KG</option>
+              </select>
             </div>
           </div>
           <div class="form-group">
@@ -113,7 +135,7 @@ $(function () {
             <label class="col-md-4">Type</label>
             <div class="col-md-8"> 
                  <select class="form-control accestyp_name" name="accestyp_name" id="accestyp_name" required="">
-                 <option>----Select Type----</option>
+                 <option value="">----Select Type----</option>
                 {{#each accessriestyp}}
                 <option value="{{this._id}}" data-accessriestyp="{{this._id}}">{{this.accessriestyp_name}}</option>
                 {{/each}}
@@ -141,7 +163,7 @@ $(function () {
             <label class="col-md-4">Manuacturer</label>
             <div class="col-md-8"> 
                 <select class="form-control manufactur_name" name="manufactur_name" id="manufactur_name" required="">
-                 <option>----Select Manuacturer----</option>
+                 <option value="">----Select Manuacturer----</option>
                 {{#each manufactur}}
                 <option value="{{this._id}}" data-manufactur="{{this._id}}">{{this.manufactur_name}}</option>
                 {{/each}}
@@ -162,7 +184,29 @@ $(function () {
             <div class="form-group">
             <label class="col-md-4">Min Stk</label>
             <div class="col-md-8"> 
-                <input type="text" class="form-control accessoriesmin_stk" name="accessoriesmin_stk" id="accessoriesmin_stk" placeholder="Min Stk">
+                <input type="number" class="form-control accessoriesmin_stk" name="accessoriesmin_stk" id="accessoriesmin_stk" placeholder="Min Stk">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">GSM</label>
+            <div class="col-md-8"> 
+                <input type="number" class="form-control accessories_gsm" name="accessories_gsm" id="accessories_gsm" placeholder="GSM">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Max Stk</label>
+            <div class="col-md-8"> 
+                <input type="number" class="form-control accessories_maxstk" name="accessories_maxstk" id="accessories_maxstk" placeholder="Max Stk">
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-md-4">SKU</label>
+            <div class="col-md-8"> 
+              <select class="form-control accessories_sku" name="accessories_sku" id="accessories_sku">
+                <option value="">--Select Sku--</option>
+                <option value="PC">PC</option>
+                <option value="KG">KG</option>
+              </select>
             </div>
           </div>
           <div class="form-group">
@@ -200,6 +244,9 @@ $(function () {
                         <th>Manuacturer</th>
                         <th>Machine</th>
                         <th>Min Stk</th>
+                        <th>GSM</th>
+                        <th>Max Stk</th>
+                        <th>SKU</th>
                         <th>Qty opening</th>
                         <th width="10%">Update</th>
                         <th width="10%">Delete</th>
@@ -215,6 +262,9 @@ $(function () {
                           <td>{{this.manufactur_name.manufactur_name}}</td>
                           <td>{{this.machine_name.machine_name}}</td>
                           <td>{{this.accessoriesmin_stk}}</td>
+                          <td>{{this.accessories_gsm}}</td>
+                          <td>{{this.accessories_maxstk}}</td>
+                          <td>{{this.accessories_sku}}</td>
                           <td>{{this.accessoriesqty_pen}}</td>
                           <td><a href="javascript:void(0);"  class="edit_accessories" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
                           <td><a href="/accessories_mast/delete_accessories/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>

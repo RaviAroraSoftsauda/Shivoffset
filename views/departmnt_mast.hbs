@@ -56,20 +56,6 @@ $(function () {
            <div id="insert_div">
               <a id="add" class="addMachine" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 262px;"></i></a>                  
             </div>
-          {{!-- <div data-repeater-list="machine_group">
-           <div data-repeater-item>
-             <div class="form-group">
-               <label class="col-md-4">Machine Name</label>
-                <div class="col-md-5"> 
-                <input type="text" class="form-control" name="departmnt_mechnenm" id="departmnt_mechnenm" placeholder="Machine Name" required="">
-               </div>
-                <div class="col-md-3">
-               <a data-repeater-delete style='cursor:pointer;'><i class='fa fa-times' style='font-size: 25px;color: red;'></i></a> 
-               </div>
-           </div>
-          </div>
-          </div>
-          <a data-repeater-create style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 202px;"></i></a> --}}
           <div class="form-group">
             <label class="col-md-4">Job Order</label>
             <div class="col-md-8"> 
@@ -127,6 +113,20 @@ $(function () {
           <div id="machine_div">
               <a id="add" class="addDepartmnt" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 262px;"></i></a>                  
             </div>
+             <div class="form-group">
+               <label class="col-md-4">SOPs [Training Needs]</label>
+                <div class="col-md-7"> 
+                  <select class="form-control"name="sop_group[0][sop]" id="sop">
+                 <option value="">----Select SOPs----</option>
+                {{#each sop}}
+                <option value="{{this._id}}" data-sop="{{this._id}}">{{this.sop_desp}}</option>
+                {{/each}}
+              </select>
+               </div>
+           </div>
+           <div id="insert_sop">
+              <a id="add" class="addsop" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 262px;"></i></a>                  
+            </div>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
@@ -180,6 +180,11 @@ $(function () {
           <div id="adddprt_divup">
               <a id="add" class="adddupdatedprt" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 262px;"></i></a>                  
             </div>
+            <div class="form-group sop_wrapper">
+           </div>
+          <div id="adddsop_divup">
+              <a id="add" class="adddupdatesop" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 262px;"></i></a>                  
+            </div>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
@@ -230,7 +235,7 @@ $(function () {
   </div>
       </section>
     </div>
-    </div>
+
   </div>
 </div>
  {{> footer}}

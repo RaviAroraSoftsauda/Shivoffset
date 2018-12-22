@@ -7,23 +7,13 @@ let city = require('../models/city_mast_schema');
 var query;
 
 // Add Route
-router.get('/stateid', function (req, res) {
-    if( req.query.id ) {
-        state.findById(req.query.id,function(err, state){
+router.post('/stateid', function (req, res) {
+    var cntryid = req.body.cntryid;
+        state.find({countryid:cntryid,co_code:req.session.compid,div_code:req.session.divid},function(err, state){
             console.log(state);
             res.json({ 'success': true, 'state': state });
         });
-        
-    }
 });
-// router.get('/getstateid', function (req, res) {
-//     if( req.query.id ) {
-//         state.findById(req.query.id, function(err, state){
-//             console.log(state);
-//             res.json({ 'success': true, 'state': state });
-//         });
-//     }
-// });
 router.get('/city_mast', ensureAuthenticated, function(req, res){
     country.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, country){
         state.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, state){

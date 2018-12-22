@@ -20,6 +20,9 @@ let departmntSchema = mongoose.Schema({
     dprtmnt_group: {
         type: Array,
     },
+    sop_group: {
+        type: Array,
+    },
     co_code:{
         type:String,
     },

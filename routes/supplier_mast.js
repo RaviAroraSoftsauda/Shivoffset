@@ -20,6 +20,7 @@ router.get('/supplier_mast', ensureAuthenticated, function(req, res){
     }).populate('supplier_city');
 });
     router.post('/add',function(req, res){
+        if(req.body.supplier_city=="") req.body.supplier_city=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if(errors)
         {
@@ -62,6 +63,7 @@ router.get('/supplier_mast', ensureAuthenticated, function(req, res){
         });
     });
         router.post('/edit_supplier_mast/:id', function(req, res) {
+            if(req.body.supplier_city=="") req.body.supplier_city=mongoose.Types.ObjectId('578df3efb618f5141202a196');
             let errors = req.validationErrors();
             if (errors) {
                 console.log(errors);

@@ -39,12 +39,12 @@ $(function () {
           <div class="form-group">
             <label class="col-md-2">Recipe No</label>
             <div class="col-md-4"> 
-             <input type="text" class="form-control" name="stockpantone_rcpno" id="stockpantone_rcpno" value="{{maxno stockpantone}}">
+             <input type="number" class="form-control" name="stockpantone_rcpno" id="stockpantone_rcpno" value="{{maxstokno stockpantone}}">
             </div>
              <label class="col-md-2">Board</label>
             <div class="col-md-4"> 
                <select class="form-control stockpantone_board" name="stockpantone_board" id="stockpantone_board">
-                 <option value="">----Select Pantone No----</option>
+                 <option value="">----Select Board----</option>
                 {{#each accbord}}
                 <option value="{{this._id}}" data-pantone="{{this._id}}">{{this.accessories_desc}}</option>
                 {{/each}}
@@ -54,7 +54,7 @@ $(function () {
            <div class="form-group">
             <label class="col-md-2">Pantone No</label>
             <div class="col-md-4"> 
-              <select class="form-control stockpantone_pantonno" name="stockpantone_pantonno" id="stockpantone_pantonno">
+              <select class="form-control stockpantone_pantonno" name="stockpantone_pantonno" id="stockpantone_pantonno" required>
                  <option value="">----Select Pantone No----</option>
                 {{#each pantone}}
                 <option value="{{this._id}}" data-pantone="{{this._id}}">{{this.pantone_descrpton}}</option>
@@ -137,7 +137,7 @@ $(function () {
              <label class="col-md-2">Board</label>
             <div class="col-md-4"> 
                <select class="form-control stockpantone_board" name="stockpantone_board" id="stockpantone_board">
-                 <option value="">----Select Pantone No----</option>
+                 <option value="">----Select Board----</option>
                 {{#each accbord}}
                 <option value="{{this._id}}" data-pantone="{{this._id}}">{{this.accessories_desc}}</option>
                 {{/each}}
@@ -147,7 +147,7 @@ $(function () {
            <div class="form-group">
             <label class="col-md-2">Pantone No</label>
             <div class="col-md-4"> 
-              <select class="form-control stockpantone_pantonno" name="stockpantone_pantonno" id="stockpantone_pantonno">
+              <select class="form-control stockpantone_pantonno" name="stockpantone_pantonno" id="stockpantone_pantonno" required>
                  <option value="">----Select Pantone No----</option>
                 {{#each pantone}}
                 <option value="{{this._id}}" data-pantone="{{this._id}}">{{this.pantone_descrpton}}</option>

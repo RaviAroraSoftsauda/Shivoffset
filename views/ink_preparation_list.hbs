@@ -1,0 +1,103 @@
+{{> header}}
+{{> nav}}
+
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+     <a href="/ink_preparation/ink_preparation" style="color:white"><h1 class="btn btn-primary pull-left" style="margin-bottom: 21px;">Add Ink Preparation</h1></a>
+      <ol class="breadcrumb" >
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+         <li><a href="#"><i class="fa fa-dashboard"></i>Ink Preparation Report</a></li>
+      </ol>
+    </section>
+  <div class="row">
+    <div class="col-md-7">
+      <section class="content-header">
+         
+         
+  {{!-- <div class="box box-primary"> --}}
+    {{!-- <div class="box-header with-border"> --}}
+      {{!-- <h3 class="box-title" id="add">Product Master</h3>
+      <h3 class="box-title" id="edit" style="display: none">Update Product Master</h3> --}}
+          {{#if err}}
+          <div class="alert alert-danger">
+          <strong>{{err}}</strong>
+          </div>
+          {{/if}}
+          {{#if errors}}
+          <div class="alert alert-danger">
+          <strong>{{errors}}</strong>
+          </div>
+          {{/if}}
+    {{!-- </div> --}}
+  {{!-- </div> --}}
+      </section>
+    </div>
+    <div class="col-md-12">
+      <section class="content-header">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">View Ink Preparation Report </h3>
+                  <p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>
+          </div>
+            <div class="box-body">
+              <div class="table-responsive">
+                <table id="example" class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Ref No</th>
+                        <th>Date</th>
+                        <th>Employee Name</th>
+                        <th width="15%">Action</th>
+                      </tr>
+                  </thead>
+                 <tbody>
+                   {{#each inkpreparation as |value key|}}
+                      <tr>
+                      <td>{{sum @index 1}}</td>
+                      <td>{{this.ref_no}}</td>
+                      <td>{{this.ink_date}}</td>
+                      <td>{{this.ink_employeename.employee_name}}</td>
+                      <td>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="/ink_preparation/ink_preparation_update/{{value._id}}"  class="edit_recepitnote" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></li>
+                            <li><a href="/ink_preparation/delete_ink_preparation/{{value._id}}" class="delbutton"><i class="fa fa-trash-o" style="color:red;"></i></a></li>
+                            
+                          </ul>
+                        </div>
+                        </td>
+                      </tr>
+                     {{/each}}  
+                   </tbody>
+                </table>
+      </div>
+    </div>
+  </div>
+      </section>
+    </div>
+    
+  </div>
+</div>
+ {{> footer}}
+<style>
+ .button-clear {
+
+          background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+
+        }
+        div.dataTables_wrapper {
+        margin-bottom: 3em;
+    }
+       </style>
+       

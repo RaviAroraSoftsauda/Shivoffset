@@ -8,6 +8,9 @@ let prodSchema = mongoose.Schema({
     prdt_subresscode: {
         type: String,
     },
+    prdt_typ_name: {
+        type: Schema.Types.ObjectId, ref: 'prdttyp_mast',
+    },
     prdt_artwkdt: {
         type: String,
     },
@@ -16,6 +19,17 @@ let prodSchema = mongoose.Schema({
     },
     location_group: {
         type: Array,
+    },
+    pantone_group: {
+        type: Array,
+    },
+    prdt_coinscratch:
+    {
+        type: String,
+    },
+    prdt_perfration:
+    {
+        type: String,
     },
     prdt_pname: {
         type: String,
@@ -82,6 +96,9 @@ let prodSchema = mongoose.Schema({
     },
     prdt_country: {
         type: Schema.Types.ObjectId, ref: 'country_mast',
+    },
+    prdt_nvz: {
+        type: String,
     },
     prdt_brdmnfctur: {
         type: Schema.Types.ObjectId, ref: 'manufactur_mast',
