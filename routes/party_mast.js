@@ -59,7 +59,7 @@ var upload = multer({
     }
 });
 router.post('/add', upload.single('party_scandoc'), (req, res, next) => {
-    if(req.body.part_city=="Select City") req.body.part_city=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+    if(req.body.part_city=="") req.body.part_city=mongoose.Types.ObjectId('578df3efb618f5141202a196');
     if(req.body.party_prttyp=="") req.body.party_prttyp=mongoose.Types.ObjectId('578df3efb618f5141202a196');
     let errors = req.validationErrors();
     if (errors) {
@@ -137,7 +137,7 @@ router.post('/add', upload.single('party_scandoc'), (req, res, next) => {
     });
 });
     router.post('/edit_party_mast/:id', upload.single('party_scandoc'), function(req, res){
-        if(req.body.part_city=="Select City") req.body.part_city=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.part_city=="") req.body.part_city=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         if(req.body.party_prttyp=="") req.body.party_prttyp=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         let errors = req.validationErrors();
         if (errors) {

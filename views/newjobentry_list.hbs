@@ -43,15 +43,15 @@
                         <th>Item Code</th>
                         <th>Delv At</th>
                         <th>Job Card No</th>
+                        <th>Party Name</th>
                         <th>Po. No</th>
                         <th>Po. Date</th>
-                        {{!-- <th>Party Name</th> --}}
                         <th>Lamination</th>
                         <th>Varnish</th>
                         <th>GSM</th>
                         <th>Material</th>
                         <th>Cut Size</th>
-                        <th>Piching/Pasting</th>
+                        {{!-- <th>Piching/Pasting</th> --}}
                         <th>Actual Sheet</th>
                         <th>Varnish UV</th>
                         <th>Fold/Flat Size</th>
@@ -66,8 +66,7 @@
                         <th>New Job</th>
                         <th>Repeat</th>
                          <th>TP</th>
-                        <th width="10%">Update</th>
-                        <th width="10%">Delete</th>
+                        <th width="10%">Action</th>
                       </tr>
                   </thead>
                  <tbody>
@@ -77,15 +76,15 @@
                           <td>{{this.newjb_itemcd}}</td>
                           <td>{{this.newjb_dlvat.city_name}}</td>
                           <td>{{this.newjb_jbcrd}}</td>
+                          <td>{{this.newjb_prtynm.party_name}}</td>
                           <td>{{this.newjb_pono}}</td>
                           <td>{{this.newjb_podt}}</td>
-                          {{!-- <td>{{this.newjb_prtynm.prdt_prtyname}}</td> --}}
                           <td>{{this.newjb_lmiton}}</td>
                           <td>{{this.newjb_vernish.vernish_name}}</td>
                           <td>{{this.newjb_gsm}}</td>
-                          <td>{{this.newjb_matril}}</td>
+                          <td>{{this.newjb_matril.accessories_desc}}</td>
                           <td>{{this.newjb_cutsz}}</td>
-                          <td>{{this.newjb_pichng}}</td>
+                          {{!-- <td>{{this.newjb_pichng}}</td> --}}
                           <td>{{this.newjb_actulsz}}</td>
                           <td>{{this.newjb_vrnshuv}}</td>
                           <td>
@@ -115,8 +114,19 @@
                           <td>{{this.newjb_nwjb}}</td>
                           <td>{{this.newjb_rupes}}</td>
                           <td>{{this.newjb_tp}}</td>
-                          <td><a href="/newjobentry/newjobentry_update/{{value._id}}"  class="edit_prodtmast" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></td>
-                          <td><a href="/newjobentry/delete_newjobentry/{{value._id}}" onclick="return confirm('Are you sure want to delete.');"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
+                          <td>
+                            <div class="btn-group">
+                          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="/newjobentry/newjobentry_update/{{value._id}}"  class="edit_prodtmast" data-id="{{this._id}}"><i class="fa fa-pencil"></i></i></a></li>
+                            <li><a href="/newjobentry/delete_newjobentry/{{value._id}}" class="delbutton"><i class="fa fa-trash-o" style="color:red;"></i></a></li>
+                            
+                          </ul>
+                        </div>
+                            </td>
                       </tr>
                      {{/each}}  
                    </tbody>

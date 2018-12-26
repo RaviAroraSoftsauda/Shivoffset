@@ -49,6 +49,8 @@ router.get('/stockpantone_mast', ensureAuthenticated, function(req, res){
             pntn.stockpantone_board= req.body.stockpantone_board;
             pntn.stockpantone_pantonno= req.body.stockpantone_pantonno;
             pntn.stockpantone_barcode= req.body.stockpantone_barcode;
+            pntn.drwdown= req.body.drwdown;
+            pntn.labvalue= req.body.labvalue;
             pntn.stock_item= req.body.stock_item;
             pntn.co_code =  req.session.compid;
             pntn.div_code =  req.session.divid;
@@ -91,6 +93,8 @@ router.get('/stockpantone_mast', ensureAuthenticated, function(req, res){
                 pntn.stockpantone_board= req.body.stockpantone_board;
                 pntn.stockpantone_pantonno= req.body.stockpantone_pantonno;
                 pntn.stockpantone_barcode= req.body.stockpantone_barcode;
+                pntn.drwdown= req.body.drwdown;
+                pntn.labvalue= req.body.labvalue;
                 pntn.stock_item= req.body.stock_item;
                 pntn.co_code =  req.session.compid;
                 pntn.div_code =  req.session.divid;

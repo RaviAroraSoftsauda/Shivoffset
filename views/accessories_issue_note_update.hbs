@@ -73,6 +73,7 @@ $(function () {
                 <thead style="background-color:#008d4c;color: #fff;font-size: 15px;">
                   <tr>
                     <th>Type</th>
+                    <th>Sub Type</th>
                     <th>Product</th>
                     <th>Qty</th>
                     <th>Location</th>
@@ -85,13 +86,22 @@ $(function () {
                  {{#each recepitissue.acc_note_item as |value key|}}
               <tr class="recepitissue_variation_row" id="recepitissue_variation_row-{{@index}}">
              <td>
-              <select class="form-control stockpantone_deprt" name="acc_note_item[{{@index}}][type]" onchange='get_product({{@index}})' id="type{{@index}}" style='width:100%;'>
+              <select class="form-control stockpantone_deprt" name="acc_note_item[{{@index}}][type]" onchange='getproduct({{@index}})' id="type{{@index}}" style='width:100%;'>
                   <option value="">----Select Type----</option>
                    {{#each ../accessriestyp}}
                    <option value="{{this._id}}" data-accessriestyp="{{this._id}}" {{#equal ../type this._id}}selected=""{{/equal}}>{{this.accessriestyp_name}}</option>
                 {{/each}}
                 </select>
              </td>
+              <td class="subtypname{{@index}}">
+                 <select class="form-control"name='acc_note_item[{{@index}}][subtyp]' id="subtyp{{@index}}" style='width:100%;'>
+                  {{!-- <option value="">----Select Type----</option> --}}
+                   <option value="">----Select Sub Type----</option>
+                  {{#each ../accessubtyp}}
+                  <option value="{{this._id}}" data-accessriestyp="{{this._id}}" {{#equal ../subtyp this._id}}selected=""{{/equal}}>{{this.accessubtyp_name}}</option>
+                  {{/each}}
+                </select>
+                </td>
             <td class="productname{{@index}}">
               <select class="form-control stockpantone_deprt"name='acc_note_item[{{@index}}][product]' id="type{{@index}}" style='width:100%;'>
                   <option value="">----Select Type----</option>
@@ -127,9 +137,9 @@ $(function () {
     </table>
     </div> 
       <label class="col-md-2"></label>
-            <label class="col-md-4"><b style="margin-left: 62px;">Total</b></label>
+            <label class="col-md-4"><b style="margin-left: 152px;">Total</b></label>
             <div class="col-md-3"> 
-                <input type="number" class="form-control" name="acc_totalqty" value="{{recepitissue.acc_totalqty}}" placeholder="Total QTY" id="total_qty" style="margin-left: -206px;width: 142px;text-align: -webkit-right;" readonly>
+                <input type="number" class="form-control" name="acc_totalqty" value="{{recepitissue.acc_totalqty}}" placeholder="Total QTY" id="total_qty" style="margin-left: -146px;width: 142px;text-align: -webkit-right;" readonly>
             </div>
     </div>
     <center><a class="addissuenote" style="font-size: 30px;cursor:pointer;"><i class="fa fa-plus" aria-hidden="true"></i></a></center>

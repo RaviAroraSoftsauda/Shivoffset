@@ -45,7 +45,7 @@ router.get('/accessories_recepit_note', ensureAuthenticated, function(req, res){
         }).populate('acc_suppliername').sort('-ref_no')
     })
 })
-    });
+    }).populate('supplier_city');
 });
     router.post('/add',function(req, res){
         if(req.body.acc_suppliername=="") req.body.acc_suppliername=mongoose.Types.ObjectId('578df3efb618f5141202a196');
@@ -116,7 +116,7 @@ router.get('/accessories_recepit_note_update/:id', ensureAuthenticated, function
         })
     })
 })
-})
+}).populate('supplier_city');
     });
 });
 router.post('/update/:id',function(req, res){

@@ -52,7 +52,7 @@ $(function () {
              <label class="col-md-3">Supplier</label>
             <div class="col-md-9"> 
               {{#listrtcomp supplier recepitnote.acc_suppliername 'acc_suppliername' 'acc_suppliername'}}
-                        {{this.supplier_name}}
+                        {{this.supplier_name}},{{this.supplier_city.city_name}}
               {{/listrtcomp}}
             </div>
           </div>
@@ -75,6 +75,10 @@ $(function () {
                     <th>Product</th>
                     <th>Qty</th>
                     <th>Location</th>
+                     <th>Batch No</th>
+                    <th>No Of Bundls/Pack</th>
+                    {{!-- <th>Oblic Pack</th> --}}
+                    <th>Remarks</th>
                     <th>Delete</th>
                   </tr>
                 </thead>
@@ -107,6 +111,9 @@ $(function () {
                 {{/each}}
                 </select>
             </td>
+             <td><input type='text' class="form-control" name="acc_note_item[{{@index}}][batchno]" value="{{this.batchno}}" id="batchno"  style="width:100%" placeholder="Batch No"></td>
+              <td><input type='text' class="form-control" name="acc_note_item[{{@index}}][nofbunduls]" value="{{this.nofbunduls}}" id="nofbunduls"  style="width:100%" placeholder="No Of Bundls/Pack"></td>
+              <td><input type='text' class="form-control" name="acc_note_item[{{@index}}][remarks]" value="{{this.remarks}}" id="remarks"  style="width:100%" placeholder="Remarks"></td>
              <td>
                {{#notequal @index 0}}
                       <a  data-repeater-delete="{{@index}}" class='recepitissue-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;margin-left: 12px;margin-top: 7px;'></i></a>
@@ -122,9 +129,9 @@ $(function () {
     </table>
     </div> 
       <label class="col-md-2"></label>
-            <label class="col-md-4"><b style="margin-left: 232px;">Total</b></label>
+            <label class="col-md-4"><b style="margin-left: -18px;">Total</b></label>
             <div class="col-md-3"> 
-                <input type="number" class="form-control" value="{{recepitnote.acc_totalqty}}" name="acc_totalqty" placeholder="Total QTY" id="total_qty" style="margin-left: -48px;width: 212px;text-align: -webkit-right;" readonly>
+                <input type="number" class="form-control" value="{{recepitnote.acc_totalqty}}" name="acc_totalqty" placeholder="Total QTY" id="total_qty" style="margin-left: -308px;width: 152px;text-align: -webkit-right;" readonly>
             </div>
     </div>
     <center><a class="addreciptnote" style="font-size: 30px;cursor:pointer;"><i class="fa fa-plus" aria-hidden="true"></i></a></center>

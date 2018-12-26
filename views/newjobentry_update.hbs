@@ -27,6 +27,29 @@
        <form action="/newjobentry/update/{{newjobentry.id}}" class="form-horizontal"  method="post" id="departmnt_add">
           <h4 style="color: red;text-align: center;"></h4>
         <div class="box-body">
+             <div class="form-group">  
+            <label class="col-md-2">Send Shade Card</label>
+            <div class="col-md-1"> 
+                <input type="checkbox" name="newjb_sndshdcrd" id="newjb_sndshdcrd" {{chkchecked newjobentry.newjb_sndshdcrd 'Y'}} value="Y">
+            </div>
+         
+             <label class="col-md-1">TP</label>
+            <div class="col-md-1"> 
+                <input type="checkbox" name="newjb_tp" {{chkchecked newjobentry.newjb_tp 'Y'}} id="newjb_tp" value="Y">
+            </div>
+             <label class="col-md-1">Change</label>
+            <div class="col-md-1"> 
+                <input type="checkbox" name="newjb_chng" id="newjb_chng" {{chkchecked newjobentry.newjb_chng 'Y'}} value="Y">
+            </div>
+             <label class="col-md-1">New Job</label>
+            <div class="col-md-1"> 
+                <input type="checkbox" name="newjb_nwjb" id="newjb_nwjb" {{chkchecked newjobentry.newjb_nwjb 'Y'}} value="Y">
+            </div>
+             <label class="col-md-1">Repeat</label>
+            <div class="col-md-1"> 
+                <input type="checkbox" name="newjb_rupes" id="newjb_rupes" {{chkchecked newjobentry.newjb_rupes 'Y'}} value="Y">
+            </div>
+             </div> 
           <div class="form-group">
             <label class="col-md-2">Item Code</label>
             <div class="col-md-3">
@@ -81,9 +104,12 @@
             </div>
             <label class="col-md-2">Party Name</label>
             <div class="col-md-3"> 
-               {{#listrt product newjobentry.newjb_prtynm  'newjb_prtynm'}}
+                 {{#listrt party newjobentry.newjb_prtynm  'newjb_prtynm'}}
+                            {{this.party_name}}
+                  {{/listrt}}
+               {{!-- {{#listrt product newjobentry.newjb_prtynm  'newjb_prtynm'}}
                             {{this.prdt_prtyname.party_name}}
-                  {{/listrt}} 
+                  {{/listrt}}  --}}
             </div>
           </div>
            <div class="form-group">
@@ -106,7 +132,10 @@
             </div>
             <label class="col-md-2">Material</label>
             <div class="col-md-3"> 
-                <input type="text" class="form-control" name="newjb_matril" id="newjb_matril" value="{{newjobentry.newjb_matril}}">
+                 {{#listrtcomp accessories newjobentry.newjb_matril  'newjb_matril' 'newjb_matril'}}
+                            {{this.accessories_desc}}
+                  {{/listrtcomp}}
+                {{!-- <input type="text" class="form-control" name="newjb_matril" id="newjb_matril" value="{{newjobentry.newjb_matril}}"> --}}
             </div>
           
           </div>
@@ -115,21 +144,21 @@
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="newjb_cutsz" id="newjb_cutsz" value="{{newjobentry.newjb_cutsz}}">
             </div>
-            <label class="col-md-2">Piching/Pasting</label>
+            {{!-- <label class="col-md-2">Piching/Pasting</label>
             <div class="col-md-3"> 
                 <select class="form-control" name="newjb_pichng" id="newjb_pichng">
                 <option value="">Select</option>
                  <option value="Piching"  {{#equal this.newjb_pichng "Piching"}}selected=""{{/equal}}>Piching</option>
                   <option value="Pasting" {{#equal this.newjb_pichng "Pasting"}} selected=""{{/equal}}>Pasting</option>
               </select>
-            </div>
-           
-          </div>
-          <div class="form-group">
-               <label class="col-md-2">Actual Sheet </label>
+            </div> --}}
+             <label class="col-md-2">Actual Sheet </label>
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="newjb_actulsz" id="newjb_actulsz" value="{{newjobentry.newjb_actulsz}}">
             </div>
+           
+          </div>
+          <div class="form-group"> 
             <label class="col-md-2">Varnish UV</label>
             <div class="col-md-3">
                  <select class="form-control" name="newjb_vrnshuv" id="newjb_vrnshuv">
@@ -140,10 +169,7 @@
               </select> 
                 {{!-- <input type="text" class="form-control" name="newjb_vrnshuv" id="newjb_vrnshuv" value="{{newjobentry.newjb_vrnshuv}}"> --}}
             </div>
-            
-          </div>
-          <div class="form-group">
-              <label class="col-md-2">Fold/Flat Size</label>
+            <label class="col-md-2">Fold/Flat Size</label>
            <div class="col-md-1"> 
                 <input type="text" class="form-control" name="newjb_folfltszl" value="{{newjobentry.newjb_folfltszl}}" id="newjb_folfltsz" placeholder="Fold/Flat Size">
             </div>
@@ -153,66 +179,42 @@
              <div class="col-md-1"> 
                 <input type="text" class="form-control" name="newjb_folfltszh" id="newjb_folfltszh" value="{{newjobentry.newjb_folfltszh}}" placeholder="Fold/Flat Size">
             </div>
+          </div>
+          <div class="form-group">
+              
             <label class="col-md-2">Folding/Flat</label>
             <div class="col-md-3"> 
             {{#listrt inserttyp newjobentry.newjb_folft  'newjb_folft'}}
                 {{this.indsrttyp_dscrpton}}
             {{/listrt}} 
             </div>
-          </div>
-           <div class="form-group">
-               <label class="col-md-2">UPS</label>
+              <label class="col-md-2">UPS</label>
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="newjb_ups" id="newjb_ups" value="{{newjobentry.newjb_ups}}">
             </div>
+          </div>
+           <div class="form-group">
             <label class="col-md-2">Remarks</label>
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="newjb_remks" id="newjb_remks" value="{{newjobentry.newjb_remks}}">
             </div>
-           
-          </div>
-          <div class="form-group">
-               <label class="col-md-2">Stock in hand</label>
+             <label class="col-md-2">Stock in hand</label>
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="newjb_stckhnd" id="newjb_stckhnd" value="{{newjobentry.newjb_stckhnd}}" >
             </div>
+          </div>
+          <div class="form-group">
             <label class="col-md-2">Design style</label>
             <div class="col-md-3"> 
                  {{#listrt design newjobentry.newjb_dsignstyl  'newjb_dsignstyl'}}
                             {{this.design_style}}
                   {{/listrt}} 
             </div>
-          
-          </div>
-           <div class="form-group">
-                 <label class="col-md-2">Location</label>
+           <label class="col-md-2">Location</label>
             <div class="col-md-3"> 
               {{#listrt city newjobentry.newjb_locton  'newjb_locton'}}
                             {{this.city_name}}
                   {{/listrt}}
-            </div>
-            <label class="col-md-2">Send Shade Card</label>
-            <div class="col-md-1"> 
-                <input type="checkbox" name="newjb_sndshdcrd" id="newjb_sndshdcrd" {{chkchecked newjobentry.newjb_sndshdcrd 'Y'}} value="Y">
-            </div>
-         
-             <label class="col-md-1">TP</label>
-            <div class="col-md-1"> 
-                <input type="checkbox" name="newjb_tp" {{chkchecked newjobentry.newjb_tp 'Y'}} id="newjb_tp" value="Y">
-            </div>
-             </div> 
-           <div class="form-group">
-            <label class="col-md-2">Change</label>
-            <div class="col-md-1"> 
-                <input type="checkbox" name="newjb_chng" id="newjb_chng" {{chkchecked newjobentry.newjb_chng 'Y'}} value="Y">
-            </div>
-            <label class="col-md-1">New Job</label>
-            <div class="col-md-1"> 
-                <input type="checkbox" name="newjb_nwjb" id="newjb_nwjb" {{chkchecked newjobentry.newjb_nwjb 'Y'}} value="Y">
-            </div>
-             <label class="col-md-1">Repeat</label>
-            <div class="col-md-1"> 
-                <input type="checkbox" name="newjb_rupes" id="newjb_rupes" {{chkchecked newjobentry.newjb_rupes 'Y'}} value="Y">
             </div>
           </div>
         </div>

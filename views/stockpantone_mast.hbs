@@ -76,8 +76,8 @@ $(function () {
           <th>Batch No</th>
           <th>InkManufacturer</th>
           <th>Mfg date </th>
-          <th>Draw Down</th>
-          <th>Lab Value</th>
+          {{!-- <th>Draw Down</th>
+          <th>Lab Value</th> --}}
           <th>Remarks</th>
            <th>Delete</th>
         </tr>
@@ -97,15 +97,15 @@ $(function () {
             <td><input type='text' class="form-control" name='stock_item[0][btcno]' id='btcno' style='width:100%;' placeholder="Batch No"></td>
             <td><input type='text' class="form-control" name='stock_item[0][inkmafuctor]' id='inkmafuctor' style='width:100%;' placeholder="Ink Manufacturer"></td>
             <td><input type='text' class="form-control" name='stock_item[0][mfgdt]' id='mfgdt' style='width:100%;' placeholder="Mfg date"></td>
-            <td>
+            {{!-- <td>
               <select class="form-control stockpantone_deprt" name="stock_item[0][drwdown]" id="drwdown" style='width:100%;'>
                  <option value="">----Select Draw Down----</option>
                  <option value="small">small</option>
                  <option value="Big">Big</option>
                  <option value="Two small">Two small</option>
               </select>
-          </td>
-            <td><input type='text' class="form-control" name='stock_item[0][labvalue]' id='labvalue' style='width:100%;' placeholder="Lab Value"></td>
+          </td> --}}
+            {{!-- <td><input type='text' class="form-control" name='stock_item[0][labvalue]' id='labvalue' style='width:100%;' placeholder="Lab Value"></td> --}}
             <td><input type='text' class="form-control" name='stock_item[0][remarks]' id='remarks' style='width:100%;' placeholder="Remarks"></td>
         </tr>
          <tr  id="insert_stockitem">
@@ -113,11 +113,23 @@ $(function () {
       </tbody>
     </table>
     </div>
-     
+      <center><a class="addstockitem" style="font-size: 30px;cursor:pointer;"><i class="fa fa-plus" aria-hidden="true"></i></a></center>
     </div>
-    <center><a class="addstockitem" style="font-size: 30px;cursor:pointer;"><i class="fa fa-plus" aria-hidden="true"></i></a></center>
-
-      
+      <div class="form-group">
+            <label class="col-md-2">Draw Down</label>
+            <div class="col-md-4"> 
+              <select class="form-control stockpantone_deprt" name="drwdown" id="drwdown" style='width:100%;'>
+                 <option value="">----Select Draw Down----</option>
+                 <option value="small">small</option>
+                 <option value="Big">Big</option>
+                 <option value="Two small">Two small</option>
+              </select>
+            </div>
+             <label class="col-md-2">Lab Value</label>
+            <div class="col-md-4"> 
+               <input type='text' class="form-control" name='labvalue' id='labvalue' style='width:100%;' placeholder="Lab Value">
+            </div>
+          </div>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
@@ -169,8 +181,8 @@ $(function () {
           <th>Batch No</th>
           <th>InkManufacturer</th>
           <th>Mfg date </th>
-          <th>Draw Down</th>
-          <th>Lab Value</th>
+          {{!-- <th>Draw Down</th>
+          <th>Lab Value</th> --}}
           <th>Remarks</th>
            <th>Delete</th>
         </tr>
@@ -186,10 +198,25 @@ $(function () {
       </tbody>
     </table>
     </div>
-     
+      <center><a class="updateaddstockitem" style="font-size: 30px;cursor:pointer;"><i class="fa fa-plus" aria-hidden="true"></i></a></center>
     </div>
-    <center><a class="updateaddstockitem" style="font-size: 30px;cursor:pointer;"><i class="fa fa-plus" aria-hidden="true"></i></a></center>
-
+   
+ <div class="form-group">
+            <label class="col-md-2">Draw Down</label>
+            <div class="col-md-4"> 
+              <select class="form-control drwdown" name="drwdown" id="drwdown" style='width:100%;'>
+                 <option value="">----Select Draw Down----</option>
+                 <option value="small">small</option>
+                 <option value="Big">Big</option>
+                 <option value="Two small">Two small</option>
+              </select>
+            </div>
+             <label class="col-md-2">Lab Value</label>
+            <div class="col-md-4"> 
+               <input type='text' class="form-control labvalue" name='labvalue' id='labvalue' style='width:100%;' placeholder="Lab Value">
+            </div>
+          </div>
+</div>
         <!-- /.box-body -->
         <div class="box-footer">
            <input type="reset" class="btn btn-default" value="Clear Form">

@@ -47,8 +47,8 @@
                   <thead>
                       <tr>
                         <th>#</th>
-                        <th>Enter Book/No</th>
                         <th>CJSP</th>
+                        <th>Enter Book/No</th>
                         <th>Date</th>
                         <th>From Location</th>
                         <th>To Location</th>
@@ -60,8 +60,8 @@
                    {{#each plateissuance as |value key|}}
                       <tr>
                       <td>{{sum @index 1}}</td>
-                      <td>{{this.ref_no}}</td>
                       <td>{{this.c_j_s_p}}</td>
+                      <td>{{this.ref_no}}</td>
                       <td>{{this.acc_date}}</td>
                       <td>{{this.from_ltcon.city_name}}</td>
                       <td>{{this.to_ltcon.city_name}}</td>

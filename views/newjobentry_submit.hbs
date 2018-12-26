@@ -38,6 +38,28 @@ $(function () {
           <h4 style="color: red;text-align: center;">{{serialerror}}</h4>
           {{/if}}
         <div class="box-body">
+             <div class="form-group">   
+            <label class="col-md-2">Send Shade Card</label>
+            <div class="col-md-1"> 
+                <input type="checkbox" name="newjb_sndshdcrd" id="newjb_sndshdcrd" value="Y">
+            </div>
+             <label class="col-md-1">TP</label>
+            <div class="col-md-1"> 
+                <input type="checkbox" name="newjb_tp" id="newjb_tp" value="Y">
+            </div>
+             <label class="col-md-1">Change</label>
+            <div class="col-md-1"> 
+                <input type="checkbox" name="newjb_chng" id="newjb_chng" value="Y">
+            </div>
+            <label class="col-md-1">New Job</label>
+            <div class="col-md-1"> 
+                <input type="checkbox" name="newjb_nwjb" id="newjb_nwjb" value="Y">
+            </div>
+             <label class="col-md-1">Repeat</label>
+            <div class="col-md-1"> 
+                <input type="checkbox" name="newjb_rupes" id="newjb_rupes" value="Y">
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-md-2">Item Code</label>
             <div class="col-md-3">
@@ -60,7 +82,7 @@ $(function () {
            <div class="form-group">
             <label class="col-md-2">Job Card No</label>
             <div class="col-md-3"> 
-                <input type="text" class="form-control" name="newjb_jbcrd" id="newjb_jbcrd" value="18/DEC/{{maxno newjobentry}}">
+                <input type="text" class="form-control" name="newjb_jbcrd" id="newjb_jbcrd" value="18-DEC-{{maxno newjobentry}}">
                 <input type="number" class="form-control" name="newjb_jbcrdno" id="newjb_jbcrdno" value="{{maxnewjobcard newjob}}" style="display:none">
             </div>
             <label class="col-md-2">Po. No.</label>
@@ -130,7 +152,10 @@ $(function () {
             </div>
             <label class="col-md-2">Material</label>
             <div class="col-md-3"> 
-                <input type="text" class="form-control" name="newjb_matril" id="newjb_matril" placeholder="Material">
+                  {{#listrtcomp accessories productid.prdt_material  'newjb_matril' 'newjb_matril'}}
+                            {{this.accessories_desc}}
+                  {{/listrtcomp}}
+                {{!-- <input type="text" class="form-control" name="newjb_matril" id="newjb_matril" placeholder="Material"> --}}
             </div>
           
           </div>
@@ -139,21 +164,25 @@ $(function () {
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="newjb_cutsz" id="newjb_cutsz" placeholder="Cut Size">
             </div>
-            <label class="col-md-2">Piching/Pasting</label>
+            {{!-- <label class="col-md-2">Piching/Pasting</label>
             <div class="col-md-3"> 
                 <select class="form-control" name="newjb_pichng" id="newjb_pichng">
                 <option value="">Select</option>
                  <option value="Piching">Piching</option>
                   <option value="Pasting">Pasting</option>
               </select>
+            </div> --}}
+              <label class="col-md-2">Actual Sheet </label>
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="newjb_actulsz" id="newjb_actulsz" placeholder="Actual Sheet">
             </div>
            
           </div>
           <div class="form-group">
-               <label class="col-md-2">Actual Sheet </label>
+               {{!-- <label class="col-md-2">Actual Sheet </label>
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="newjb_actulsz" id="newjb_actulsz" placeholder="Actual Sheet">
-            </div>
+            </div> --}}
             <label class="col-md-2">Varnish UV</label>
             <div class="col-md-3"> 
                 <select class="form-control" name="newjb_vrnshuv" id="newjb_vrnshuv">
@@ -164,10 +193,7 @@ $(function () {
               </select>
                 {{!-- <input type="text" class="form-control" name="" id="newjb_vrnshuv" placeholder="Varnish UV"> --}}
             </div>
-            
-          </div>
-          <div class="form-group">
-              <label class="col-md-2">Fold/Flat Size</label>
+             <label class="col-md-2">Fold/Flat Size</label>
             <div class="col-md-1"> 
                 <input type="text" class="form-control" name="newjb_folfltszl" value="{{productid.foldng_l}}" id="newjb_folfltsz" placeholder="Fold/Flat Size">
             </div>
@@ -177,6 +203,10 @@ $(function () {
              <div class="col-md-1"> 
                 <input type="text" class="form-control" name="newjb_folfltszh" id="newjb_folfltszh" value="{{productid.foldng_h}}" placeholder="Fold/Flat Size">
             </div>
+            
+          </div>
+          <div class="form-group">
+             
             <label class="col-md-2">Folding/Flat</label>
             <div class="col-md-3">
                  {{#listrt inserttyp productid.prdt_fldingflat  'newjb_folft'}}
@@ -184,34 +214,32 @@ $(function () {
                   {{/listrt}} 
                 {{!-- <input type="text" class="form-control" name="newjb_folft" id="newjb_folft" placeholder="Folding/Flat"> --}}
             </div>
-            
-          </div>
-           <div class="form-group">
-               <label class="col-md-2">UPS</label>
+             <label class="col-md-2">UPS</label>
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="newjb_ups" id="newjb_ups" placeholder="UPS">
             </div>
+            
+          </div>
+           <div class="form-group">  
             <label class="col-md-2">Remarks</label>
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="newjb_remks" id="newjb_remks" placeholder="Remarks">
             </div>
-           
-          </div>
-          <div class="form-group">
-               <label class="col-md-2">Stock in hand</label>
+             <label class="col-md-2">Stock in hand</label>
             <div class="col-md-3"> 
                 <input type="text" class="form-control" name="newjb_stckhnd" id="newjb_stckhnd" placeholder="Stock in hand" >
             </div>
+           
+          </div>
+          <div class="form-group">
+              
             <label class="col-md-2">Design style</label>
             <div class="col-md-3">
             {{#listrt design productid.prdt_dsignstyl  'newjb_dsignstyl'}}
                  {{this.design_style}}
             {{/listrt}}
             </div>
-          
-          </div>
-           <div class="form-group">
-                 <label class="col-md-2">Location</label>
+           <label class="col-md-2">Location</label>
             <div class="col-md-3"> 
                  <select class="form-control " name="newjb_locton" id="newjb_locton">
                 <option value="">Select Location</option>
@@ -219,28 +247,6 @@ $(function () {
                 <option value="{{this._id}}" data-city="{{this._id}}">{{this.city_name}}</option>
                 {{/each}}
               </select>
-            </div>
-            <label class="col-md-2">Send Shade Card</label>
-            <div class="col-md-1"> 
-                <input type="checkbox" name="newjb_sndshdcrd" id="newjb_sndshdcrd" value="Y">
-            </div>
-             <label class="col-md-1">TP</label>
-            <div class="col-md-1"> 
-                <input type="checkbox" name="newjb_tp" id="newjb_tp" value="Y">
-            </div>
-          </div>
-           <div class="form-group">
-            <label class="col-md-2">Change</label>
-            <div class="col-md-1"> 
-                <input type="checkbox" name="newjb_chng" id="newjb_chng" value="Y">
-            </div>
-            <label class="col-md-1">New Job</label>
-            <div class="col-md-1"> 
-                <input type="checkbox" name="newjb_nwjb" id="newjb_nwjb" value="Y">
-            </div>
-             <label class="col-md-1">Repeat</label>
-            <div class="col-md-1"> 
-                <input type="checkbox" name="newjb_rupes" id="newjb_rupes" value="Y">
             </div>
           </div>
         </div>

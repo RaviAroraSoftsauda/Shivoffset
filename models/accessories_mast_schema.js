@@ -49,6 +49,12 @@ let accessoriesSchema = mongoose.Schema({
     stockpantone_barcode: {
         type: String,
     },
+    drwdown: {
+        type: String,
+    },
+    labvalue: {
+        type: String,
+    },
     stock_item: {
         type: Array,
     },

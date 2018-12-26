@@ -38,10 +38,10 @@ $(function () {
           <div class="form-group">
              <label class="col-md-3">Ref No</label>
             <div class="col-md-2"> 
-                <input type="number" class="form-control" name="ref_no" id="ref_no" value="{{maxaccno recepitissue}}" required="">
+               <input type="text" class="form-control" name="c_j_s_p" id="c_j_s_p" value="AIN" placeholder="Ref No">
             </div>
              <div class="col-md-2"> 
-                <input type="text" class="form-control" name="c_j_s_p" id="c_j_s_p" value="AIN" placeholder="Ref No">
+                <input type="number" class="form-control" name="ref_no" id="ref_no" value="{{maxaccno recepitissue}}" required="">
             </div>
             <label class="col-md-2">Date</label>
             <div class="col-md-3"> 
@@ -75,6 +75,7 @@ $(function () {
                 <thead style="background-color:#3c8dbc;color: #fff;font-size: 15px;">
                   <tr>
                     <th>Type</th>
+                    <th>Sub Type</th>
                     <th>Product</th>
                     <th>Qty</th>
                     <th>Location</th>
@@ -86,15 +87,17 @@ $(function () {
                <tbody>
               <tr>
              <td>
-              <select class="form-control stockpantone_deprt" name="acc_note_item[0][type]" onchange='get_product(0)' id="type0" style='width:100%;'>
+              <select class="form-control stockpantone_deprt" name="acc_note_item[0][type]" onchange='getproduct(0)' id="type0" style='width:100%;'>
                   <option value="">----Select Type----</option>
                    {{#each accessriestyp}}
                   <option value="{{this._id}}" data-accessriestyp="{{this._id}}">{{this.accessriestyp_name}}</option>
                   {{/each}}
                 </select>
              </td>
+            <td class="subtypname0"><input type='text' class="form-control" name='acc_note_item[0][subtyp]' id='subtyp' style='width:100%;;' placeholder="Sub Type"></td>
             <td class="productname0"><input type='text' class="form-control" name='acc_note_item[0][product]'  id='product' style='width:100%;' placeholder="Product"></td>
              <input type="hidden" name="cntrer0" value="0" id="cntrer0" class="form-control" style="width: 102px;text-align: -webkit-right;">
+            
             <td><input type='number' class="form-control" name='acc_note_item[0][qty]' id='qty0' oninput="calc(0)" style='width:100%;text-align: -webkit-right;' placeholder="Qty"></td>
             <td>
                <select class="form-control stockpantone_deprt" name="acc_note_item[0][location]" id="location" style='width:100%;'>
@@ -115,9 +118,9 @@ $(function () {
     </table>
     </div> 
       <label class="col-md-2"></label>
-            <label class="col-md-4"><b style="margin-left: 62px;">Total</b></label>
+            <label class="col-md-4"><b style="margin-left: 182px;">Total</b></label>
             <div class="col-md-3"> 
-                <input type="number" class="form-control" name="acc_totalqty" placeholder="Total QTY" id="total_qty" style="margin-left: -206px;width: 142px;text-align: -webkit-right;" readonly>
+                <input type="number" class="form-control" name="acc_totalqty" placeholder="Total QTY" id="total_qty" style="margin-left: -126px;width: 142px;text-align: -webkit-right;" readonly>
             </div>
     </div>
     <center><a class="addissuenote" style="font-size: 30px;cursor:pointer;"><i class="fa fa-plus" aria-hidden="true"></i></a></center>

@@ -240,11 +240,33 @@ $(document).on('click', '.edit_prodt', function(){
         success: function(response) {
             if(response['success'] == true) {
                 console.log(response);
+                var result="";
+                var dprt = response['departmnt'];
                 var prdt_typ_name = response['product'].prdt_typ_name;
                 var prodtid = response['product']._id;
                 var prdt_code = response['product'].prdt_code;
+                var prdt_deprtmnt = response['product'].prdt_deprtmnt;
                 $('.prdt_typ_name').val(prdt_typ_name);
                 $('.prdt_code').val(prdt_code);
+                for (i = 0; i < dprt.length; i++){
+                    var found = false;
+                    for (p = 0; p < prdt_deprtmnt.length; p++) {
+                        if (dprt[i]._id.toString() == prdt_deprtmnt[p].toString())
+                        {
+                                found=true;
+                        }
+                   }
+                   if (found)
+                   {
+                       result +='<input type="checkbox" checked value="'+dprt[i]._id+'"  name="prdt_deprtmnt[]"  id="prdt_deprtmnt">'+dprt[i].departmnt_name+'';
+                   }
+                   else 
+                   {
+                       result +='<input type="checkbox" name="prdt_deprtmnt[]" value="'+dprt[i]._id+'" id="prdt_deprtmnt">'+dprt[i].departmnt_name+'';
+                       
+                   }
+                }
+                $('.prdtname').html(result);
                 $('#edit_prodt_typ').show();
                 $('#edit').show();
                 $('#prdt_typ_add').hide();
@@ -3091,7 +3113,21 @@ $(document).on('click', '.addstockitem', function()
                 for(j = 0; j < pantone.length; j++) {
                     new_div += "<option value='"+pantone[j]['_id']+"'>"+pantone[j]['accessories_desc']+"</option>";
                    }
-                new_div +="</select></td><td><input type='text' class='form-control' name='stock_item["+stock+"][qty]'  id='qty' style='width:100%;' placeholder='Qty.  [GMS]'></td><td><input type='text' class='form-control' name='stock_item["+stock+"][btcno]' id='btcno' style='width:100%;' placeholder='Batch No'></td><td><input type='text' class='form-control' name='stock_item["+stock+"][inkmafuctor]' id='inkmafuctor' style='width:100%;' placeholder='Ink Manufacturer'></td><td><input type='text' class='form-control' name='stock_item["+stock+"][mfgdt]' id='mfgdt' style='width:100%;' placeholder='Mfg date'></td><td><select class='form-control jobactivty_deprt' name='stock_item["+stock+"][drwdown]' id='drwdown' style='width:100%;'><option value=''>----Select Draw Down----</option><option value='small'>small</option><option value='Big'>Big</option><option value='Two small'>Two small</option></select></td><td><input type='text' class='form-control' name='stock_item["+stock+"][labvalue]' id='labvalue' style='width:100%;' placeholder='Lab Value'></td><td><input type='text' class='form-control' name='stock_item["+stock+"][remarks]' id='remarks' style='width:100%;' placeholder='Remarks'></td><td><a data-repeater-delete='inner-field-"+ stock +"' data-brand-index='"+job+"' class='stockitem-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;'></i></a></td></tr>";
+                new_div +="</select></td>";
+                new_div +="<td><input type='text' class='form-control' name='stock_item["+stock+"][qty]'  id='qty' style='width:100%;' placeholder='Qty.  [GMS]'></td>";
+                new_div +="<td><input type='text' class='form-control' name='stock_item["+stock+"][btcno]' id='btcno' style='width:100%;' placeholder='Batch No'></td>";
+                new_div +="<td><input type='text' class='form-control' name='stock_item["+stock+"][inkmafuctor]' id='inkmafuctor' style='width:100%;' placeholder='Ink Manufacturer'></td>";
+                new_div +="<td><input type='text' class='form-control' name='stock_item["+stock+"][mfgdt]' id='mfgdt' style='width:100%;' placeholder='Mfg date'></td>";
+                // new_div +="<td><select class='form-control jobactivty_deprt' name='stock_item["+stock+"][drwdown]' id='drwdown' style='width:100%;'>";
+                // new_div +="<option value=''>----Select Draw Down----</option>";
+                // new_div +="<option value='small'>small</option>";
+                // new_div +="<option value='Big'>Big</option>";
+                // new_div +="<option value='Two small'>Two small</option>";
+                // new_div +="</select></td>";
+                // new_div +="<td><input type='text' class='form-control' name='stock_item["+stock+"][labvalue]' id='labvalue' style='width:100%;' placeholder='Lab Value'></td>";
+                new_div +="<td><input type='text' class='form-control' name='stock_item["+stock+"][remarks]' id='remarks' style='width:100%;' placeholder='Remarks'></td>";
+                new_div +="<td><a data-repeater-delete='inner-field-"+ stock +"' data-brand-index='"+job+"' class='stockitem-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;'></i></a>";
+                new_div +="</td></tr>";
                 $(new_div).insertBefore("#insert_stockitem");
                 stock++;
                 stockmember++;
@@ -3122,12 +3158,16 @@ $(document).on('click', '.edit_stockpantone', function(){
                 var stockpantone_board = response['stockpantone'].stockpantone_board;
                 var stockpantone_pantonno = response['stockpantone'].stockpantone_pantonno;
                 var stockpantone_barcode = response['stockpantone'].stockpantone_barcode;
+                var drwdown = response['stockpantone'].drwdown;
+                var labvalue = response['stockpantone'].labvalue;
                 var stock_item = response['stockpantone'].stock_item;
                 var stockpantoneid = response['stockpantone']._id;
                 $('.stockpantone_rcpno').val(stockpantone_rcpno);
                 $('.stockpantone_board').val(stockpantone_board);
                 $('.stockpantone_pantonno').val(stockpantone_pantonno);
                 $('.stockpantone_barcode').val(stockpantone_barcode);
+                $('.drwdown').val(drwdown);
+                $('.labvalue').val(labvalue);
                 $('.stock_result').html(" ");
                 for (let r = 0; r < stock_item.length; r++){
                         var stock = stock_item[r];
@@ -3142,7 +3182,19 @@ $(document).on('click', '.edit_stockpantone', function(){
                             }
                             
                            }
-                        html +='</select></td><td><input type="text" class="form-control" name="stock_item['+r+'][qty]" value="'+stock.qty+'"  id="qty" style="width:100%;" placeholder="Qty.  [GMS]"></td><td><input type="text" class="form-control" name="stock_item['+r+'][btcno]" value="'+stock.btcno+'" id="btcno" style="width:100%;" placeholder="Batch No"></td><td><input type="text" class="form-control" name="stock_item['+r+'][inkmafuctor]" value="'+stock.inkmafuctor+'" id="inkmafuctor" style="width:100%;" placeholder="Ink Manufacturer"></td><td><input type="text" class="form-control" name="stock_item['+r+'][mfgdt]" value="'+stock.mfgdt+'" id="mfgdt" style="width:100%;" placeholder="Mfg date"></td><td><select class="form-control stockpantone_deprt" name="stock_item['+r+'][drwdown]" id="drwdown" style="width:100%;"><option value="'+stock.drwdown+'">'+stock.drwdown+'</option><option value="small">small</option><option value="Big">Big</option><option value="Two small">Two small</option></select></td><td><input type="text" class="form-control" name="stock_item['+r+'][labvalue]" value="'+stock.labvalue+'" id="labvalue" style="width:100%;" placeholder="Lab Value"></td><td><input type="text" class="form-control" name="stock_item['+r+'][remarks]" value="'+stock.remarks+'" id="remarks" style="width:100%;" placeholder="Remarks"></td>';
+                        html +='</select></td>';
+                        html +='<td><input type="text" class="form-control" name="stock_item['+r+'][qty]" value="'+stock.qty+'"  id="qty" style="width:100%;" placeholder="Qty.  [GMS]"></td>';
+                        html +='<td><input type="text" class="form-control" name="stock_item['+r+'][btcno]" value="'+stock.btcno+'" id="btcno" style="width:100%;" placeholder="Batch No"></td>';
+                        html +='<td><input type="text" class="form-control" name="stock_item['+r+'][inkmafuctor]" value="'+stock.inkmafuctor+'" id="inkmafuctor" style="width:100%;" placeholder="Ink Manufacturer"></td>';
+                        html +='<td><input type="text" class="form-control" name="stock_item['+r+'][mfgdt]" value="'+stock.mfgdt+'" id="mfgdt" style="width:100%;" placeholder="Mfg date"></td>';
+                        // html +='<td><select class="form-control stockpantone_deprt" name="stock_item['+r+'][drwdown]" id="drwdown" style="width:100%;">';
+                        // html +='<option value="'+stock.drwdown+'">'+stock.drwdown+'</option>';
+                        // html +='<option value="small">small</option>';
+                        // html +='<option value="Big">Big</option>';
+                        // html +='<option value="Two small">Two small</option>';
+                        // html +='</select></td>';
+                        // html +='<td><input type="text" class="form-control" name="stock_item['+r+'][labvalue]" value="'+stock.labvalue+'" id="labvalue" style="width:100%;" placeholder="Lab Value"></td>';
+                        html +='<td><input type="text" class="form-control" name="stock_item['+r+'][remarks]" value="'+stock.remarks+'" id="remarks" style="width:100%;" placeholder="Remarks"></td>';
                         
                             html +='<td>';
                             if(r != 0)
@@ -3205,7 +3257,21 @@ $(document).on('click', '.updateaddstockitem', function()
                 for(j = 0; j < pantone.length; j++) {
                     new_div += "<option value='"+pantone[j]['_id']+"'>"+pantone[j]['accessories_desc']+"</option>";
                    }
-                new_div +="</select></td><td><input type='text' class='form-control' name='stock_item["+updatestock+"][qty]'  id='qty' style='width:100%;' placeholder='Qty.  [GMS]'></td><td><input type='text' class='form-control' name='stock_item["+updatestock+"][btcno]' id='btcno' style='width:100%;' placeholder='Batch No'></td><td><input type='text' class='form-control' name='stock_item["+updatestock+"][inkmafuctor]' id='inkmafuctor' style='width:100%;' placeholder='Ink Manufacturer'></td><td><input type='text' class='form-control' name='stock_item["+updatestock+"][mfgdt]' id='mfgdt' style='width:100%;' placeholder='Mfg date'></td><td><select class='form-control jobactivty_deprt' name='stock_item["+updatestock+"][drwdown]' id='drwdown' style='width:100%;'><option value=''>----Select Draw Down----</option><option value='small'>small</option><option value='Big'>Big</option><option value='Two small'>Two small</option></select></td><td><input type='text' class='form-control' name='stock_item["+updatestock+"][labvalue]' id='labvalue' style='width:100%;' placeholder='Lab Value'></td><td><input type='text' class='form-control' name='stock_item["+updatestock+"][remarks]' id='remarks' style='width:100%;' placeholder='Remarks'></td><td><a data-repeater-delete='inner-field-"+updatestock+" data-brand-index='"+updatestock+"' class='updatestockitem-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;'></i></a></td></tr>";
+                new_div +="</select></td>";
+                new_div +="<td><input type='text' class='form-control' name='stock_item["+updatestock+"][qty]'  id='qty' style='width:100%;' placeholder='Qty.  [GMS]'></td>";
+                new_div +="<td><input type='text' class='form-control' name='stock_item["+updatestock+"][btcno]' id='btcno' style='width:100%;' placeholder='Batch No'></td>";
+                new_div +="<td><input type='text' class='form-control' name='stock_item["+updatestock+"][inkmafuctor]' id='inkmafuctor' style='width:100%;' placeholder='Ink Manufacturer'></td>";
+                new_div +="<td><input type='text' class='form-control' name='stock_item["+updatestock+"][mfgdt]' id='mfgdt' style='width:100%;' placeholder='Mfg date'></td>";
+                // new_div +="<td><select class='form-control jobactivty_deprt' name='stock_item["+updatestock+"][drwdown]' id='drwdown' style='width:100%;'>";
+                // new_div +="<option value=''>----Select Draw Down----</option>";
+                // new_div +="<option value='small'>small</option>";
+                // new_div +="<option value='Big'>Big</option>";
+                // new_div +="<option value='Two small'>Two small</option>";
+                // new_div +=" </select></td>";
+                // new_div +="<td><input type='text' class='form-control' name='stock_item["+updatestock+"][labvalue]' id='labvalue' style='width:100%;' placeholder='Lab Value'></td>";
+                new_div +="<td><input type='text' class='form-control' name='stock_item["+updatestock+"][remarks]' id='remarks' style='width:100%;' placeholder='Remarks'></td>";
+                new_div +="<td><a data-repeater-delete='inner-field-"+updatestock+" data-brand-index='"+updatestock+"' class='updatestockitem-delete-btn' style='cursor:pointer;'>";
+                new_div +="<i class='fa fa-times' style='font-size: 20px;color: red;'></i></a></td></tr>";
                 $(new_div).insertBefore("#insert_stockupdate");
                 updatestock++;
                 updatestocklimit++;
@@ -3238,14 +3304,127 @@ $(document).on('click', 'delete_stockpantone', function(){
         }
     });
 });
+function productfile()
+{
+    $(document).on('keyup', '#itemcode', function(){
+        // $('.loader').show();
+        var itemcode =  $("#itemcode").val(); 
+        $.ajax({
+            type: "POST",
+            url: '/newjobentry/productdetailtable',
+            dataType:'json',
+            data:
+            {
+                itemcode:itemcode,
+            },
+            success: function(response) {
+                var i, j=0, result='';
+                if(response['success'] == true) {
+                    var product = response['product'];
+                    var result = '<div class="col-md-12">';
+                    result += '<section class="content-header">';
+                    result += '<div class="box box-primary">';
+                    result += '<div class="box-header with-border">';
+                    result += '<h3 class="box-title">View New Job Entry  </h3>';
+                    result += '<p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>';
+                    result += ' </div>';
+                    result += '<div class="box-body">';
+                    result += '<div class="table-responsive">';
+                    result += '<table id="example" class="table table-bordered table-striped">';
+                    result += '<thead>';
+                    result += '<tr>';
+                    result += '<th>#</th>';
+                    result += '<th>Product Type Name</th>';
+                    result += '<th>Item Code</th>';
+                    result += '<th>Supressed Code</th>';
+                    result += '<th>Artwork Rec Dt</th>';
+                    result += '<th>Party Name</th>';
+                    result += '<th width="15%">Product Name</th>';
+                    result += '<th>Board Quality</th>';
+                    result += '<th>GSM (M/B)</th>';
+                    result += '<th>Actual Size</th>';
+                    result += '<th>GSM (Top/Middle/Bottom)</th>';
+                    result += '<th>Pad Size</th>';
+                    result += '<th>Leaf Color</th>';
+                    // result += '{{!-- <th>Folding/Flat</th>';
+                    // result += '<th>Folding Pattern</th> --}}';
+                    result += '<th>Folding Size</th>';
+                    result += '<th>Vertical/Horizontal</th>';
+                    result += '<th>Image</th>';
+                    result += '<th>Tucking size MM</th>';
+                    result += '<th>Ear Flap</th>';
+                    // result += '{{!-- <th>Design Style</th>';
+                    // result += '<th>Country</th>';
+                    // result += '<th>Board Paper Manufacturer</th>';
+                    // result += '<th>Construction</th> --}}';
+                    result += '<th>Emboss Rack No</th>';
+                    result += '<th>Lamination</th>';
+                    result += '<th>Lamination Type</th>';
+                    result += '<th>UV</th>';
+                    // result += '{{!-- <th>Varnish</th> --}}';
+                    result += '<th>Select</th>';
+                    result += '</tr>';
+                    result += '</thead>';
+                    for (i = 0; i < product.length; i++)
+                    {
+                        j++;
+                              
+                                result += '<tbody class="product_detail_body">';
+                                result += '<tr>';
+                                result += '<tr>';
+                                result += '<td>'+j+'</td><td>'+product[i]['prdt_typ_name']['prdt_typ_name']+'</td>';
+                                result += '<td>'+product[i]['prdt_itemcode']+'</td>';
+                                result += '<td>'+product[i]['prdt_subresscode']+'</td>';
+                                result += '<td>'+product[i]['prdt_artwkdt']+'</td>';
+                                result += '<td>'+product[i]['prdt_prtyname']['party_name']+'</td>';
+                                result += '<td>'+product[i]['prdt_pname']+'</td>';
+                                result += '<td>'+product[i]['prdt_brdqlty']+'</td>';
+                                result += '<td>'+product[i]['prdt_gsmmb']+'</td>';
+                                result += '<td>'+product[i]['actul_l']+','+product[i]['actul_w']+''+product[i]['actul_h']+'</td>';
+                                result += '<td>'+product[i]['prdt_gsmtp']+'</td>';
+                                result += '<td>'+product[i]['pad_l']+','+product[i]['pad_w']+','+product[i]['pad_h']+'</td>';
+                                result += '<td>'+product[i]['prdt_lfcolor']+'</td>';
+                                // result += '<td>'+product[i]['prdt_fldingflat']['indsrttyp_dscrpton']+'</td>';
+                                // result += '<td>'+product[i]['prdt_fldingpttrn']['floading_desp']+'</td>';
+                                result += '<td>'+product[i]['foldng_l']+','+product[i]['foldng_w']+','+product[i]['foldng_h']+'</td>';
+                                result += ' <td>'+product[i]['prdt_vrtclhorzntlone']+','+product[i]['prdt_vrtclhorzntltwo']+'</td>';
+                                result += '<td><a href="'+product[i]['filepath']+'" target="_blank" alt="pdf Not Found">';
+                                result += '<img src="'+product[i]['filepath']+'" target="_blank" height="50" width="50"/></a></td>';
+                                result += '<td>'+product[i]['prdt_tkingszmm']+'</td>';
+                                result += '<td>'+product[i]['prdt_erflp']+'</td>';
+                                // result += '<td>'+product[i]['prdt_dsignstyl']['design_style']+'</td>';
+                                // result += '<td>'+product[i]['prdt_country']['country_name']+'</td>';
+                                // result += '<td>'+product[i]['prdt_brdmnfctur']['manufactur_name']+'</td>';
+                                // result += '<td>'+product[i]['prdt_cnstrcton']['construction_name']+'</td>';
+                                result += '<td>'+product[i]['prdt_embssrckno']+'</td>';
+                                result += '<td>'+product[i]['prdt_lamination']+'</td>';
+                                result += '<td>'+product[i]['prdt_laminationtyp']+'</td>';
+                                result += '<td>'+product[i]['prdt_uv']+'</td>';
+                                // result += '<td>'+product[i]['prdt_vernish']['vernish_name']+'</td>';
+                                // result += '<td><a href="/newjobentry/newjobentry_submit/'+product[i]['_id']+'"><button type="button" class="btn btn-info">Select</button></a></td>';
+                                window.location.href = '/newjobentry/newjobentry_submit/'+product[i]['_id']+'';
+                                result += '</tr>';  
+                                result += ' </tr>'; 
+                                result += ' </tbody>'; 
+                        }
+                                result += ' </table>'; 
+                                result += ' </div>'; 
+                                result += ' </div>'; 
+                                result += '</div>'; 
+                                result += '</section>'; 
+                                result += '</div>'; 
+                                $('.product_detail_body').html(result);
+                                $('.loader').hide();
+                    }     
+            }
+        });
+   });
+}
 $(document).on("click", "#filtersubmit", function(){
     $('.loader').show();
     var prdt_itemcode = $('#prdt_itemcode').val(); 
     var prdt_prtyname = $('#prdt_prtyname').val();
     var prdt_pname =    $('#prdt_pname').val();
-    // var prdt_itemcode = $('#prdt_itemcode').val(); $("#prdt_itemcode option:selected").attr("data-item");
-    // var prdt_prtyname = $('#prdt_prtyname').val(); $("#prdt_prtyname option:selected").attr("data-party");
-    // var prdt_pname =    $('#prdt_pname').val();$("#prdt_pname option:selected").attr("data-itemname");
     $.ajax({
         type: "POST",
         url: '/newjobentry/productdetail',
@@ -3260,54 +3439,52 @@ $(document).on("click", "#filtersubmit", function(){
             var i, j=0, result='';
             if(response['success'] == true) {
                 var product = response['product'];
+                var result = '<div class="col-md-12">';
+                result += '<section class="content-header">';
+                result += '<div class="box box-primary">';
+                result += '<div class="box-header with-border">';
+                result += '<h3 class="box-title">View New Job Entry  </h3>';
+                result += '<p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>';
+                result += ' </div>';
+                result += '<div class="box-body">';
+                result += '<div class="table-responsive">';
+                result += '<table id="example" class="table table-bordered table-striped">';
+                result += '<thead>';
+                result += '<tr>';
+                result += '<th>#</th>';
+                result += '<th>Product Type Name</th>';
+                result += '<th>Item Code</th>';
+                result += '<th>Supressed Code</th>';
+                result += '<th>Artwork Rec Dt</th>';
+                result += '<th>Party Name</th>';
+                result += '<th width="15%">Product Name</th>';
+                result += '<th>Board Quality</th>';
+                result += '<th>GSM (M/B)</th>';
+                result += '<th>Actual Size</th>';
+                result += '<th>GSM (Top/Middle/Bottom)</th>';
+                result += '<th>Pad Size</th>';
+                result += '<th>Leaf Color</th>';
+                // result += '{{!-- <th>Folding/Flat</th>';
+                // result += '<th>Folding Pattern</th> --}}';
+                result += '<th>Folding Size</th>';
+                result += '<th>Vertical/Horizontal</th>';
+                result += '<th>Image</th>';
+                result += '<th>Tucking size MM</th>';
+                result += '<th>Ear Flap</th>';
+                // result += '{{!-- <th>Design Style</th>';
+                // result += '<th>Country</th>';
+                // result += '<th>Board Paper Manufacturer</th>';
+                // result += '<th>Construction</th> --}}';
+                result += '<th>Emboss Rack No</th>';
+                result += '<th>Lamination</th>';
+                result += '<th>Lamination Type</th>';
+                result += '<th>UV</th>';
+                // result += '{{!-- <th>Varnish</th> --}}';
+                result += '<th>Select</th>';
+                result += '</tr>';
+                result += '</thead>';
                 for (i = 0; i < product.length; i++) {
                     j++;
-                        if (prdt_itemcode == prdt_itemcode || prdt_prtyname == prdt_prtyname)
-                        {
-                            result += '<div class="col-md-12">';
-                            result += '<section class="content-header">';
-                            result += '<div class="box box-primary">';
-                            result += '<div class="box-header with-border">';
-                            result += '<h3 class="box-title">View New Job Entry  </h3>';
-                            result += '<p style="text-align: center;color:#ff0000;margin-top: -20px;"></p>';
-                            result += ' </div>';
-                            result += '<div class="box-body">';
-                            result += '<div class="table-responsive">';
-                            result += '<table id="example" class="table table-bordered table-striped">';
-                            result += '<thead>';
-                            result += '<tr>';
-                            result += '<th>#</th>';
-                            result += '<th>Product Type Name</th>';
-                            result += '<th>Item Code</th>';
-                            result += '<th>Supressed Code</th>';
-                            result += '<th>Artwork Rec Dt</th>';
-                            result += '<th>Party Name</th>';
-                            result += '<th width="15%">Product Name</th>';
-                            result += '<th>Board Quality</th>';
-                            result += '<th>GSM (M/B)</th>';
-                            result += '<th>Actual Size</th>';
-                            result += '<th>GSM (Top/Middle/Bottom)</th>';
-                            result += '<th>Pad Size</th>';
-                            result += '<th>Leaf Color</th>';
-                            // result += '{{!-- <th>Folding/Flat</th>';
-                            // result += '<th>Folding Pattern</th> --}}';
-                            result += '<th>Folding Size</th>';
-                            result += '<th>Vertical/Horizontal</th>';
-                            result += '<th>Image</th>';
-                            result += '<th>Tucking size MM</th>';
-                            result += '<th>Ear Flap</th>';
-                            // result += '{{!-- <th>Design Style</th>';
-                            // result += '<th>Country</th>';
-                            // result += '<th>Board Paper Manufacturer</th>';
-                            // result += '<th>Construction</th> --}}';
-                            result += '<th>Emboss Rack No</th>';
-                            result += '<th>Lamination</th>';
-                            result += '<th>Lamination Type</th>';
-                            result += '<th>UV</th>';
-                            // result += '{{!-- <th>Varnish</th> --}}';
-                            result += '<th>Select</th>';
-                            result += '</tr>';
-                            result += '</thead>';
                             result += '<tbody class="product_detail_body">';
                             result += '<tr>';
                             result += '<tr>';
@@ -3344,19 +3521,18 @@ $(document).on("click", "#filtersubmit", function(){
                             result += '</tr>';  
                             result += ' </tr>'; 
                             result += ' </tbody>'; 
-                            result += ' </table>'; 
-                            result += ' </div>'; 
-                            result += ' </div>'; 
-                            result += '</div>'; 
-                            result += '</section>'; 
-                            result += '</div>'; 
-                            
-                        }
                     }
+                    result += ' </table>'; 
+                    result += ' </div>'; 
+                    result += ' </div>'; 
+                    result += '</div>'; 
+                    result += '</section>'; 
+                    result += '</div>'; 
+                    $('.product_detail_body').html(result);
+                    $('.loader').hide();
                 }
                
-                $('.product_detail_body').html(result);
-                $('.loader').hide();
+               
         }
     });
 });
@@ -3424,6 +3600,7 @@ $(document).on("change", "#jobprcss_deprt", function() {
         }
     });
 });
+
 $(document).on("change", "#jobprcss_activity", function() {
     $('.loader').show();
     var actid =  $("#jobprcss_activity option:selected").attr("data-active"); 
@@ -3440,6 +3617,7 @@ $(document).on("change", "#jobprcss_activity", function() {
                 var job = data['jobactivtyname']['jobactivty_group'];
                 var l=0;
                 var result="";
+                var timrq = "";
                 result+=" <div class='col-md-12'>";
                 result+="<table class='table' width='100%'>";
                 result+=" <thead style='background-color:#00acd6;color: #fff;font-size: 15px;'>";
@@ -3456,8 +3634,9 @@ $(document).on("change", "#jobprcss_activity", function() {
                 result+="<tbody>";
                 for(j = 0; j < job.length; j++) {
                 result+="<tr>";
-                // result+="<td><input type='text' class='form-control' name='jobprocess_group["+j+"][head]' value='"+job[j]['_id']+"' id='dscpton'  style='width:100%;'></td>";
-                   result+="<td style='word-wrap: break-word'>"+job[j]['dscpton']+"<input type='hidden' name='jobprocess_group["+j+"][head]' value='"+job[j]['dscpton']+"' id='dscpton'></td>";
+                // timrq+="<td><input type='text' class='form-control' value='"+job[j]['_id']+"' id='dscpton'  style='width:100%;'></td>";
+                // timrq+=" <select class='form-control' name='timrq' id='timrq'>"; 
+                result+="<td style='word-wrap: break-word'>"+job[j]['dscpton']+"<input type='hidden' name='jobprocess_group["+j+"][head]' value='"+job[j]['dscpton']+"' id='dscpton'></td>";
                    for(p = 0; p < job[j]['timrq']; p++)
                    {
                        l++;
@@ -3478,8 +3657,8 @@ $(document).on("change", "#jobprcss_activity", function() {
                         result+="<td>";
                         result+="<input type='hidden' name='jobprocess_group["+j+"][typ"+p+"]' value='Y/n'>";
                         result+="<select class='form-control' name='jobprocess_group["+j+"][dsprtion"+p+"]' id='dsprtion'>";
-                        result+="<option value='Y'>Y</option>";
-                        result+="<option value='N'>N</option>";
+                        result+="<option value='Y'>Yes</option>";
+                        result+="<option value='N'>No</option>";
                         result+="</select>";
                         result+="</td>";
                    }
@@ -3544,8 +3723,10 @@ if(v !=1 && v !=2 && v !=3 && v !=4 && v !=5 )
     $(this).val('0');
 }
 });
+function newjbjbcrd()
+{
 $(document).on("keyup", "#newjb_jbcrd", function() {
-    $('.loader').show();
+    // $('.loader').show();
     var newjobno =  $("#newjb_jbcrd").val(); 
     $.ajax({
         type: "POST",
@@ -3559,34 +3740,133 @@ $(document).on("keyup", "#newjb_jbcrd", function() {
             var i, j=0, result;
             if(response['success'] == true) {
                 var newjobentry = response['newjobentry'];
-                var product = response['product'];
-                if(newjobentry!='')
-                {
-                    var result= '<input type="hidden" class="form-control" name="jobprcss_itemcode" id="jobprcss_itemcode">';
-                    var prdtname= '<input type="hidden" class="form-control" name="jobprcss_productname" id="jobprcss_productname">'; 
-                }
-                else
-                {
-                    var result= '<input type="text" class="form-control" name="jobprcss_itemcode" id="jobprcss_itemcode">';
-                    var prdtname= '<input type="text" class="form-control" name="jobprcss_productname" id="jobprcss_productname">'; 
-                }
-                for (i = 0; i < newjobentry.length; i++) {
-                     result += '<input type="text" class="form-control" value="'+newjobentry[i]['newjb_itemcd']+'" name="jobprcss_itemcode" id="jobprcss_itemcode">';
-                     prdtname += '<input type="text" class="form-control" value="'+newjobentry[i]['productid']['prdt_pname']+'" name="jobprcss_productname" id="jobprcss_productname">';       
-               
+                console.log(newjobentry);
+                     var result = '<input type="text" class="form-control"';
+                     for (i = 0; i < newjobentry.length; i++) {
+                        result +='value="'+newjobentry[i]['newjb_itemcd']+'"';
+                     }
+                     result +=' name="jobprcss_itemcode" id="jobprcss_itemcode" placeholder="Product Name">';
+                    var prdtname = '<input type="text" class="form-control"';
+                    for (i = 0; i < newjobentry.length; i++) {
+                        prdtname +='value="'+newjobentry[i]['productid']['prdt_pname']+'"';
                     }
+                    prdtname +='name="jobprcss_productname" id="jobprcss_productname" placeholder="Item code">'; 
                     $('.product_name').html(prdtname);
                     $('.item_code').html(result);
-                    $('.loader').hide();
+                    // $('.loader').hide();
             }
         }
     });
 });
+}
 function foldername()
 {
-    var prdtname =  $("#prdt_typ_name option:selected").attr("data-prdttyp");
+        var prdtname =  $("#prdt_typ_name option:selected").attr("data-prdttyp"); 
+        $.ajax({
+            type:'POST',
+            url: '/product_mast/deprtmentname',
+            dataType:'json',
+            data:
+            {
+                prdtname: prdtname
+
+            },
+            success: function(data) {
+                if( data['success'] ) {
+                var prdttyp = data['prdttyp'];
+                var departmnt = data['departmnt'];
+                console.log(prdttyp);
+                     var result = '';
+                     for (i = 0; i < departmnt.length; i++) {
+                         var pname= departmnt[i].departmnt_name;
+                             var dpname = prdttyp[0]['prdt_deprtmnt'];
+                             var found = false;
+                             for (p = 0; p < dpname.length; p++) {
+                                if (departmnt[i]._id.toString() == dpname[p].toString())
+                                {
+                                        found=true;
+                                }
+                        }
+                        // console.log(dpname[p])
+                        if (found)
+                        {
+                            result +='<input type="checkbox" disabled checked value="'+departmnt[i]._id+'" data-id="'+pname+'" name="prdt_deprtmnt[]" onclick="deprt();" id="prdt_deprtmnt">'+pname+'';
+                        }
+                        else 
+                        {
+                            result +='<input type="checkbox" name="prdt_deprtmnt[]" value="'+departmnt[i]._id+'" data-id="'+pname+'" onclick="deprt();" id="prdt_deprtmnt">'+pname+'';
+                            
+                        }
+                     }
+                    $('.prdtdeprtmnt').html(result);
+            }
+        }
+    });
+    if(prdtname == "Catch Cover")
+    {
+        $("#flap_l").show();
+        $("#prdtcnstrcton").hide();
+        $("#actul_l").hide();
+        $("#varnish").show();
+        $("#nvz").show();
+        $("#varnish").show();
+        $("#foldingflat").hide();
+        $("#foldingpattrn").hide();
+        $("#foldinsize").show();
+        $("#verticlhorzntl").hide();
+        $("#coinscratch").hide();
+        $("#perforation").hide();
+        $("#padsize").hide();
+        $("#tuckingsizmm").hide();
+        $("#earflap").show();
+        $("#uv").hide();
+        $("#gsmtmb").hide();
+    }
+    if(prdtname == "Label")
+    {
+        $("#flap_l").hide();
+        $("#prdtcnstrcton").hide();
+        $("#actul_l").hide();
+        $("#varnish").show();
+        $("#nvz").show();
+        $("#foldingflat").hide();
+        $("#foldingpattrn").hide();
+        $("#foldinsize").hide();
+        $("#verticlhorzntl").hide();
+        $("#coinscratch").hide();
+        $("#perforation").hide();
+        $("#padsize").hide();
+        $("#tuckingsizmm").hide();
+        $("#earflap").hide();
+        $("#uv").hide();
+        $("#gsmtmb").hide();
+    }
+    if(prdtname == "PRINTED CARTON")
+    {
+        $("#flap_l").show();
+        $("#prdtcnstrcton").show();
+        $("#actul_l").show();
+        $("#varnish").hide();
+        $("#nvz").hide();
+        $("#foldingflat").hide();
+        $("#foldingpattrn").hide();
+        $("#foldinsize").hide();
+        $("#verticlhorzntl").hide();
+        $("#coinscratch").hide();
+        $("#perforation").hide();
+        $("#padsize").hide();
+        $("#tuckingsizmm").hide();
+        $("#earflap").show();
+        $("#uv").show();
+        $("#varnish").show();
+        $("#nvz").show();
+        $("#gsmtmb").hide();
+    }
     if(prdtname == "inserts")
     {
+       $("#flap_l").hide();
+       $("#prdtcnstrcton").show();
+       $("#actul_l").show();
        $("#foldingflat").show();
        $("#foldingpattrn").show();
        $("#foldinsize").show();
@@ -3603,7 +3883,10 @@ function foldername()
     }
     if(prdtname == "Pad")
     {
+        $("#flap_l").hide();
+       $("#prdtcnstrcton").show();
        $("#padsize").show();
+       $("#actul_l").show();
        $("#foldingflat").show();
        $("#foldingpattrn").show();
        $("#foldinsize").show();
@@ -3619,6 +3902,8 @@ function foldername()
     }
     if(prdtname == "carton" || prdtname == "Plain" || prdtname == "eflute")
     { 
+        $("#flap_l").show();
+       $("#prdtcnstrcton").show();
        $("#coinscratch").show();
        $("#perforation").show();
        $("#tuckingsizmm").show();
@@ -3632,9 +3917,12 @@ function foldername()
        $("#foldinsize").hide();
        $("#verticlhorzntl").hide();
        $("#gsmtmb").hide();
+       $(".prdtcnstrcton").hide();
     }
     if(prdtname == "e-flute carton")
     {
+        $("#flap_l").show();
+        $("#prdtcnstrcton").show();
        $("#gsmtmb").show();
        $("#coinscratch").hide();
        $("#perforation").hide();
@@ -3648,18 +3936,21 @@ function foldername()
        $("#uv").hide();
        $("#varnish").hide();
        $("#nvz").hide();
-    }    
+    }  
+
 }
+$(document).ready( function() {
+    foldername();
+});
+
 function deprt()
 {
-    // var deprt =  $("checkbox:checked").attr("data-id");
-    // alert(deprt);
     var val = [];
     $(':checkbox:checked').each(function(i){
     val[i] = $(this).attr("data-id");
     if(val[i] =="emboss")
     {
-        $('#embossrckno').toggleClass('toggled');
+        $('#embossrckno').show();
     }
     if(val[i] =="lamniation")
     {
@@ -3743,6 +4034,47 @@ $(document).on("click", ".prodtpantoneview-delete-btn", function(){
     $("#"+parent_id).remove();
     $('#inner-btn-'+brandIndex).remove();
 });
+function getproduct(callback)
+{
+    counter=callback;
+    lstidx = counter; 
+    $('.loader').show();
+    var acctyp =  $("#type"+callback+" option:selected").attr("data-accessriestyp");
+    $.ajax({
+        type: "POST",
+        url: '/accessories_issue_note/productname',
+        dataType:'json',
+        data:
+        {
+            acctyp:acctyp,
+        },
+        success: function(response) {
+            var i,result;
+            if(response['success'] == true) {
+                var accessories = response['accessories'];
+                var result='<select class="form-control" name="acc_note_item['+counter+'][product]" id="product" style="width:100%;">';
+                result +='<option value="">----Select Product----</option>'
+                for (i = 0; i < accessories.length; i++)
+                   {
+                    result += '<option value="'+accessories[i]['_id']+'">'+accessories[i]['accessories_desc']+'</option>';     
+               
+                    }
+                    result += '</select>';
+                    var subtyp='<select class="form-control" name="acc_note_item['+counter+'][subtyp]" id="subtyp" style="width:100%;">';
+                    subtyp +='<option value="">----Select Sub Type----</option>'
+                    for (i = 0; i < accessories.length; i++)
+                       {
+                        subtyp += '<option value="'+accessories[i]['accessubtyp_name']['_id']+'">'+accessories[i]['accessubtyp_name']['accessubtyp_name']+'</option>';     
+                   
+                        }
+                        subtyp += '</select>';
+                    $('.productname'+callback).html(result);
+                    $('.subtypname'+callback).html(subtyp);
+                    $('.loader').hide();
+            }
+        }
+    });
+}
 function get_product(callback)
 {
     counter=callback;
@@ -3811,6 +4143,9 @@ $(document).on('click', '.addreciptnote', function()
                     new_div += "<option value='"+racklocname[j]['_id']+"'>"+racklocname[j]['rackloc_name']+"</option>";
                    }
                 new_div +="</select></td>";
+                new_div +='<td><input type="text" class="form-control" name="acc_note_item['+counter+'][batchno]" id="batchno"  style="width:100%" placeholder="Batch No"></td>';
+                new_div +='<td><input type="text" class="form-control" name="acc_note_item['+counter+'][nofbunduls]" id="nofbunduls"  style="width:100%" placeholder="No Of Bundls/Pack"></td>';
+                new_div +='<td><input type="text" class="form-control" name="acc_note_item['+counter+'][remarks]" id="remarks"  style="width:100%" placeholder="Remarks"></td>';
                 new_div +="<td><a onclick='remove_div("+counter+");' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;margin-left:12px;'></i></a></td></tr>";
                 // new_div +="<td><a data-repeater-delete='inner-field-"+counter+"' data-brand-index='"+counter+"' class='reciptnoteitem-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;'></i></a></td></tr>";
                 $(new_div).insertBefore("#insert_stockitem");
@@ -3871,12 +4206,13 @@ $(document).on('click', '.addissuenote', function()
                 racklocname = data['rackloc'];
                 var new_div = document.createElement('div');
                 var new_div = "<tr class='recepit_note_wrapper' id='rohit"+counter+"'>";
-                new_div += "<td><select class='form-control' name='acc_note_item["+counter+"][type]' onchange='get_product("+counter+")' id='type"+counter+"' style='width:100%;'>";
+                new_div += "<td><select class='form-control' name='acc_note_item["+counter+"][type]' onchange='getproduct("+counter+")' id='type"+counter+"' style='width:100%;'>";
                 new_div += "<option value=''>----Select Type----</option>";
                 for(j = 0; j < accessriestypname.length; j++) {
                     new_div += "<option value='"+accessriestypname[j]['_id']+"' data-accessriestyp='"+accessriestypname[j]['_id']+"'>"+accessriestypname[j]['accessriestyp_name']+"</option>";
                    }
                 new_div +="</select></td>";
+                new_div +="<td class='subtypname"+counter+"'><input type='text' class='form-control' name='acc_note_item["+counter+"][subtyp]' id='subtyp' style='width:100%;' placeholder='Product'></td>";
                 new_div +="<td class='productname"+counter+"'><input type='text' class='form-control' name='acc_note_item["+counter+"][product]' id='product' style='width:100%;' placeholder='Product'></td>";
                 new_div +="<td><input type='hidden' name='cntrer"+counter+"' value="+counter+" id='cntrer"+counter+"'><input type='number' class='form-control' name='acc_note_item["+counter+"][qty]' id='qty"+counter+"' oninput='calc("+counter+")' style='width:100%;text-align: -webkit-right;' placeholder='Qty'></td>";
                 new_div += "<td><select class='form-control' name='acc_note_item["+ counter +"][location]' id='location' style='width:100%;'>";
@@ -3986,8 +4322,8 @@ function fname(callback)
 {
     counter=callback;
     lstidx = counter; 
-    $(document).on("keyup", "#jobcrdno"+callback, function() {
-    $('.loader').show();
+    $(document).on('keyup', '#jobcrdno'+callback, function(){
+    // $('.loader').show();
     var jobcrdno =  $("#jobcrdno"+callback).val(); 
     $.ajax({
         type: "POST",
@@ -3998,31 +4334,27 @@ function fname(callback)
             jobcrdno:jobcrdno,
         },
         success: function(response) {
-            var i, j=0, result;
             if(response['success'] == true) {
                 var newjobentry = response['newjobentry'];
-                if(newjobentry!='')
-                {
-                    var result = '<input type="hidden" class="form-control"  name="p_i_n['+counter+'][procode]" id="procode">';
-                    var prdtnm= '<input type="hidden" class="form-control" name="p_i_n['+counter+'][prdtname]" id="prdtname">'; 
-                    var prtynm= '<input type="hidden" class="form-control"  name="p_i_n['+counter+'][custumer]" id="custumer">';
-                }
-                else
-                {
-                    var result = '<input type="text" class="form-control"  name="p_i_n['+counter+'][procode]" id="procode">';
-                    var prdtnm= '<input type="text" class="form-control"  name="p_i_n['+counter+'][prdtname]" id="prdtname">'; 
-                    var prtynm= '<input type="text" class="form-control"  name="p_i_n['+counter+'][custumer]" id="custumer">';
-                }
+                var result= '<input type="text" class="form-control"';
                 for (i = 0; i < newjobentry.length; i++) {
-                     result += '<input type="text" class="form-control" value="'+newjobentry[i]['newjb_itemcd']+'" name="p_i_n['+counter+'][procode]" id="procode">';
-                     prdtnm += '<input type="text" class="form-control" value="'+newjobentry[i]['productid']['prdt_pname']+'" name="p_i_n['+counter+'][prdtname]" id="prdtname">'; 
-                     prtynm += '<input type="text" class="form-control" value="'+newjobentry[i]['productid']['prdt_prtyname']+'" name="p_i_n['+counter+'][custumer]" id="custumer">';             
-               
+                    result+='value="'+newjobentry[i]['newjb_itemcd']+'"';  
                     }
+                    result+='name="p_i_n['+counter+'][procode]" id="procode" placeholder="Prod Code">';
+                     var prdtnm = '<input type="text" class="form-control"';
+                     for (i = 0; i < newjobentry.length; i++) {
+                        prdtnm+='value="'+newjobentry[i]['productid']['prdt_pname']+'"';
+                     }
+                     prdtnm+='name="p_i_n['+counter+'][prdtname]" id="prdtname" placeholder="Prod Name">'; 
+                     var prtynm = '<input type="text" class="form-control"';
+                     for (i = 0; i < newjobentry.length; i++) {
+                        prtynm+='value="'+newjobentry[i]['productid']['prdt_prtyname']+'"';
+                     }
+                     prtynm+='name="p_i_n['+counter+'][custumer]" id="custumer" placeholder="custumer">'; 
                     $('.produtname'+callback).html(prdtnm);
                     $('.item_code'+callback).html(result);
                     $('.partynm'+callback).html(prtynm);
-                    $('.loader').hide();
+                    // $('.loader').hide();
             }
         }
     });
@@ -4110,8 +4442,84 @@ function remove_ink(id)
     {
         counter--;
         member--;
-        $("#rohit"+id).remove();
-        calc(0);   
+        $("#rohit"+id).remove();  
        
     }
 } 
+var counter = 1;
+var member = counter + 1;
+var limit = 100;
+$(document).on('click', '.adddestruction', function()
+{
+    lstidx = $("input[name*='cntrer']").length;
+    counter=lstidx;
+  if (counter == limit)
+  {
+    alert("You have reached the limit of adding " +counter+ " inputs");
+  }
+  else
+  {  
+    var new_div = document.createElement('div');
+    var new_div = "<tr class='ink_preparation_wrapper' id='rohit"+counter+"'>";
+    new_div +='<td><input type="text" class="form-control" name="destruction_note_entry['+counter+'][procode]" onkeyup="productname('+counter+');"  id="procode'+counter+'" style="width:100%;" placeholder="Prod Code"></td>';
+    new_div +='<td class="proname'+counter+'" ><input type="text" class="form-control" name="destruction_note_entry['+counter+'][proname]"  id="proname" style="width:100%;" placeholder="Prod Name"></td>';
+    new_div +='<td class="custumer'+counter+'"><input type="text" class="form-control" name="destruction_note_entry['+counter+'][custumer]  id="custumer" style="width:100%;" placeholder="Customer"></td>';
+    new_div +='<td><input type="text" class="form-control" name="destruction_note_entry['+counter+'][remarks]"  id="remarks" style="width:100%;" placeholder="Remarks"></td>';
+    new_div +='<input type="hidden" name="cntrer'+counter+'" value="'+counter+'" id="cntrer'+counter+'" class="form-control" style="width: 102px;">';
+    new_div +='<td class="location'+counter+'"><input type="text" class="form-control" name="destruction_note_entry['+counter+'][location]" id="location"  style="width:100%;" placeholder="Location"></td>';
+    new_div +="<td><a onclick='remove_ink("+counter+");' style='cursor:pointer;'><i class='fa fa-times' style='width: 24px;height: 24px;line-height: 18px;text-align: center;border: 2px solid red;border-radius: 12px !important;color: red;'></i></a></td></tr>";
+    $(new_div).insertBefore("#insert_destruction");
+    counter++;
+    member++;
+
+  } 
+});
+function productname(callback)
+{
+    counter=callback;
+    lstidx = counter;
+    $(document).on('keyup', '#procode'+callback, function(){
+    // $('.loader').show();
+    var procode =  $("#procode"+callback).val(); 
+    $.ajax({
+        type: "POST",
+        url: '/detruction_note_entry/productname',
+        dataType:'json',
+        data:
+        {
+            procode:procode,
+        },
+        success: function(response) {
+            var i, j=0, result;
+            if(response['success'] == true) {
+                var product = response['product'];
+                     var result = '<input type="text" class="form-control"';
+                     for (i = 0; i < product.length; i++)
+                        result +='value="'+product[i]['prdt_pname']+'"';
+                      }
+                      result +='name="destruction_note_entry['+counter+'][proname]" id="proname" placeholder="Prod Name" style="width:100%;">';
+                    var cust = '<input type="text" class="form-control"';
+                    for (i = 0; i < product.length; i++){
+                        cust += 'value="'+product[i]['prdt_prtyname']['party_name']+'"';
+                    }
+                    cust += 'name="destruction_note_entry['+counter+'][custumer]" id="custumer" placeholder="custumer" style="width:100%;">';            
+
+                    var lct="<select class='form-control' name='destruction_note_entry["+counter+"][location]'  id='location' style='width:100%;'>";
+                    lct +="<option value=''>-Select Location-</option>";
+                    for(j = 0; j < product.length; j++)
+                    {
+                        var locaton = product[j]['location_group'];
+                        for(l = 0; l < locaton.length; l++)
+                        {
+                            lct +='<option value="'+locaton[l]['prdt_location']+'" data-accessories="'+locaton[l]['prdt_location']+'">'+locaton[l]['prdt_location']+'</option>';
+                        }   
+                    }
+                      lct +="</select>";
+                    $('.proname'+callback).html(result);
+                    $('.custumer'+callback).html(cust);
+                    $('.location'+callback).html(lct);
+                    // $('.loader').hide();
+            }
+        });
+         }); 
+    }

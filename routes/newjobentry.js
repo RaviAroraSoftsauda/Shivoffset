@@ -12,7 +12,18 @@ let inserttyp = require('../models/inserttyp_mast_schema');
 let floading = require('../models/floading_mast_schema');
 let departmnt = require('../models/departmnt_mast_schema');
 let design = require('../models/designstyl_mast_schema');
+let accessories = require('../models/accessories_mast_schema');
 var query;
+router.post('/productdetailtable', function(req, res) {
+    var itemcode = req.body.itemcode;
+    product.find({prdt_itemcode:itemcode,co_code:req.session.compid,div_code:req.session.divid}, function (err, product) {
+     if (err) {
+            console.log(err);
+        } else {
+            res.json({ 'success': true, 'product': product});
+        }
+    }).populate('prdt_country').populate('prdt_prtyname').populate('prdt_brdmnfctur').populate('prdt_cnstrcton').populate('prdt_vernish').populate('prdt_dsignstyl').populate('prdt_fldingflat').populate('prdt_fldingpttrn').populate('prdt_typ_name');
+}); 
 // Add Route
 router.get('/newjobentry', ensureAuthenticated, function(req, res){
     product.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, product){
@@ -32,7 +43,7 @@ router.get('/newjobentry', ensureAuthenticated, function(req, res){
 router.get('/newjobentry_submit/:id', ensureAuthenticated, function(req, res){
             product.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, product){
             productid.findById(req.params.id, function(err, productid){
-        newjobentry.find({co_code:req.session.compid,div_code:req.session.divid}, function(err, newjobentry){
+            newjobentry.find({co_code:req.session.compid,div_code:req.session.divid}, function(err, newjobentry){
             newjob.find({co_code:req.session.compid,div_code:req.session.divid}, function(err, newjob){
             party.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, party){
             vernish.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, vernish){
@@ -41,12 +52,14 @@ router.get('/newjobentry_submit/:id', ensureAuthenticated, function(req, res){
             floading.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, floading){
             departmnt.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, departmnt){
             design.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, design){
+            accessories.find({flag:"ACC",co_code:req.session.compid,div_code:req.session.divid}, function (err, accessories){
             if (err) {
                 console.log(err);
             } else {
                 res.render('newjobentry_submit.hbs', {
                     pageTitle:'New Job Entry',
                     product: product,
+                    accessories: accessories,
                     productid: productid,
                     newjobentry: newjobentry,
                     newjob: newjob,
@@ -60,6 +73,7 @@ router.get('/newjobentry_submit/:id', ensureAuthenticated, function(req, res){
                 });
             }
         })
+    })
     })
     })
 })
@@ -79,6 +93,7 @@ router.post('/add/:id', function(req, res){
         if(req.body.newjb_locton=="") req.body.newjb_locton=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         if(req.body.newjb_folft=="") req.body.newjb_folft=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         if(req.body.newjb_dsignstyl=="") req.body.newjb_dsignstyl=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+        if(req.body.newjb_matril=="") req.body.newjb_matril=mongoose.Types.ObjectId('578df3efb618f5141202a196');
         const productid= req.body.productid;
         const newjb_itemcd= req.body.newjb_itemcd;
         const newjb_dlvat= req.body.newjb_dlvat;
@@ -255,7 +270,7 @@ router.get('/newjobentry_list', ensureAuthenticated, function(req, res){
         });
     }
 }).populate('prdt_prtyname');
-}).populate('newjb_dlvat').populate('newjb_prtynm').populate('newjb_locton').populate('newjb_vernish').populate('newjb_folft').populate('newjb_dsignstyl');
+}).populate('newjb_matril').populate('newjb_dlvat').populate('newjb_prtynm').populate('newjb_locton').populate('newjb_vernish').populate('newjb_folft').populate('newjb_dsignstyl').populate('newjb_prtynm');
 });
 router.get('/newjobentry_update/:id', ensureAuthenticated, function(req, res){
             product.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, product){
@@ -267,12 +282,14 @@ router.get('/newjobentry_update/:id', ensureAuthenticated, function(req, res){
             floading.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, floading){
             departmnt.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, departmnt){
             design.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, design){
+            accessories.find({flag:"ACC",co_code:req.session.compid,div_code:req.session.divid}, function (err, accessories){
             if (err) {
                 console.log(err);
             } else {
                 res.render('newjobentry_update.hbs', {
                     pageTitle:'New Job Entry Update',
                     product: product,
+                    accessories: accessories,
                     productid: productid,
                     newjobentry: newjobentry,
                     party: party,
@@ -285,6 +302,7 @@ router.get('/newjobentry_update/:id', ensureAuthenticated, function(req, res){
                 });
             }
         })
+    })
     })
 })
 })
@@ -302,6 +320,7 @@ router.post('/update/:id', function(req, res) {
     if(req.body.newjb_locton=="") req.body.newjb_locton=mongoose.Types.ObjectId('578df3efb618f5141202a196');
     if(req.body.newjb_folft=="") req.body.newjb_folft=mongoose.Types.ObjectId('578df3efb618f5141202a196');
     if(req.body.newjb_dsignstyl=="") req.body.newjb_dsignstyl=mongoose.Types.ObjectId('578df3efb618f5141202a196');
+    if(req.body.newjb_matril=="") req.body.newjb_matril=mongoose.Types.ObjectId('578df3efb618f5141202a196');
     let errors = req.validationErrors();
     if (errors) {
         console.log(errors);
@@ -354,13 +373,11 @@ router.post('/update/:id', function(req, res) {
     }
 });
 router.post('/productdetail', function(req, res) {
-    var prdt_itemcode = req.body.prdt_itemcode;
     var prdt_prtyname = req.body.prdt_prtyname;
     var prdt_pname = req.body.prdt_pname;
-    if (prdt_itemcode=="") prdt_itemcode=mongoose.Types.ObjectId('578df3efb618f5141202a196');
     if (prdt_prtyname=="") prdt_prtyname=mongoose.Types.ObjectId('578df3efb618f5141202a196');   
     if (prdt_pname=="") prdt_pname=mongoose.Types.ObjectId('578df3efb618f5141202a196');
-    product.find({$or:[{prdt_itemcode: prdt_itemcode},{prdt_prtyname:prdt_prtyname}],co_code:req.session.compid,div_code:req.session.divid}, function (err, product) {
+    product.find({$or:[{prdt_prtyname: prdt_prtyname},{prdt_pname:prdt_pname}],co_code:req.session.compid,div_code:req.session.divid}, function (err, product) {
      if (err) {
             console.log(err);
         } else {

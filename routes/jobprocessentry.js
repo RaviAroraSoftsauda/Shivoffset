@@ -25,7 +25,7 @@ router.post('/productname', function(req, res) {
      if (err) {
             console.log(err);
         } else {
-            res.json({ 'success': true, 'newjobentry': newjobentry,'product': product});
+            res.json({ 'success': true, 'newjobentry': newjobentry});
         }
     }).populate('productid')
 }); 

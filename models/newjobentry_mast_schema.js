@@ -29,7 +29,7 @@ let newjobentrySchema = mongoose.Schema({
         type:String,
     },
     newjb_prtynm: {
-        type: Schema.Types.ObjectId, ref: 'product_mast',
+        type: Schema.Types.ObjectId, ref: 'party_mast',
     },
     newjb_lmiton: {
         type:String,
@@ -41,7 +41,7 @@ let newjobentrySchema = mongoose.Schema({
         type:String,
     },
     newjb_matril: {
-        type:String,
+        type: Schema.Types.ObjectId, ref: 'accessories_mast',
     },
     newjb_cutsz: {
         type:String,

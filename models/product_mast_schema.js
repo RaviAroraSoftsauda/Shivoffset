@@ -20,8 +20,11 @@ let prodSchema = mongoose.Schema({
     location_group: {
         type: Array,
     },
-    pantone_group: {
-        type: Array,
+    prdt_pantone: {
+        type: String,
+    },
+    prdt_barcode: {
+        type: String,
     },
     prdt_coinscratch:
     {
@@ -49,6 +52,16 @@ let prodSchema = mongoose.Schema({
     actul_h: {
         type: String,
     },
+    flap_l: {
+        type: String,
+    },
+    flap_w: {
+        type: String,
+    },
+    flap_h: {
+        type: String,
+    },
+
     prdt_gsmtp: {
         type: String,
     },
@@ -124,9 +137,14 @@ let prodSchema = mongoose.Schema({
     remark_group: {
         type: Array,
     },
-    prdt_deprtmnt: {
-        type: String,
+    prdt_material:
+    {
+        type: Schema.Types.ObjectId, ref: 'accessories_mast',
     },
+    prdt_deprtmnt: [{
+        // type: String,
+        type: Schema.Types.ObjectId, ref: 'departmnt_mast',
+    }],
     filepath: {
         type: String,
         trim: true

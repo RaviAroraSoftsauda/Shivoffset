@@ -38,8 +38,8 @@ $(function () {
         <div class="box-body">
            <div class="form-group">
             <label class="col-md-4">Product Type Name</label>
-            <div class="col-md-8">
-              <select class="form-control" name="prdt_typ_name" id="prdt_typ_name" onclick="foldername();" required>
+            <div class="col-md-8 ">
+              <select class="form-control" name="prdt_typ_name" id="prdt_typ_name" onclick="foldername();" required="">
                  <option value="">----Select Product Type Name----</option>
                 {{#each prdttyp}}
                 <option value="{{this._id}}" data-prdttyp="{{this.prdt_typ_name}}">{{this.prdt_typ_name}}</option>
@@ -49,9 +49,9 @@ $(function () {
           </div>
           <div class="form-group">
             <label class="col-md-4">Applicable Departments</label>
-            <div class="col-md-8"> 
+            <div class="col-md-8 prdtdeprtmnt"> 
                {{#each departmnt}}
-                   <input type="checkbox" name="prdt_deprtmnt[]" id="prdt_deprtmnt" value="{{this._id}}" data-id="{{this.departmnt_name}}" onclick="deprt();">{{this.departmnt_name}}
+                   <input type="checkbox" class="prdt_deprtmnt" name="prdt_deprtmnt[]" id="prdt_deprtmnt" value="{{this._id}}" data-id="{{this.departmnt_name}}" onclick="deprt();">{{this.departmnt_name}}
                 {{/each}}
                
             </div>
@@ -85,6 +85,17 @@ $(function () {
               </select> 
             </div>
           </div>
+            <div class="form-group">
+            <label class="col-md-4">Material Add</label>
+            <div class="col-md-8">
+              <select class="form-control" name="prdt_material" id="prdt_material" required="">
+                 <option value="">----Select Material----</option>
+                {{#each accessories}}
+                <option value="{{this._id}}" data-accessories="{{this._id}}">{{this.accessories_desc}}</option>
+                {{/each}}
+              </select> 
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-md-4">Location</label>
             <div class="col-md-8"> 
@@ -102,31 +113,33 @@ $(function () {
           <div class="form-group">
             <label class="col-md-4">Pantone</label>
             <div class="col-md-3"> 
-               <input type="hidden" name="cntret0" value="0" id="cntret0">
-               <select class="form-control" name="pantone_group[0][prdt_pantone]" id="prdt_pantone" required="">
+               {{!-- <input type="hidden" name="cntret0" value="0" id="cntret0"> --}}
+                <input type="text" class="form-control" name="prdt_pantone" id="prdt_pantone" placeholder="Pantone">
+               {{!-- <select class="form-control" name="pantone_group[0][prdt_pantone]" id="prdt_pantone" required="">
                  <option value="">Select</option>
                 {{#each stockpantone}}
                 <option value="{{this._id}}" data-country="{{this._id}}">{{this.stockpantone_pantonno.pantone_descrpton}}</option>
                 {{/each}}
-              </select>
+              </select> --}}
             </div>
              <label class="col-md-2">Barcode</label>
-            <div class="col-md-2"> 
-               <select class="form-control" name="pantone_group[0][prdt_barcode]" id="prdt_barcode" required="" style="margin-left: -28px;width: 82px;">
+            <div class="col-md-3"> 
+              <input type="text" class="form-control" name="prdt_barcode" id="prdt_barcode" placeholder="Barcode">
+               {{!-- <select class="form-control" name="pantone_group[0][prdt_barcode]" id="prdt_barcode" required="" style="margin-left: -28px;width: 82px;">
                  <option value="">Select</option>
                 {{#each stockpantone}}
                 <option value="{{this._id}}" data-country="{{this._id}}">{{this.stockpantone_barcode}}</option>
                 {{/each}}
-              </select>
+              </select> --}}
             </div>
           </div>
-           <div id="insert_prdtpntn">
+           {{!-- <div id="insert_prdtpntn">
               <center><a id="add" class="addprdtpantone" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 20px;color: #36c536;margin-left: 92px;"></i></a></center>                  
-            </div>
+            </div> --}}
            <div class="form-group">
             <label class="col-md-4">Product Name</label>
             <div class="col-md-8"> 
-                <input type="text" class="form-control" name="prdt_pname" id="prdt_pname" placeholder="Product Name">
+                <input type="text" class="form-control" name="prdt_pname" id="prdt_pname" placeholder="Product Name" required="">
             </div>
           </div>
            <div class="form-group">
@@ -136,7 +149,7 @@ $(function () {
             </div>
           </div>
            <div class="form-group">
-            <label class="col-md-4">GSM (M/B)</label>
+            <label class="col-md-4">GSM</label>
             <div class="col-md-8"> 
                 <input type="text" class="form-control" name="prdt_gsmmb" id="prdt_gsmmb" placeholder="GSM (M/B)">
             </div>
@@ -161,20 +174,34 @@ $(function () {
                  </select>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" id="actul_l" style="display:none">
             <label class="col-md-4">Actual Size</label>
            <div class="col-md-3"> 
-                <input type="text" class="form-control" name="actul_l" id="actul_l" placeholder="L" required="">
+                <input type="text" class="form-control" name="actul_l" id="actul_l" placeholder="L">
             </div>
             <div class="col-md-3"> 
-                <input type="text" class="form-control" name="actul_w" id="actul_w" placeholder="W" style="margin-left: -8px;" required="">
+                <input type="text" class="form-control" name="actul_w" id="actul_w" placeholder="W" style="margin-left: -8px;">
             </div>
             <div class="col-md-2"> 
-                <input type="text" class="form-control" name="actul_h" id="actul_h" placeholder="H" style="margin-left: -28px; width: 92px;" required="">
+                <input type="text" class="form-control" name="actul_h" id="actul_h" placeholder="H" style="margin-left: -28px; width: 92px;">
             </div>
           </div>
+
+          <div class="form-group" id="flap_l" style="display:none">
+            <label class="col-md-4">Flap Size</label>
+           <div class="col-md-3"> 
+                <input type="text" class="form-control" name="flap_l" id="flap_l" placeholder="L">
+            </div>
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="flap_w" id="flap_w" placeholder="W" style="margin-left: -8px;">
+            </div>
+            <div class="col-md-2"> 
+                <input type="text" class="form-control" name="flap_h" id="flap_h" placeholder="H" style="margin-left: -28px; width: 92px;">
+            </div>
+          </div>
+
           <div class="form-group" id="gsmtmb" style="display:none">
-            <label class="col-md-4">GSM (Top/Middle/Bottom)</label>
+            <label class="col-md-4">GSM (T/M/B)</label>
             <div class="col-md-8"> 
                 <input type="text" class="form-control" name="prdt_gsmtp" id="prdt_gsmtp" placeholder="Code">
             </div>
@@ -301,7 +328,7 @@ $(function () {
               </select>
             </div>
           </div>
-           <div class="form-group">
+           <div class="form-group" id="prdtcnstrcton" style="display:none">
             <label class="col-md-4">Construction</label>
             <div class="col-md-8"> 
                  <select class="form-control prdt_cnstrcton" name="prdt_cnstrcton" id="prdt_cnstrcton">

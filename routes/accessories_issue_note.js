@@ -1,13 +1,25 @@
 const express = require('express');
 const router = express.Router(); 
+const mongoose = require('mongoose');
 let supplier = require('../models/supplier_mast_schema');
 let accessriestyp = require('../models/accessriestyp_mast_schema');
 let accessories = require('../models/accessories_mast_schema');
+let accessubtyp = require('../models/accessubtyp_mast_schema');
 let recepitissue = require('../models/accessories_recepit_note_schema');
 let rackloc = require('../models/rackloc_mast_schema');
 let departmnt = require('../models/departmnt_mast_schema');
 let city = require('../models/city_mast_schema');
 var query;
+router.post('/productname', function(req, res) {
+    var acctyp = req.body.acctyp;
+    accessories.find({accestyp_name:acctyp,flag:"ACC",co_code:req.session.compid,div_code:req.session.divid}, function (err, accessories) {
+     if (err) {
+            console.log(err);
+        } else {
+            res.json({ 'success': true, 'accessories': accessories});
+        }
+    }).populate('accessubtyp_name');
+}); 
 router.get('/acctyname', function (req, res) {
     accessriestyp.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, accessriestyp){
         rackloc.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, rackloc){
@@ -86,7 +98,7 @@ router.get('/accessories_issue_note', ensureAuthenticated, function(req, res){
                 recepitissue: recepitissue,
             });
         }
-    }).populate('acc_department');
+    }).populate('acc_department').populate('accessubtyp_name');
     });
     router.get('/accessories_issue_note_update/:id', ensureAuthenticated, function(req, res){
         recepitissue.findById(req.params.id, function (err, recepitissue){
@@ -94,6 +106,7 @@ router.get('/accessories_issue_note', ensureAuthenticated, function(req, res){
             departmnt.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, departmnt){
                 accessories.find({flag:"ACC",co_code:req.session.compid,div_code:req.session.divid}, function (err, accessories) {
             accessriestyp.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, accessriestyp){
+                accessubtyp.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, accessubtyp){
                 rackloc.find({co_code:req.session.compid,div_code:req.session.divid}, function (err, rackloc){
                    
                 if (err) {
@@ -107,12 +120,14 @@ router.get('/accessories_issue_note', ensureAuthenticated, function(req, res){
                         recepitissue: recepitissue,
                         accessriestyp: accessriestyp,
                         rackloc: rackloc,
+                        accessubtyp: accessubtyp,
                     });
                 }
             })
         })
     })
         });
+    });
     });
     });
     });

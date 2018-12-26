@@ -213,7 +213,7 @@ hbs.registerHelper('listrtcomp', function(context , lvalue, rvalue,idvalue, opti
     return ret + "</select>";
 });
 hbs.registerHelper('listjob', function(context , lvalue, rvalue,idvalue, options) {
-    var ret = "<select class='form-control' name='"+rvalue+"' id='"+idvalue+"' onclick='foldername();'><option value=''>Select</option>";
+    var ret = "<select class='form-control' name='"+rvalue+"' id='"+idvalue+"' onchange='foldername();'><option value=''>Select</option>";
     for(var i=0, j=context.length; i<j; i++) {
         if ((context[i]._id).toString().trim() == lvalue.toString().trim()) {
             ret = ret + "<option value='"+context[i]._id+"' selected='' data-prdttyp='"+options.fn(context[i]).trim()+"'>"+options.fn(context[i]).trim()+"</option>";
@@ -244,18 +244,23 @@ hbs.registerHelper('checklist', function(context , context) {
 });
 
 hbs.registerHelper('checkdynmc', function(context , lvalue, options) {
-    var ret = "";
+    var ret="";
     for(var i=0, j=context.length; i<j; i++) {
-        if ((lvalue).toString().search(context[i]._id)>=0) {
-            ret = ret + "<input type='checkbox' name='"+lvalue+"' checked value='"+context[i]._id+"'>"+options.fn(context[i]).trim()+"";
+        var found = false;
+        for(var x=0, y=lvalue.length; x<y; x++) {
+            if ((context[i]._id).toString().trim() == lvalue[x].toString().trim()){
+                found=true;
+            }
+        }
+        if (found)
+        {
+            ret = ret + "<input type='checkbox' name='prdt_deprtmnt[]' id='prdt_deprtmnt' onclick='deprt();' checked value='"+context[i]._id+"'>"+options.fn(context[i]).trim()+"";
         }
         else
         {
-            ret = ret + "<input type='checkbox' name='"+lvalue+"' value='"+context[i]._id+"'>"+options.fn(context[i]).trim()+"";  
+            ret = ret + "<input type='checkbox' name='prdt_deprtmnt[]' id='prdt_deprtmnt' onclick='deprt();' value='"+context[i]._id+"'>"+options.fn(context[i]).trim()+"";  
         }
-
     }
-    
     return ret + "";
 });
 hbs.registerHelper('dateformat', function (datetime, format) {

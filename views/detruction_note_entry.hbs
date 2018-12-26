@@ -32,20 +32,20 @@ $(function () {
             <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
           </div>
     </div>
-       <form action="/plate_issuance_note/add" class="form-horizontal" method="post" id="supplier_add">
+       <form action="/detruction_note_entry/add" class="form-horizontal" method="post" id="supplier_add">
           <h4 style="color: red;text-align: center;"></h4>
         <div class="box-body">
           <div class="form-group">
              <label class="col-md-3">Enter Book/No</label>
             <div class="col-md-2"> 
-                <input type="number" class="form-control" name="ref_no" id="ref_no" required="">
+              <input type="text" class="form-control" name="c_j_s_p" id="c_j_s_p" value="DNT"> 
             </div>
              <div class="col-md-2"> 
-                <input type="text" class="form-control" name="c_j_s_p" id="c_j_s_p" value="PIN">
+                 <input type="number" class="form-control" name="ref_no" id="ref_no" value="{{maxaccno destruction}}" required="">
             </div>
             <label class="col-md-2">Date</label>
             <div class="col-md-3"> 
-                <input type="text" class="form-control" name="acc_date" id="filterstartdate" placeholder="Date" required="">
+                <input type="text" class="form-control" name="dc_date" id="filterstartdate" placeholder="Date" required="">
             </div>
           </div>
            <div class="form-group">
@@ -59,7 +59,7 @@ $(function () {
             </div>
              <label class="col-md-2">Department</label>
             <div class="col-md-3"> 
-               <select class="form-control" name='from_ltcon'  id='from_ltcon'>
+               <select class="form-control" name='deprtment'  id='deprtment'>
                     <option value="">-Select Department-</option>
                     {{#each departmnt}}
                     <option value="{{this._id}}" data-departmnt="{{this._id}}">{{this.departmnt_name}}</option>
@@ -82,24 +82,23 @@ $(function () {
                 </thead>
                <tbody>
               <tr>
-                <td><input type='text' class="form-control" name='p_i_n[0][jobcrdno]' onkeyup="fname(0);"  id='jobcrdno0' style='width:100%;' placeholder="Prod Code"></td>
-                <td><input type='text' class="form-control" name='p_i_n[0][procode]'  id='procode' style='width:100%;' placeholder="Prod Name"></td>
-                <td><input type='text' class="form-control" name='p_i_n[0][prdtname]'  id='prdtname' style='width:100%;' placeholder="Customer"></td>
-                <td><input type='text' class="form-control" name='p_i_n[0][custumer]'  id='custumer' style='width:100%;' placeholder="Remarks"></td>
+                <td><input type='text' class="form-control" name='destruction_note_entry[0][procode]' onkeyup="productname(0);"  id='procode0' style="width:100%;" placeholder="Prod Code"></td>
+                <td class="proname0"><input type='text' class="form-control" name='destruction_note_entry[0][proname]'  id='proname' style='width:100%;' placeholder="Prod Name"></td>
+                <td class="custumer0"><input type='text' class="form-control" name='destruction_note_entry[0][custumer]'  id='custumer' style='width:100%;' placeholder="Customer"></td>
+                <td><input type='text' class="form-control" name='destruction_note_entry[0][remarks]'  id='remarks' style='width:100%;' placeholder="Remarks"></td>
                 <input type="hidden" name="cntrer0" value="0" id="cntrer0" class="form-control" style="width: 102px;">
-                <td><input type='text' class="form-control" name='p_i_n[0][typctpts]' id="typctpts"  style='width:100%;' placeholder="Location"></td>
+                <td class="location0"><input type='text' class="form-control" name='destruction_note_entry[0][location]' id="location"  style='width:100%;' placeholder="Location"></td>
                 
         </tr>
-         <tr  id="insert_stockitem">
+         <tr  id="insert_destruction">
                </tr>
       </tbody>
       <tr>
       </tr>
     </table>
     </div> 
+     <center><a class="adddestruction" style="font-size: 30px;cursor:pointer;"><i class="fa fa-plus" aria-hidden="true" style=""></i></a></center>
     </div>
-    <center><a class="addpin" style="font-size: 30px;cursor:pointer;"><i class="fa fa-plus" aria-hidden="true"></i></a></center>
-
         </div>
         <!-- /.box-body -->
         <div class="box-footer">

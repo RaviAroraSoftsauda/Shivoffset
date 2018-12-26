@@ -42,7 +42,7 @@ $(function () {
             </div>
             <label class="col-md-1">Date</label>
             <div class="col-md-2"> 
-               <input type="text" class="form-control" name="jobprcss_date" id="filterstartdate" placeholder="Date">
+               <input type="text" class="form-control" name="jobprcss_date" id="filterstartdate" value="{{dateformat Date.now 'DD/MM/YYYY'}}" placeholder="Date">
             </div>
              <label class="col-md-1">Department</label>
             <div class="col-md-2"> 
@@ -66,7 +66,7 @@ $(function () {
           <div class="form-group">
              <label class="col-md-1">Job Card No</label>
             <div class="col-md-2">
-              <input type="text" class="form-control"  name="newjb_jbcrd" id="newjb_jbcrd">
+              <input type="text" class="form-control" onkeyup="newjbjbcrd();"  name="newjb_jbcrd" id="newjb_jbcrd">
             </div>
              <label class="col-md-1">Product Name</label>
             <div class="col-md-2 product_name">
@@ -76,6 +76,17 @@ $(function () {
             <div class="col-md-2 item_code">
               <input type="text" class="form-control" name="jobprcss_itemcode" id="jobprcss_itemcode">
             </div>
+             {{!-- <label class="col-md-1">Time Req</label>
+            <div class="col-md-2">
+             <select class='form-control' name='timrq' id='timrq'>
+                 <option value="">----Select timrq----</option>
+                 <option value="1">1</option>
+                 <option value="2">2</option>
+                 <option value="3">3</option>
+                 <option value="4">4</option>
+                 <option value="5">5</option>
+            </select>
+            </div> --}}
           </div>
           <div class='form-group activity_group_div'></div>
         </div>

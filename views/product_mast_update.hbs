@@ -46,10 +46,12 @@ $(function () {
           </div>
             <div class="form-group">
             <label class="col-md-4">Applicable Departments</label>
-            <div class="col-md-8">
-              {{#each departmnt as |value key|}}
-                   <input type="checkbox" name="prdt_deprtmnt[]" ng-checked="user.skills.indexOf(option) > -1" ng-change="toggle(option,user.skills)" id="prdt_deprtmnt" value="{{this._id}}" data-id="{{this.departmnt_name}}" onclick="deprt();">&nbsp;&nbsp;{{this.departmnt_name}}&nbsp;
-                {{/each}}
+            <div class="col-md-8 prdtdeprtmnt">
+              {{#checkdynmc departmnt product.prdt_deprtmnt}} 
+                 &nbsp;&nbsp;{{this.departmnt_name}}&nbsp;
+                   {{!-- <input type="checkbox" name="prdt_deprtmnt[]"  id="prdt_deprtmnt" value="{{this._id}}" data-id="{{this.departmnt_name}}" onclick="deprt();"> --}}
+                {{!-- {{/equal}} --}}
+                {{/checkdynmc}}
                
             </div>
           </div>
@@ -78,6 +80,18 @@ $(function () {
                 {{/each}}
               </select>  --}}
             </div>
+             <label class="col-md-4">Material Add</label>
+            <div class="col-md-8">
+                 {{#listjob accessories product.prdt_material  'prdt_material' 'prdt_material'}}
+                            {{this.accessories_desc}}
+                  {{/listjob}}
+              {{!-- <select class="form-control" name="prdt_material" id="prdt_material" required="">
+                 <option value="">----Select Material----</option>
+                {{#each accessories}}
+                <option value="{{this._id}}" data-accessories="{{this._id}}">{{this.accessories_desc}}</option>
+                {{/each}}
+              </select>  --}}
+            </div>
           </div>
           {{#each product.location_group as |value key|}}
           <div class="location_variation_row" id="location_variation_row-{{@index}}">
@@ -103,39 +117,41 @@ $(function () {
           <div id="insert_updatelocation">
               <center><a id="add" class="updateLocation" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 30px;color: #36c536;margin-left: 92px;"></i></a></center>                  
             </div>
-             {{#each product.pantone_group as |value key|}}
-             <div class="prodtpantoneview_variation_row" id="prodt_variation_row-{{@index}}">
+             {{!-- {{#each product.pantone_group as |value key|}} --}}
+             {{!-- <div class="prodtpantoneview_variation_row" id="prodt_variation_row-{{@index}}"> --}}
              <div class="form-group">
             <label class="col-md-4">Pantone</label>
             <div class="col-md-3"> 
-                 <input type="hidden" name="cntret{{@index}}" value="{{@index}}" id="cntret{{@index}}">
-               <select class="form-control" name="pantone_group[{{@index}}][prdt_pantone]" id="prdt_pantone" required="">
+                 <input type="text" class="form-control" name="prdt_pantone" value="{{product.prdt_pantone}}" id="prdt_pantone" placeholder="Pantone">
+                 {{!-- <input type="hidden" name="cntret{{@index}}" value="{{@index}}" id="cntret{{@index}}"> --}}
+               {{!-- <select class="form-control" name="pantone_group[{{@index}}][prdt_pantone]" id="prdt_pantone" required="">
                  <option value="">Select</option>
                 {{#each ../stockpantone}}
                 <option value="{{this._id}}" data-country="{{this._id}}"  {{#equal ../prdt_pantone this._id}}selected=""{{/equal}}>{{this.stockpantone_pantonno.pantone_descrpton}}</option>
                 {{/each}}
-              </select>
+              </select> --}}
             </div>
              <label class="col-md-2">Barcode</label>
-            <div class="col-md-2"> 
-               <select class="form-control" name="pantone_group[{{@index}}][prdt_barcode]" id="prdt_barcode" required="" style="margin-left: -28px;width: 82px;">
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="prdt_barcode" value="{{product.prdt_barcode}}" id="prdt_barcode" placeholder="Barcode">
+               {{!-- <select class="form-control" name="pantone_group[{{@index}}][prdt_barcode]" id="prdt_barcode" required="" style="margin-left: -28px;width: 82px;">
                  <option value="">Select</option>
                 {{#each ../stockpantone}}
                 <option value="{{this._id}}" data-country="{{this._id}}" {{#equal ../prdt_barcode this._id}}selected=""{{/equal}}>{{this.stockpantone_barcode}}</option>
                 {{/each}}
-              </select>
+              </select> --}}
             </div>
-             <div class="col-md-1">
+             {{!-- <div class="col-md-1">
               {{#notequal @index 0}}
                       <a  data-repeater-delete="{{@index}}" class='prodtpantoneview-delete-btn' style='cursor:pointer;'><i class='fa fa-times' style='font-size: 20px;color: red;margin-left: -18px;margin-top: 7px;'></i></a>
               {{/notequal}}
-            </div>
+            </div> --}}
           </div>
-             </div>
-          {{/each}}
-          <div id="insert_prdtpntn">
+             {{!-- </div> --}}
+          {{!-- {{/each}} --}}
+          {{!-- <div id="insert_prdtpntn">
               <center><a id="add" class="addprdtpantone" style="cursor: pointer;"><i class="fa fa-plus" style="font-size: 20px;color: #36c536;margin-left: 92px;"></i></a></center>                  
-            </div>
+            </div> --}}
            <div class="form-group">
             <label class="col-md-4">Product Name</label>
             <div class="col-md-8"> 
@@ -147,7 +163,7 @@ $(function () {
                 <input type="text" class="form-control" name="prdt_brdqlty" id="prdt_brdqlty" value="{{product.prdt_brdqlty}}" placeholder="NA">
             </div>
          
-            <label class="col-md-4">GSM (M/B)</label>
+            <label class="col-md-4">GSM</label>
             <div class="col-md-8"> 
                 <input type="text" class="form-control" name="prdt_gsmmb" id="prdt_gsmmb" value="{{product.prdt_gsmmb}}" placeholder="NA">
             </div>
@@ -171,18 +187,32 @@ $(function () {
                  </select>
             </div>
             </div>
+            <div id="actul_l" style="display:none">
             <label class="col-md-4">Actual Size</label>
            <div class="col-md-3"> 
-                <input type="text" class="form-control" name="actul_l" id="actul_l" value="{{product.actul_l}}" placeholder="NA" required="">
+                <input type="text" class="form-control" name="actul_l" id="actul_l" value="{{product.actul_l}}" placeholder="NA">
             </div>
             <div class="col-md-3"> 
-                <input type="text" class="form-control" name="actul_w" id="actul_w" value="{{product.actul_w}}" style="margin-left: -8px;" placeholder="NA" required="">
+                <input type="text" class="form-control" name="actul_w" id="actul_w" value="{{product.actul_w}}" style="margin-left: -8px;" placeholder="NA">
             </div>
             <div class="col-md-2"> 
-                <input type="text" class="form-control" name="actul_h" id="actul_h" value="{{product.actul_h}}" style="margin-left: -28px; width: 77px;" placeholder="NA" required="">
+                <input type="text" class="form-control" name="actul_h" id="actul_h" value="{{product.actul_h}}" style="margin-left: -28px; width: 92px;" placeholder="NA">
+            </div>
+            </div>
+            <div id="flap_l" style="display:none">
+            <label class="col-md-4">Flap Size</label>
+           <div class="col-md-3"> 
+                <input type="text" class="form-control" name="flap_l" id="flap_l" value="{{product.flap_l}}" placeholder="L">
+            </div>
+            <div class="col-md-3"> 
+                <input type="text" class="form-control" name="flap_w" id="flap_w" value="{{product.flap_w}}" placeholder="W" style="margin-left: -8px;">
+            </div>
+            <div class="col-md-2"> 
+                <input type="text" class="form-control" name="flap_h" id="flap_h" value="{{product.flap_h}}" placeholder="H" style="margin-left: -28px; width: 92px;">
+            </div>
             </div>
             <div id="gsmtmb" style="display:none">
-            <label class="col-md-4">GSM(Top/Middle/Bottom)</label>
+            <label class="col-md-4">GSM(T/M/B)</label>
             <div class="col-md-8"> 
                 <input type="text" class="form-control" name="prdt_gsmtp" id="prdt_gsmtp" value="{{product.prdt_gsmtp}}"  placeholder="NA">
             </div>
